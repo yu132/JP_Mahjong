@@ -6,3 +6,7 @@
 仅供逻辑参考
 
 关键步骤有注释
+
+游戏逻辑见yu.proj.jpmahjong.gamelogic
+
+玩家操作见yu.proj.jpmahjong.player

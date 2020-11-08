@@ -90,5 +90,5 @@ public enum Yaku {
     // [古役和地方役]
     TRUE_ALL_GREENS, //
 
-    END_OF_DOUBLE_YAKUMAN,
+    END_OF_DOUBLE_YAKUMAN;
 }

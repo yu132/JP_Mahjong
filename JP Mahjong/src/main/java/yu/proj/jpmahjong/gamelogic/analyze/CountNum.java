@@ -58,10 +58,6 @@ public class CountNum {
     public final static int G = 32;
     public final static int R = 33;
 
-    // public final static String[] indexMap =
-    // new String[] {"1m", "2m", "3m", "4m", "5m", "6m", "7m", "8m", "9m", "1p", "2p", "3p", "4p", "5p", "6p", "7p",
-    // "8p", "9p", "1s", "2s", "3s", "4s", "5s", "6s", "7s", "8s", "9s", "东", "南", "西", "北", "白", "发", "中"};
-
     private List<Tile>[] count;
 
     private int[] rCount = new int[3];

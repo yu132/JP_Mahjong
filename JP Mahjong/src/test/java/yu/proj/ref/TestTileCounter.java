@@ -7,19 +7,21 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import yu.proj.ref.meld.AddKanQuad;
-import yu.proj.ref.meld.ConcealedKanQuad;
-import yu.proj.ref.meld.ExposedKanQuad;
-import yu.proj.ref.meld.MeldSource;
-import yu.proj.ref.meld.Sequence;
-import yu.proj.ref.meld.Triplet;
-import yu.proj.ref.ops.AbstractGainAndExposedTileOperation;
+import yu.proj.ref.exposedTile.AddKanQuad;
+import yu.proj.ref.exposedTile.ConcealedKanQuad;
+import yu.proj.ref.exposedTile.ExposedKanQuad;
+import yu.proj.ref.exposedTile.Kita;
+import yu.proj.ref.exposedTile.MeldSource;
+import yu.proj.ref.exposedTile.Sequence;
+import yu.proj.ref.exposedTile.Triplet;
+import yu.proj.ref.ops.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.AddKanOperation;
 import yu.proj.ref.ops.ChiOperation;
 import yu.proj.ref.ops.ConcealedKanOperation;
 import yu.proj.ref.ops.DiscardOperation;
 import yu.proj.ref.ops.DrawOperation;
 import yu.proj.ref.ops.ExposedKanOperation;
+import yu.proj.ref.ops.KitaOperation;
 import yu.proj.ref.ops.PonOperation;
 
 
@@ -40,6 +42,24 @@ public class TestTileCounter {
     @Before
     public void beforeTest() {
         tileCounter = new TileCounterImpl();
+    }
+
+    @Test
+    public void countInHand() {
+        draw(new Tile(MAN_1, 0));
+
+        assertTileNumberInHand(MAN_1, 1);
+    }
+
+    @Test
+    public void countInHandAndRed() {
+        draw(new Tile(MAN_5, 0));
+        draw(new Tile(MAN_5_RED, 0));
+
+        assertTileNumberInHand(MAN_5, 1);
+        assertTileNumberInHand(MAN_5_RED, 1);
+
+        Assert.assertEquals(2, tileCounter.countKanAs3TileAndRedAsNormal(MAN_5));
     }
 
     @Test
@@ -84,15 +104,15 @@ public class TestTileCounter {
 
         draw(m4);
 
-        Tile                                m3  = new Tile(MAN_3, 1);
+        Tile                                   m3  = new Tile(MAN_3, 1);
 
-        AbstractGainAndExposedTileOperation chi = new ChiOperation(new Tile[] {m2, m4}, m3);
+        AbstractGainAndExposedAllTileOperation chi = new ChiOperation(new Tile[] {m2, m4}, m3);
 
         tileCounter.chi(chi);
 
         assertTotalTileNumber(MAN_3, 1);
 
-        Tile firstTileOfSequence = ((Sequence)tileCounter.getMeld().get(0)).getTiles()[0];
+        Tile firstTileOfSequence = ((Sequence)tileCounter.getExposedTile().get(0)).getTiles()[0];
 
         Assert.assertEquals(MAN_2, firstTileOfSequence.getTileType());
 
@@ -108,9 +128,9 @@ public class TestTileCounter {
 
         draw(m4);
 
-        Tile                                m3  = new Tile(MAN_3, 1);
+        Tile                                   m3  = new Tile(MAN_3, 1);
 
-        AbstractGainAndExposedTileOperation chi = new ChiOperation(new Tile[] {m2, m4}, m3);
+        AbstractGainAndExposedAllTileOperation chi = new ChiOperation(new Tile[] {m2, m4}, m3);
 
         expectExceptionOrError(() -> {
             tileCounter.chi(chi);
@@ -152,7 +172,7 @@ public class TestTileCounter {
 
         assertTotalTileNumber(MAN_2, 3);
 
-        Tile firstTileOfSequence = ((Triplet)tileCounter.getMeld().get(0)).getTiles()[0];
+        Tile firstTileOfSequence = ((Triplet)tileCounter.getExposedTile().get(0)).getTiles()[0];
 
         assertTypeOfTile(MAN_2, firstTileOfSequence);
 
@@ -196,20 +216,24 @@ public class TestTileCounter {
         Tile west_3 = new Tile(WEST, 2);
         Tile west_4 = new Tile(WEST, 3);
 
+        Tile s9     = new Tile(SOU_9, 3);
+
         draw(west_1, west_2, west_3);
 
         ExposedKanOperation kan =
-            new ExposedKanOperation(new Tile[] {west_1, west_2, west_3}, west_4, MeldSource.NEXT_PLAYER);
+            new ExposedKanOperation(new Tile[] {west_1, west_2, west_3}, west_4, s9, MeldSource.NEXT_PLAYER);
 
         tileCounter.exposedKan(kan);
 
         assertTotalTileNumber(WEST, 4);
 
-        Tile firstTileOfSequence = ((ExposedKanQuad)tileCounter.getMeld().get(0)).getTiles()[0];
+        Tile firstTileOfSequence = ((ExposedKanQuad)tileCounter.getExposedTile().get(0)).getTiles()[0];
 
         assertTypeOfTile(WEST, firstTileOfSequence);
 
         assertNotInHand(WEST);
+
+        assertTileNumberInHand(SOU_9, 1);
     }
 
     @Test
@@ -219,10 +243,12 @@ public class TestTileCounter {
         Tile west_3 = new Tile(WEST, 2);
         Tile west_4 = new Tile(WEST, 3);
 
+        Tile s9     = new Tile(SOU_9, 3);
+
         draw(west_1, west_2);
 
         ExposedKanOperation kan =
-            new ExposedKanOperation(new Tile[] {west_1, west_2, west_3}, west_4, MeldSource.NEXT_PLAYER);
+            new ExposedKanOperation(new Tile[] {west_1, west_2, west_3}, west_4, s9, MeldSource.NEXT_PLAYER);
 
         expectExceptionOrError(() -> {
             tileCounter.exposedKan(kan);
@@ -236,8 +262,10 @@ public class TestTileCounter {
         Tile north  = new Tile(NORTH, 2);
         Tile west_4 = new Tile(WEST, 3);
 
+        Tile s9     = new Tile(SOU_9, 3);
+
         expectExceptionOrError(() -> {
-            new ExposedKanOperation(new Tile[] {west_1, west_2, north}, west_4, MeldSource.NEXT_PLAYER);
+            new ExposedKanOperation(new Tile[] {west_1, west_2, north}, west_4, s9, MeldSource.NEXT_PLAYER);
         });
     }
 
@@ -248,17 +276,21 @@ public class TestTileCounter {
         Tile west_3 = new Tile(WEST, 2);
         Tile west_4 = new Tile(WEST, 3);
 
+        Tile s9     = new Tile(SOU_9, 3);
+
         draw(west_1, west_2, west_3, west_4);
 
-        ConcealedKanOperation kan = new ConcealedKanOperation(new Tile[] {west_1, west_2, west_3, west_4});
+        ConcealedKanOperation kan = new ConcealedKanOperation(new Tile[] {west_1, west_2, west_3, west_4}, s9);
 
         tileCounter.concealedKan(kan);
 
-        Tile firstTileOfSequence = ((ConcealedKanQuad)tileCounter.getMeld().get(0)).getTiles()[0];
+        Tile firstTileOfSequence = ((ConcealedKanQuad)tileCounter.getExposedTile().get(0)).getTiles()[0];
 
         assertTypeOfTile(WEST, firstTileOfSequence);
 
         assertNotInHand(WEST);
+
+        assertTileNumberInHand(SOU_9, 1);
     }
 
     @Test
@@ -268,9 +300,11 @@ public class TestTileCounter {
         Tile west_3 = new Tile(WEST, 2);
         Tile west_4 = new Tile(WEST, 3);
 
+        Tile s9     = new Tile(SOU_9, 3);
+
         draw(west_1, west_2, west_3);
 
-        ConcealedKanOperation kan = new ConcealedKanOperation(new Tile[] {west_1, west_2, west_3, west_4});
+        ConcealedKanOperation kan = new ConcealedKanOperation(new Tile[] {west_1, west_2, west_3, west_4}, s9);
 
         expectExceptionOrError(() -> {
             tileCounter.concealedKan(kan);
@@ -284,8 +318,10 @@ public class TestTileCounter {
         Tile north  = new Tile(NORTH, 2);
         Tile west_4 = new Tile(WEST, 3);
 
+        Tile s9     = new Tile(SOU_9, 3);
+
         expectExceptionOrError(() -> {
-            new ConcealedKanOperation(new Tile[] {west_1, west_2, north, west_4});
+            new ConcealedKanOperation(new Tile[] {west_1, west_2, north, west_4}, s9);
         });
     }
 
@@ -296,25 +332,29 @@ public class TestTileCounter {
         Tile red_3 = new Tile(RED, 2);
         Tile red_4 = new Tile(RED, 3);
 
+        Tile s9    = new Tile(SOU_9, 3);
+
         draw(red_1, red_2, red_4);
 
         PonOperation pon = new PonOperation(new Tile[] {red_1, red_2}, red_3, MeldSource.LAST_PLAYER);
 
         tileCounter.pon(pon);
 
-        Triplet         triplet = (Triplet)tileCounter.getMeld().get(0);
+        Triplet         triplet = (Triplet)tileCounter.getExposedTile().get(0);
 
-        AddKanOperation kan     = new AddKanOperation(new Tile[] {red_4}, triplet);
+        AddKanOperation kan     = new AddKanOperation(new Tile[] {red_4}, triplet, s9);
 
         tileCounter.addKan(kan);
 
-        Assert.assertTrue(!tileCounter.getMeld().contains(triplet));
+        Assert.assertTrue(!tileCounter.getExposedTile().contains(triplet));
 
-        Tile firstTileOfSequence = ((AddKanQuad)tileCounter.getMeld().get(0)).getTiles()[0];
+        Tile firstTileOfSequence = ((AddKanQuad)tileCounter.getExposedTile().get(0)).getTiles()[0];
 
         assertTypeOfTile(RED, firstTileOfSequence);
 
         assertNotInHand(RED);
+
+        assertTileNumberInHand(SOU_9, 1);
     }
 
     @Test
@@ -324,15 +364,17 @@ public class TestTileCounter {
         Tile red_3 = new Tile(RED, 2);
         Tile red_4 = new Tile(RED, 3);
 
+        Tile s9    = new Tile(SOU_9, 3);
+
         draw(red_1, red_2);// 删除了red_4
 
         PonOperation pon = new PonOperation(new Tile[] {red_1, red_2}, red_3, MeldSource.LAST_PLAYER);
 
         tileCounter.pon(pon);
 
-        Triplet         triplet = (Triplet)tileCounter.getMeld().get(0);
+        Triplet         triplet = (Triplet)tileCounter.getExposedTile().get(0);
 
-        AddKanOperation kan     = new AddKanOperation(new Tile[] {red_4}, triplet);
+        AddKanOperation kan     = new AddKanOperation(new Tile[] {red_4}, triplet, s9);
 
         expectExceptionOrError(() -> {
             tileCounter.addKan(kan);
@@ -346,11 +388,13 @@ public class TestTileCounter {
         Tile red_3 = new Tile(RED, 2);
         Tile red_4 = new Tile(RED, 3);
 
+        Tile s9    = new Tile(SOU_9, 3);
+
         draw(red_1, red_2, red_4);
 
         Triplet         triplet = Triplet.of(new Tile[] {red_1, red_2, red_3}, MeldSource.LAST_PLAYER, red_3);
 
-        AddKanOperation kan     = new AddKanOperation(new Tile[] {red_4}, triplet);
+        AddKanOperation kan     = new AddKanOperation(new Tile[] {red_4}, triplet, s9);
 
         expectExceptionOrError(() -> {
             tileCounter.addKan(kan);
@@ -364,15 +408,60 @@ public class TestTileCounter {
         Tile red_3 = new Tile(RED, 2);
         Tile east  = new Tile(EAST, 3);
 
+        Tile s9    = new Tile(SOU_9, 3);
+
         draw(red_1, red_2, east);
 
         PonOperation pon = new PonOperation(new Tile[] {red_1, red_2}, red_3, MeldSource.LAST_PLAYER);
 
         tileCounter.pon(pon);
 
-        Triplet triplet = (Triplet)tileCounter.getMeld().get(0);
+        Triplet triplet = (Triplet)tileCounter.getExposedTile().get(0);
         expectExceptionOrError(() -> {
-            new AddKanOperation(new Tile[] {east}, triplet);
+            new AddKanOperation(new Tile[] {east}, triplet, s9);
+        });
+    }
+
+    @Test
+    public void kita() {
+        Tile north = new Tile(NORTH, 0);
+
+        Tile s9    = new Tile(SOU_9, 3);
+
+        draw(north);
+
+        KitaOperation kitaOp = new KitaOperation(new Tile[] {north}, s9);
+
+        tileCounter.kita(kitaOp);
+
+        @SuppressWarnings("unused")
+        Kita kita = (Kita)tileCounter.getExposedTile().get(0);
+
+        assertNotInHand(NORTH);
+
+        assertTileNumberInHand(SOU_9, 1);
+    }
+
+    @Test
+    public void kitaButNorthNotExist() {
+        Tile          north  = new Tile(NORTH, 0);
+
+        Tile          s9     = new Tile(SOU_9, 3);
+
+        KitaOperation kitaOp = new KitaOperation(new Tile[] {north}, s9);
+
+        expectExceptionOrError(() -> {
+            tileCounter.kita(kitaOp);
+        });
+    }
+
+    @Test
+    public void kitaButTypeNotNorth() {
+        Tile s8 = new Tile(SOU_8, 3);
+        Tile s9 = new Tile(SOU_9, 3);
+
+        expectExceptionOrError(() -> {
+            new KitaOperation(new Tile[] {s8}, s9);
         });
     }
 

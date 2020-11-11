@@ -12,7 +12,7 @@ import yu.proj.ref.Tile;
  * @date 2020年11月8日  
  *  
  */
-public interface GainTileOperation {
+public interface GainTileOperation extends Operation {
 
     Tile getGainTile();
 

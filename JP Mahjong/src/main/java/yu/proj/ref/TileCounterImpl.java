@@ -10,20 +10,26 @@ import java.util.List;
 import java.util.Set;
 
 import cn.hutool.core.util.ArrayUtil;
-import yu.proj.jpmahjong.gamelogic.analyze.addKanAndConcealedKanAndKita.Kita;
-import yu.proj.ref.meld.AddKanQuad;
-import yu.proj.ref.meld.ConcealedKanQuad;
-import yu.proj.ref.meld.ExposedKanQuad;
-import yu.proj.ref.meld.Meld;
-import yu.proj.ref.meld.MeldSource;
-import yu.proj.ref.meld.Sequence;
-import yu.proj.ref.meld.Triplet;
-import yu.proj.ref.ops.AbstractGainAndExposedTileOperation;
+import yu.proj.ref.exposedTile.AddKanQuad;
+import yu.proj.ref.exposedTile.ConcealedKanQuad;
+import yu.proj.ref.exposedTile.ExposedKanQuad;
+import yu.proj.ref.exposedTile.ExposedTile;
+import yu.proj.ref.exposedTile.Kita;
+import yu.proj.ref.exposedTile.MeldSource;
+import yu.proj.ref.exposedTile.Sequence;
+import yu.proj.ref.exposedTile.Triplet;
+import yu.proj.ref.ops.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.AddKanOperation;
 import yu.proj.ref.ops.ConcealedKanOperation;
 import yu.proj.ref.ops.DiscardOperation;
+import yu.proj.ref.ops.DiscardTileOperation;
 import yu.proj.ref.ops.DrawOperation;
 import yu.proj.ref.ops.ExposedKanOperation;
+import yu.proj.ref.ops.ExposedTileOperation;
+import yu.proj.ref.ops.GainExposedTileOperation;
+import yu.proj.ref.ops.GainTileOperation;
+import yu.proj.ref.ops.KitaOperation;
+import yu.proj.ref.ops.Operation;
 import yu.proj.ref.ops.PonOperation;
 
 /**  
@@ -36,7 +42,7 @@ import yu.proj.ref.ops.PonOperation;
  * @date 2020年11月8日  
  *  
  */
-public class TileCounterImpl implements TileCounter {
+public final class TileCounterImpl implements TileCounter {
 
     private EnumMap<TileType, Set<Tile>> tilesInHand = new EnumMap<>(TileType.class);
 
@@ -44,7 +50,7 @@ public class TileCounterImpl implements TileCounter {
 
     private EnumSet<TileType> kanNumber = EnumSet.noneOf(TileType.class);
 
-    private List<Meld> melds = new ArrayList<>();
+    private List<ExposedTile> exposedTiles = new ArrayList<>();
 
     @Override
     public int countInHand(TileType tileType) {
@@ -81,97 +87,172 @@ public class TileCounterImpl implements TileCounter {
     }
 
     @Override
-    public List<Meld> getMeld() {
-        return new ArrayList<>(this.melds);// 为安全性进行保护性复制
+    public List<ExposedTile> getExposedTile() {
+        return new ArrayList<>(this.exposedTiles);// 为安全性进行保护性复制
     }
 
     @Override
-    public void chi(AbstractGainAndExposedTileOperation chi) {
-        checkExistAndManageOldAndNewTile(chi);
-        addChiAsSequenceInMelds(chi);
-    }
-
-    private void checkExistAndManageOldAndNewTile(AbstractGainAndExposedTileOperation op) {
-        Tile   gainTile    = op.getGainExposedTile();
-        Tile[] exposedTile = op.getExposedTiles();
-
-        assert containTilesInHand(exposedTile);
-
-        removeTilesFromHand(exposedTile);// 两张旧的牌需要移除手牌
-
-        tileCountPlus1(gainTile);// 新的吃的牌要计入总的牌数
-    }
-
-    private void removeTilesFromHand(Tile[] tiles) {
-        for (Tile tile : tiles) {
-            removeTileFromHand(tile);
-        }
+    public void chi(AbstractGainAndExposedAllTileOperation chi) {
+        manageTilesAndCountWithOperation(chi);
+        insertChiAsSequence(chi);
     }
 
     // 将吃的牌转化为Sequence数据结构存入Meld中
-    private void addChiAsSequenceInMelds(AbstractGainAndExposedTileOperation chi) {
+    private void insertChiAsSequence(AbstractGainAndExposedAllTileOperation chi) {
 
         Tile[]   tiles = copyAndSortTiles(chi.getGainExposedTile(), chi.getExposedTiles());
 
         Sequence seq   = Sequence.of(tiles, MeldSource.LAST_PLAYER, chi.getGainExposedTile());
 
-        melds.add(seq);
+        exposedTiles.add(seq);
     }
 
     @Override
     public void pon(PonOperation pon) {
         assert pon.getSrc() != MeldSource.SELF;
 
-        checkExistAndManageOldAndNewTile(pon);
-        addPonAsTripletInMelds(pon);
+        manageTilesAndCountWithOperation(pon);
+        insertPonAsTriplet(pon);
     }
 
     // 将碰的牌转化为Triplet数据结构存入Meld中
-    private void addPonAsTripletInMelds(PonOperation pon) {
+    private void insertPonAsTriplet(PonOperation pon) {
 
         Tile[]  tiles   = copyAndSortTiles(pon.getGainExposedTile(), pon.getExposedTiles());
 
         Triplet triplet = Triplet.of(tiles, pon.getSrc(), pon.getGainExposedTile());
 
-        melds.add(triplet);
-    }
-
-    private Tile[] copyAndSortTiles(Tile tile, Tile[] tilesArray) {
-
-        final int TILE_NUM = 1;
-
-        Tile[]    tiles    = new Tile[TILE_NUM + tilesArray.length];
-        ArrayUtil.copy(tilesArray, tiles, tilesArray.length);
-        tiles[tiles.length - 1] = tile;
-        Arrays.sort(tiles);
-
-        return tiles;
+        exposedTiles.add(triplet);
     }
 
     @Override
     public void exposedKan(ExposedKanOperation kan) {
         assert kan.getSrc() != MeldSource.SELF;
+        assert containTilesInHand(kan.getExposedTiles()) && !containTileInHand(kan.getGainExposedTile());
 
-        checkExistAndManageOldAndNewTile(kan);
-        addExposedKanAsQuadInMelds(kan);
+        manageTilesAndCountWithOperation(kan);
+        insertExposedKanAsQuad(kan);
     }
 
-    private void addExposedKanAsQuadInMelds(ExposedKanOperation kan) {
+    private void insertExposedKanAsQuad(ExposedKanOperation kan) {
+
         Tile[]         tiles = copyAndSortTiles(kan.getGainExposedTile(), kan.getExposedTiles());
 
         ExposedKanQuad quad  = ExposedKanQuad.of(tiles, kan.getSrc(), kan.getGainExposedTile());
 
-        melds.add(quad);
+        exposedTiles.add(quad);
     }
 
     @Override
     public void draw(DrawOperation draw) {
-        Tile drawTile = draw.getGainTile();
+        manageTilesAndCountWithOperation(draw);
+    }
 
-        assert !containTileInHand(drawTile);
+    @Override
+    public void concealedKan(ConcealedKanOperation kan) {
 
-        addTileToHand(drawTile);
-        tileCountPlus1(drawTile);
+        manageTilesAndCountWithOperation(kan);
+
+        insertConcealdedAsQuad(kan);
+    }
+
+    private void insertConcealdedAsQuad(ConcealedKanOperation kan) {
+        Arrays.sort(kan.getExposedTiles());
+
+        ConcealedKanQuad quad = ConcealedKanQuad.of(kan.getExposedTiles(), MeldSource.SELF);
+
+        exposedTiles.add(quad);
+    }
+
+    @Override
+    public void discard(DiscardOperation discard) {
+        manageTilesAndCountWithOperation(discard);
+    }
+
+    @Override
+    public void kita(KitaOperation kitaOp) {
+
+        manageTilesAndCountWithOperation(kitaOp);
+
+        Kita kita = Kita.of(kitaOp.getExposedTiles()[0]);
+
+        exposedTiles.add(kita);
+    }
+
+    @Override
+    public void addKan(AddKanOperation kan) {
+
+        assert exposedTiles.contains(kan.getTriplet());
+
+        manageTilesAndCountWithOperation(kan);
+
+        removeOldTripletAndInsertAddKanAsQuad(kan);
+    }
+
+    private void removeOldTripletAndInsertAddKanAsQuad(AddKanOperation kan) {
+        Triplet triplet        = kan.getTriplet();
+
+        Tile[]  tiles          = copyAndSortTiles(kan.getExposedTiles()[0], triplet.getTiles());
+
+        int     numOfMakeCalls = exposedTiles.size();
+
+        exposedTiles.remove(triplet);
+
+        AddKanQuad quad =
+            AddKanQuad.of(tiles, triplet.getSrc(), triplet.getSpecialTile(), kan.getExposedTiles()[0], numOfMakeCalls);
+
+        exposedTiles.add(quad);
+    }
+
+    private void manageTilesAndCountWithOperation(Operation op) {
+        if (op instanceof DiscardTileOperation) {
+            manageTilesWithDiscardTileOperation((DiscardTileOperation)op);
+        }
+        if (op instanceof ExposedTileOperation) {
+            manageTilesWithExposedTileOperation((ExposedTileOperation)op);
+        }
+        if (op instanceof GainExposedTileOperation) {
+            manageTilesWithGainExposedTileOperation((GainExposedTileOperation)op);
+        }
+        if (op instanceof GainTileOperation) {
+            manageTilesWithGainTileOperation((GainTileOperation)op);
+        }
+    }
+
+    private void manageTilesWithGainTileOperation(GainTileOperation op) {
+        assert !containTileInHand(op.getGainTile());
+
+        insertTileToHand(op.getGainTile());
+        tileCountPlus1(op.getGainTile());
+    }
+
+    private void manageTilesWithGainExposedTileOperation(GainExposedTileOperation op) {
+        assert !containTileInHand(op.getGainExposedTile());
+
+        tileCountPlus1(op.getGainExposedTile());
+    }
+
+    private void manageTilesWithExposedTileOperation(ExposedTileOperation exposedTileOp) {
+        assert containTilesInHand(exposedTileOp.getExposedTiles());
+
+        removeTilesFromHand(exposedTileOp.getExposedTiles());
+    }
+
+    private void manageTilesWithDiscardTileOperation(DiscardTileOperation discardOp) {
+        assert containTileInHand(discardOp.getDiscardTile());
+
+        removeTileFromHand(discardOp.getDiscardTile());
+        tileCountMinus1(discardOp.getDiscardTile());
+    }
+
+    private void removeTileFromHand(Tile tile) {
+        getSetInTilesInHand(tile.getTileType()).remove(tile);
+    }
+
+    private void removeTilesFromHand(Tile[] tiles) {
+        for (Tile tile : tiles) {
+            removeTileFromHand(tile);
+        }
     }
 
     private boolean containTilesInHand(Tile[] tiles) {
@@ -191,7 +272,7 @@ public class TileCounterImpl implements TileCounter {
         return tilesInHand.computeIfAbsent(tileType, (x) -> new HashSet<>());
     }
 
-    private void addTileToHand(Tile tile) {
+    private void insertTileToHand(Tile tile) {
         getSetInTilesInHand(tile.getTileType()).add(tile);
     }
 
@@ -199,57 +280,19 @@ public class TileCounterImpl implements TileCounter {
         countNumberAll.put(tile.getTileType(), countNumberAll.getOrDefault(tile.getTileType(), 0) + 1);
     }
 
-    @Override
-    public void concealedKan(ConcealedKanOperation kan) {
-        assert containTilesInHand(kan.getExposedTiles());
-
-        removeTilesFromHand(kan.getExposedTiles());
-
-        Arrays.sort(kan.getExposedTiles());
-
-        ConcealedKanQuad quad = ConcealedKanQuad.of(kan.getExposedTiles(), MeldSource.SELF);
-
-        melds.add(quad);
-    }
-
-    @Override
-    public void discard(DiscardOperation discard) {
-        assert containTileInHand(discard.getDiscardTile());
-
-        removeTileFromHand(discard.getDiscardTile());
-        tileCountMinus1(discard.getDiscardTile());
-    }
-
-    private void removeTileFromHand(Tile tile) {
-        getSetInTilesInHand(tile.getTileType()).remove(tile);
-    }
-
     private void tileCountMinus1(Tile tile) {
         countNumberAll.put(tile.getTileType(), countNumberAll.getOrDefault(tile.getTileType(), 0) - 1);
     }
 
-    @Override
-    public void kita(Kita kita) {
-        // TODO Auto-generated method stub
-    }
+    private Tile[] copyAndSortTiles(Tile tile, Tile[] tilesArray) {
 
-    @Override
-    public void addKan(AddKanOperation kan) {
+        final int TILE_NUM = 1;
 
-        assert melds.contains(kan.getTriplet()) && containTilesInHand(kan.getExposedTiles());
+        Tile[]    tiles    = new Tile[TILE_NUM + tilesArray.length];
+        ArrayUtil.copy(tilesArray, tiles, tilesArray.length);
+        tiles[tiles.length - 1] = tile;
+        Arrays.sort(tiles);
 
-        Triplet triplet        = kan.getTriplet();
-
-        Tile[]  tiles          = copyAndSortTiles(kan.getExposedTiles()[0], triplet.getTiles());
-
-        int     numOfMakeCalls = melds.size();
-
-        melds.remove(triplet);
-        removeTilesFromHand(kan.getExposedTiles());
-
-        AddKanQuad quad =
-            AddKanQuad.of(tiles, triplet.getSrc(), triplet.getSpecialTile(), kan.getExposedTiles()[0], numOfMakeCalls);
-
-        melds.add(quad);
+        return tiles;
     }
 }

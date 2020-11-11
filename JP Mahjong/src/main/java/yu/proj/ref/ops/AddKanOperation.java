@@ -2,7 +2,7 @@ package yu.proj.ref.ops;
 
 import lombok.Getter;
 import yu.proj.ref.Tile;
-import yu.proj.ref.meld.Triplet;
+import yu.proj.ref.exposedTile.Triplet;
 
 /**  
  * @ClassName: AddKanOperation  
@@ -16,19 +16,22 @@ import yu.proj.ref.meld.Triplet;
  */
 
 @Getter
-public class AddKanOperation implements ExposedTileOperation {
+public class AddKanOperation implements ExposedTileOperation, GainTileOperation {
 
     private Tile[] exposedTiles;
 
     private Triplet triplet;
 
-    public AddKanOperation(Tile[] exposedTiles, Triplet triplet) {
+    private Tile gainTile;
+
+    public AddKanOperation(Tile[] exposedTiles, Triplet triplet, Tile gainTile) {
         super();
 
         assert checkArgIfTilesInExposedTilesAndTripletIsSameType(exposedTiles, triplet) && exposedTiles.length == 1;
 
         this.exposedTiles = exposedTiles;
         this.triplet      = triplet;
+        this.gainTile     = gainTile;
     }
 
     private boolean checkArgIfTilesInExposedTilesAndTripletIsSameType(Tile[] exposedTiles, Triplet triplet) {

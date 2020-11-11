@@ -15,7 +15,7 @@ import yu.proj.ref.Tile;
  */
 
 @Getter
-public abstract class AbstractGainAndExposedTileOperation implements GainExposedTileOperation, ExposedTileOperation {
+public abstract class AbstractGainAndExposedAllTileOperation implements GainExposedTileOperation, ExposedTileOperation {
 
     private Tile[] exposedTiles;
 
@@ -23,7 +23,7 @@ public abstract class AbstractGainAndExposedTileOperation implements GainExposed
 
     protected abstract boolean checkArgForExposedTilesAndGainExposedTile(Tile[] exposedTiles, Tile gainExposedTile);
 
-    public AbstractGainAndExposedTileOperation(Tile[] exposedTiles, Tile gainExposedTile) {
+    public AbstractGainAndExposedAllTileOperation(Tile[] exposedTiles, Tile gainExposedTile) {
         super();
 
         assert checkArgForExposedTilesAndGainExposedTile(exposedTiles, gainExposedTile);

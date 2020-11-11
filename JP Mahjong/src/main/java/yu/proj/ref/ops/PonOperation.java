@@ -3,7 +3,7 @@ package yu.proj.ref.ops;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.Tile;
-import yu.proj.ref.meld.MeldSource;
+import yu.proj.ref.exposedTile.MeldSource;
 
 /**  
  * @ClassName: PonOperation  

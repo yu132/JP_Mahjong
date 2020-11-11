@@ -1,7 +1,8 @@
 package yu.proj.ref.ops;
 
+import lombok.Getter;
 import yu.proj.ref.Tile;
-import yu.proj.ref.meld.MeldSource;
+import yu.proj.ref.exposedTile.MeldSource;
 
 /**  
  * @ClassName: ExposedKanOperation  
@@ -13,12 +14,18 @@ import yu.proj.ref.meld.MeldSource;
  * @date 2020年11月10日  
  *  
  */
-public class ExposedKanOperation extends AbstractPonExposedKanOperation {
 
-    public ExposedKanOperation(Tile[] exposedTiles, Tile gainExposedTile, MeldSource src) {
+@Getter
+public class ExposedKanOperation extends AbstractPonExposedKanOperation implements GainTileOperation {
+
+    private Tile gainTile;
+
+    public ExposedKanOperation(Tile[] exposedTiles, Tile gainExposedTile, Tile gainTile, MeldSource src) {
         super(exposedTiles, gainExposedTile, src);
 
         assert exposedTiles.length == 3;
+
+        this.gainTile = gainTile;
     }
 
 }

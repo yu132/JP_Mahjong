@@ -1,4 +1,4 @@
-package yu.proj.ref.meld;
+package yu.proj.ref.exposedTile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,7 +19,7 @@ import yu.proj.ref.Tile;
 @Getter
 @AllArgsConstructor
 @ToString
-public class Meld {
+public class Meld implements ExposedTile {
 
     private Tile[] tiles;
 

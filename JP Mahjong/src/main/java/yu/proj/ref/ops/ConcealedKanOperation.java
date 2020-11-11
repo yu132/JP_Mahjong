@@ -1,6 +1,5 @@
 package yu.proj.ref.ops;
 
-import lombok.Getter;
 import yu.proj.ref.Tile;
 
 /**  
@@ -13,18 +12,13 @@ import yu.proj.ref.Tile;
  * @date 2020年11月10日  
  *  
  */
+//
+public class ConcealedKanOperation extends AbstractGainAndExposefSelfTileOperation {
 
-@Getter
-public class ConcealedKanOperation implements ExposedTileOperation {
-
-    private Tile[] exposedTiles;
-
-    public ConcealedKanOperation(Tile[] exposedTiles) {
-        super();
+    public ConcealedKanOperation(Tile[] exposedTiles, Tile gainTile) {
+        super(exposedTiles, gainTile);
 
         assert checkArgIfTilesInExposedTilesIsSameType(exposedTiles) && exposedTiles.length == 4;
-
-        this.exposedTiles = exposedTiles;
     }
 
     private boolean checkArgIfTilesInExposedTilesIsSameType(Tile[] exposedTiles) {

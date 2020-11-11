@@ -1,5 +1,7 @@
+package yu.proj.ref.exposedTile;
+
 /**  
- * @ClassName: package-info  
+ * @ClassName: TileSource  
  *
  * @Description: TODO(这里用一句话描述这个类的作用)  
  *
@@ -8,4 +10,8 @@
  * @date 2020年11月8日  
  *  
  */
-package yu.proj.ref.meld;
+public enum MeldSource {
+
+    SELF, NEXT_PLAYER, OPPOSED_PLAYER, LAST_PLAYER;
+
+}

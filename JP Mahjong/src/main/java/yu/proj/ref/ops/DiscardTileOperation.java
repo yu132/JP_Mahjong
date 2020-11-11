@@ -12,7 +12,7 @@ import yu.proj.ref.Tile;
  * @date 2020年11月8日  
  *  
  */
-public interface DiscardTileOperation {
+public interface DiscardTileOperation extends Operation {
 
     Tile getDiscardTile();
 

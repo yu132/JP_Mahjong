@@ -2,14 +2,14 @@ package yu.proj.ref;
 
 import java.util.List;
 
-import yu.proj.jpmahjong.gamelogic.analyze.addKanAndConcealedKanAndKita.Kita;
-import yu.proj.ref.meld.Meld;
-import yu.proj.ref.ops.AbstractGainAndExposedTileOperation;
+import yu.proj.ref.exposedTile.ExposedTile;
+import yu.proj.ref.ops.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.AddKanOperation;
 import yu.proj.ref.ops.ConcealedKanOperation;
 import yu.proj.ref.ops.DiscardOperation;
 import yu.proj.ref.ops.DrawOperation;
 import yu.proj.ref.ops.ExposedKanOperation;
+import yu.proj.ref.ops.KitaOperation;
 import yu.proj.ref.ops.PonOperation;
 
 /**  
@@ -38,9 +38,9 @@ public interface TileCounter {
      */
     int countKanAs3TileAndRedAsNormal(TileType tileType);
 
-    List<Meld> getMeld();
+    List<ExposedTile> getExposedTile();
 
-    void chi(AbstractGainAndExposedTileOperation chi);
+    void chi(AbstractGainAndExposedAllTileOperation chi);
 
     void pon(PonOperation pon);
 
@@ -56,7 +56,7 @@ public interface TileCounter {
 
     void discard(DiscardOperation discard);
 
-    void kita(Kita kita);
+    void kita(KitaOperation kita);
 
     void addKan(AddKanOperation kan);
 

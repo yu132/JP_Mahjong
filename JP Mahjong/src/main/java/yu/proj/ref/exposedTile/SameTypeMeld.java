@@ -1,4 +1,4 @@
-package yu.proj.ref.meld;
+package yu.proj.ref.exposedTile;
 
 import yu.proj.ref.Tile;
 

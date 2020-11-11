@@ -3,7 +3,7 @@ package yu.proj.ref.ops;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.Tile;
-import yu.proj.ref.meld.MeldSource;
+import yu.proj.ref.exposedTile.MeldSource;
 
 /**  
  * @ClassName: AbstractPonKanOperation  
@@ -17,7 +17,7 @@ import yu.proj.ref.meld.MeldSource;
  */
 @Getter
 @ToString(callSuper = true)
-public abstract class AbstractPonExposedKanOperation extends AbstractGainAndExposedTileOperation {
+public abstract class AbstractPonExposedKanOperation extends AbstractGainAndExposedAllTileOperation {
 
     private MeldSource src;
 

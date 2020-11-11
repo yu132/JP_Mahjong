@@ -1,4 +1,4 @@
-package yu.proj.ref.meld;
+package yu.proj.ref.exposedTile;
 
 import cn.hutool.core.util.ArrayUtil;
 import lombok.Getter;

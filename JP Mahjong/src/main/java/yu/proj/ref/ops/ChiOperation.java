@@ -7,7 +7,7 @@ import java.util.List;
 import cn.hutool.core.util.ArrayUtil;
 import lombok.Getter;
 import lombok.ToString;
-import yu.proj.ref.Tile;
+import yu.proj.ref.tile.Tile;
 
 /**  
  * @ClassName: ChiOperation  

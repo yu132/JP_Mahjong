@@ -1,4 +1,4 @@
-package yu.proj.ref;
+package yu.proj.ref.gameLogicChain.tileManagement;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +31,8 @@ import yu.proj.ref.ops.GainTileOperation;
 import yu.proj.ref.ops.KitaOperation;
 import yu.proj.ref.ops.Operation;
 import yu.proj.ref.ops.PonOperation;
+import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 
 /**  
  * @ClassName: TileCounter  
@@ -42,7 +44,7 @@ import yu.proj.ref.ops.PonOperation;
  * @date 2020年11月8日  
  *  
  */
-public final class TileCounterImpl implements TileCounter {
+public final class PlayerTileManagerImpl implements PlayerTileManager {
 
     private EnumMap<TileType, Set<Tile>> tilesInHand = new EnumMap<>(TileType.class);
 

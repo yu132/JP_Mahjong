@@ -1,7 +1,7 @@
 package yu.proj.ref.ops;
 
 import lombok.Getter;
-import yu.proj.ref.Tile;
+import yu.proj.ref.tile.Tile;
 
 
 

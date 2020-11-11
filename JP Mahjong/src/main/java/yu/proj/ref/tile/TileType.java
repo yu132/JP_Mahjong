@@ -1,4 +1,4 @@
-package yu.proj.ref;
+package yu.proj.ref.tile;
 
 import lombok.Getter;
 

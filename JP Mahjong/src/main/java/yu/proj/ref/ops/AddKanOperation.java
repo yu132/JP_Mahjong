@@ -1,8 +1,8 @@
 package yu.proj.ref.ops;
 
 import lombok.Getter;
-import yu.proj.ref.Tile;
 import yu.proj.ref.exposedTile.Triplet;
+import yu.proj.ref.tile.Tile;
 
 /**  
  * @ClassName: AddKanOperation  

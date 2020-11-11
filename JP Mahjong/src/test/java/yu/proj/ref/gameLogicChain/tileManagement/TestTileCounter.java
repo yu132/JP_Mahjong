@@ -1,7 +1,7 @@
-package yu.proj.ref;
+package yu.proj.ref.gameLogicChain.tileManagement;
 
 import static yu.proj.ref.TestUtils.*;
-import static yu.proj.ref.TileType.*;
+import static yu.proj.ref.tile.TileType.*;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -14,6 +14,8 @@ import yu.proj.ref.exposedTile.Kita;
 import yu.proj.ref.exposedTile.MeldSource;
 import yu.proj.ref.exposedTile.Sequence;
 import yu.proj.ref.exposedTile.Triplet;
+import yu.proj.ref.gameLogicChain.tileManagement.PlayerTileManager;
+import yu.proj.ref.gameLogicChain.tileManagement.PlayerTileManagerImpl;
 import yu.proj.ref.ops.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.AddKanOperation;
 import yu.proj.ref.ops.ChiOperation;
@@ -23,6 +25,8 @@ import yu.proj.ref.ops.DrawOperation;
 import yu.proj.ref.ops.ExposedKanOperation;
 import yu.proj.ref.ops.KitaOperation;
 import yu.proj.ref.ops.PonOperation;
+import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 
 
 /**  
@@ -37,11 +41,11 @@ import yu.proj.ref.ops.PonOperation;
  */
 public class TestTileCounter {
 
-    private TileCounter tileCounter;
+    private PlayerTileManager tileCounter;
 
     @Before
     public void beforeTest() {
-        tileCounter = new TileCounterImpl();
+        tileCounter = new PlayerTileManagerImpl();
     }
 
     @Test

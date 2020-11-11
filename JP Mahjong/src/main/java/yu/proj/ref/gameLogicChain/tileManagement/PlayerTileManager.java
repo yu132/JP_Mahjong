@@ -1,4 +1,4 @@
-package yu.proj.ref;
+package yu.proj.ref.gameLogicChain.tileManagement;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import yu.proj.ref.ops.DrawOperation;
 import yu.proj.ref.ops.ExposedKanOperation;
 import yu.proj.ref.ops.KitaOperation;
 import yu.proj.ref.ops.PonOperation;
+import yu.proj.ref.tile.TileType;
 
 /**  
  * @ClassName: TileCounter  
@@ -22,7 +23,7 @@ import yu.proj.ref.ops.PonOperation;
  * @date 2020年11月8日  
  *  
  */
-public interface TileCounter {
+public interface PlayerTileManager {
 
     /**
      * @Title: count  

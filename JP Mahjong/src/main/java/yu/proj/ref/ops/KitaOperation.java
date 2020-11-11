@@ -1,7 +1,7 @@
 package yu.proj.ref.ops;
 
-import yu.proj.ref.Tile;
-import yu.proj.ref.TileType;
+import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 
 /**  
  * @ClassName: KitaOperation  

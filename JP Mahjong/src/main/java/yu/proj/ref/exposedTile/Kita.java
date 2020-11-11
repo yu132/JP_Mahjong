@@ -1,8 +1,8 @@
 package yu.proj.ref.exposedTile;
 
 import lombok.Getter;
-import yu.proj.ref.Tile;
-import yu.proj.ref.TileType;
+import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 
 /**  
  * @ClassName: Kita  

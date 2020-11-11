@@ -1,6 +1,6 @@
 package yu.proj.ref.ops;
 
-import yu.proj.ref.Tile;
+import yu.proj.ref.tile.Tile;
 
 /**  
  * @ClassName: ConcealedKanOperation  

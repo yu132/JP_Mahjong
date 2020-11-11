@@ -3,7 +3,7 @@ package yu.proj.ref.exposedTile;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import yu.proj.ref.Tile;
+import yu.proj.ref.tile.Tile;
 
 /**  
  * @ClassName: Meld  

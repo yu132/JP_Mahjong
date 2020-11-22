@@ -22,7 +22,7 @@ public abstract class SameTypeMeld extends Meld {
 
     private static boolean checkTileType(Tile[] tiles) {
         for (int i = 1; i < tiles.length; ++i) {
-            if (!(tiles[0].getTileType() == tiles[1].getTileType())) {
+            if (!(tiles[0].sameNormalType(tiles[1]))) {
                 return false;
             }
         }

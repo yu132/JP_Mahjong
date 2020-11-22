@@ -28,7 +28,7 @@ public class Triplet extends SameTypeMeld {
 
     public static Triplet of(Tile[] tiles, MeldSource src, Tile specialTile) {
 
-        assert src == MeldSource.LAST_PLAYER && tiles.length == 3;
+        assert src != MeldSource.SELF && tiles.length == 3;
 
         return new Triplet(tiles, src, specialTile);
     }

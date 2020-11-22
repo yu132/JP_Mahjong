@@ -1,6 +1,5 @@
 package yu.proj.ref.exposedTile;
 
-import cn.hutool.core.util.ArrayUtil;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
@@ -35,10 +34,10 @@ public class Sequence extends Meld {
     }
 
     public static boolean checkTilesOrder(Tile[] tiles) {
-        return checkIndex2IsNextOfIndex1(tiles, 0, 1) && checkIndex2IsNextOfIndex1(tiles, 1, 2);
+        return checkIndex1IsPreviousOfIndex2(tiles, 0, 1) && checkIndex1IsPreviousOfIndex2(tiles, 1, 2);
     }
 
-    private static boolean checkIndex2IsNextOfIndex1(Tile[] tiles, int index1, int index2) {
-        return ArrayUtil.contains(tiles[index1].getNextTile(), tiles[index2].getTileType());
+    private static boolean checkIndex1IsPreviousOfIndex2(Tile[] tiles, int index1, int index2) {
+        return tiles[index1].previousOf(tiles[index2]);
     }
 }

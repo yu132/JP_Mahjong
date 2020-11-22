@@ -1,6 +1,11 @@
 package yu.proj.ref.tile;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -17,19 +22,35 @@ import lombok.ToString;
 
 @Getter
 @ToString
-@AllArgsConstructor
 public class Tile implements Comparable<Tile> {
 
     private TileType tileType;
 
     private int index;
 
-    public TileType[] getNextDora() {
+    private Tile(TileType tileType, int index) {
+        super();
+
+        assert tileType != null && tileType != TileType.NONE;
+
+        this.tileType = tileType;
+        this.index    = index;
+    }
+
+    public boolean sameNormalType(Tile tile) {
+        return tileType.sameNormalType(tile.tileType);
+    }
+
+    public List<TileType> getNextDora() {
         return tileType.getNextDora();
     }
 
-    public TileType[] getNextTile() {
-        return tileType.getNextTile();
+    public boolean previousOf(Tile tile) {
+        return tileType.previousOf(tile.tileType);
+    }
+
+    public boolean nextOf(Tile tile) {
+        return tileType.nextOf(tile.tileType);
     }
 
     @Override
@@ -38,4 +59,34 @@ public class Tile implements Comparable<Tile> {
         return comp != 0 ? comp : index - o.index;
     }
 
+
+    public static Tile of(TileType tileType, int index) {
+
+        assert tileType != null && index >= 0 && index <= 4;
+
+        return TileFlyWeightFactory.FACTORY.getInstance(tileType, index);
+    }
+
+    private static class TileFlyWeightFactory {
+
+        final static TileFlyWeightFactory FACTORY = new TileFlyWeightFactory();
+
+        @EqualsAndHashCode
+        @AllArgsConstructor
+        private static class Key {
+            TileType tileType;
+            int index;
+        }
+
+        private Map<Key, Tile> flyweightPool = new HashMap<>();
+
+        public Tile getInstance(TileType tileType, int index) {
+            return createTileIfAbsentAndGetTile(new Key(tileType, index));
+        }
+
+        private Tile createTileIfAbsentAndGetTile(Key key) {
+            flyweightPool.putIfAbsent(key, new Tile(key.tileType, key.index));
+            return flyweightPool.get(key);
+        }
+    }
 }

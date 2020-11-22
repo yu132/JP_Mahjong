@@ -90,9 +90,8 @@ public enum Yaku {
     TRUE_NINE_GATES(ALL_2_YAKUMAN()), // 纯正九莲宝灯
     FOUR_BIG_WINDS(ALL_2_YAKUMAN()), // 大四喜
 
-
     // [古役和地方役]
-    TRUE_ALL_GREENS(0, 0, 3, 3); // 纯正绿一色
+    TRUE_ALL_GREENS(ALL_2_YAKUMAN()); // 纯正绿一色
 
     public final static int DEPENDING_TO_RULE = -1;
 

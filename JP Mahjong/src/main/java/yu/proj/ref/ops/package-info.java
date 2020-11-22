@@ -1,11 +1,11 @@
 /**  
  * @ClassName: package-info  
  *
- * @Description: TODO(这里用一句话描述这个类的作用)  
+ * @Description: 玩家操作
  *
  * @author 余定邦  
  *
- * @date 2020年11月8日  
+ * @date 2020年11月22日  
  *  
  */
 package yu.proj.ref.ops;

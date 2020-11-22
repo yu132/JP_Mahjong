@@ -17,8 +17,11 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class NineDifferntTerminalsandHonorsDrawable {
 
+    private final static NineDifferntTerminalsandHonorsDrawable singleton =
+        new NineDifferntTerminalsandHonorsDrawable();
+
     public static NineDifferntTerminalsandHonorsDrawable of() {
-        return new NineDifferntTerminalsandHonorsDrawable();
+        return singleton;
     }
 
 }

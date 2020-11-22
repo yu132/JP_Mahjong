@@ -1,5 +1,11 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.draw.nineDifferntTerminalsandHonorsDraw;
 
+import java.util.Collections;
+import java.util.List;
+
+import yu.proj.ref.gameLogicChain.game.shared.analyze.utils.TilesCounterUtilForPatternAnalyze;
+import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
+
 /**  
  * @ClassName: NineDifferntTerminalsandHonorsDrawAnalyze  
  *
@@ -11,5 +17,13 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.draw.nineDifferntTerminal
  *  
  */
 public class AnalyzeNineDifferntTerminalsandHonorsDraw {
+
+    public List<NineDifferntTerminalsandHonorsDrawable> analyze(PlayerTileManager playerTileManager) {
+        TilesCounterUtilForPatternAnalyze tilesNumAnalyzer = new TilesCounterUtilForPatternAnalyze(playerTileManager);
+        if (tilesNumAnalyzer.differentTerminalsAndHonors() >= 9) {
+            return Collections.singletonList(NineDifferntTerminalsandHonorsDrawable.of());
+        }
+        return Collections.emptyList();
+    }
 
 }

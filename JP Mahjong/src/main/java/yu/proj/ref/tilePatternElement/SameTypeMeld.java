@@ -1,4 +1,4 @@
-package yu.proj.ref.tilePatternElement.exposedTile;
+package yu.proj.ref.tilePatternElement;
 
 import yu.proj.ref.tile.Tile;
 

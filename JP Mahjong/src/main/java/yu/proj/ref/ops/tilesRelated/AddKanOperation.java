@@ -2,7 +2,7 @@ package yu.proj.ref.ops.tilesRelated;
 
 import lombok.Getter;
 import yu.proj.ref.tile.Tile;
-import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
+import yu.proj.ref.tilePatternElement.Triplet;
 
 /**  
  * @ClassName: AddKanOperation  

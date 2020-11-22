@@ -1,8 +1,10 @@
-package yu.proj.ref.tilePatternElement.exposedTile;
+package yu.proj.ref.tilePatternElement;
 
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tilePatternElement.concealedTile.ConcealedTile;
+import yu.proj.ref.tilePatternElement.exposedTile.ExposedTile;
 
 /**  
  * @ClassName: Triplet  
@@ -17,7 +19,7 @@ import yu.proj.ref.tile.Tile;
 
 @Getter
 @ToString
-public class Triplet extends SameTypeMeld {
+public class Triplet extends SameTypeMeld implements ExposedTile, ConcealedTile {
 
     private Tile specialTile;
 
@@ -28,7 +30,7 @@ public class Triplet extends SameTypeMeld {
 
     public static Triplet of(Tile[] tiles, MeldSource src, Tile specialTile) {
 
-        assert src != MeldSource.SELF && tiles.length == 3;
+        assert tiles.length == 3;
 
         return new Triplet(tiles, src, specialTile);
     }

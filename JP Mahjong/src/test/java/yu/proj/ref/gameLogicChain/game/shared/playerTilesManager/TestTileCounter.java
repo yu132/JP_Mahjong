@@ -18,9 +18,9 @@ import yu.proj.ref.ops.tilesRelated.KitaOperation;
 import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.MeldSource;
+import yu.proj.ref.tilePatternElement.Triplet;
 import yu.proj.ref.tilePatternElement.exposedTile.Kita;
-import yu.proj.ref.tilePatternElement.exposedTile.MeldSource;
-import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
 
 
 /**  

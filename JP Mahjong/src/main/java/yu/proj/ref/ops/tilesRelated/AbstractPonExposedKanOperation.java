@@ -3,7 +3,7 @@ package yu.proj.ref.ops.tilesRelated;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
-import yu.proj.ref.tilePatternElement.exposedTile.MeldSource;
+import yu.proj.ref.tilePatternElement.MeldSource;
 
 /**  
  * @ClassName: AbstractPonKanOperation  

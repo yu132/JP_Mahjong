@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.Sequence;
+import yu.proj.ref.tilePatternElement.Triplet;
 import yu.proj.ref.tilePatternElement.exposedTile.AddKanQuad;
 import yu.proj.ref.tilePatternElement.exposedTile.ConcealedKanQuad;
 import yu.proj.ref.tilePatternElement.exposedTile.ExposedKanQuad;
 import yu.proj.ref.tilePatternElement.exposedTile.Kita;
-import yu.proj.ref.tilePatternElement.exposedTile.Sequence;
-import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
 
 /**
  * @ClassName : PlayerExposedTilesManager  

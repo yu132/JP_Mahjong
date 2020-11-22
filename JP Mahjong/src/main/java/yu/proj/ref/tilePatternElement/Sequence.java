@@ -1,8 +1,10 @@
-package yu.proj.ref.tilePatternElement.exposedTile;
+package yu.proj.ref.tilePatternElement;
 
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tilePatternElement.concealedTile.ConcealedTile;
+import yu.proj.ref.tilePatternElement.exposedTile.ExposedTile;
 
 /**  
  * @ClassName: Sequence  
@@ -17,7 +19,7 @@ import yu.proj.ref.tile.Tile;
 
 @Getter
 @ToString
-public class Sequence extends Meld {
+public class Sequence extends Meld implements ExposedTile, ConcealedTile {
 
     private Tile specialTile;
 
@@ -28,7 +30,7 @@ public class Sequence extends Meld {
 
     public static Sequence of(Tile[] tiles, MeldSource src, Tile specialTile) {
 
-        assert src == MeldSource.LAST_PLAYER && tiles.length == 3;
+        assert (src == MeldSource.LAST_PLAYER || src == MeldSource.SELF) && tiles.length == 3;
 
         return new Sequence(tiles, src, specialTile);
     }

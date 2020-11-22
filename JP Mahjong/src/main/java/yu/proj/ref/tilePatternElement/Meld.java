@@ -1,5 +1,6 @@
-package yu.proj.ref.tilePatternElement.exposedTile;
+package yu.proj.ref.tilePatternElement;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -17,9 +18,9 @@ import yu.proj.ref.tile.Tile;
  */
 
 @Getter
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Meld implements ExposedTile {
+public class Meld {
 
     private Tile[] tiles;
 

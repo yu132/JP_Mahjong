@@ -23,13 +23,13 @@ import yu.proj.ref.ops.tilesRelated.Operation;
 import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.MeldSource;
+import yu.proj.ref.tilePatternElement.Sequence;
+import yu.proj.ref.tilePatternElement.Triplet;
 import yu.proj.ref.tilePatternElement.exposedTile.AddKanQuad;
 import yu.proj.ref.tilePatternElement.exposedTile.ConcealedKanQuad;
 import yu.proj.ref.tilePatternElement.exposedTile.ExposedKanQuad;
 import yu.proj.ref.tilePatternElement.exposedTile.Kita;
-import yu.proj.ref.tilePatternElement.exposedTile.MeldSource;
-import yu.proj.ref.tilePatternElement.exposedTile.Sequence;
-import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
 
 /**  
  * @ClassName: TileCounter  

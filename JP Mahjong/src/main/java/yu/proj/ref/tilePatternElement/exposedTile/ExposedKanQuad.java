@@ -3,6 +3,8 @@ package yu.proj.ref.tilePatternElement.exposedTile;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tilePatternElement.MeldSource;
+import yu.proj.ref.tilePatternElement.SameTypeMeld;
 
 /**  
  * @ClassName: ExposedKanQuad  
@@ -17,7 +19,7 @@ import yu.proj.ref.tile.Tile;
 
 @Getter
 @ToString
-public class ExposedKanQuad extends SameTypeMeld {
+public class ExposedKanQuad extends SameTypeMeld implements ExposedTile {
 
     private Tile specialTile;
 

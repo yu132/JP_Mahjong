@@ -14,14 +14,14 @@ import lombok.AllArgsConstructor;
  *  
  */
 
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class NineDifferntTerminalsandHonorsDrawable {
 
-    private final static NineDifferntTerminalsandHonorsDrawable singleton =
+    private final static NineDifferntTerminalsandHonorsDrawable SINGLETON =
         new NineDifferntTerminalsandHonorsDrawable();
 
     public static NineDifferntTerminalsandHonorsDrawable of() {
-        return singleton;
+        return SINGLETON;
     }
 
 }

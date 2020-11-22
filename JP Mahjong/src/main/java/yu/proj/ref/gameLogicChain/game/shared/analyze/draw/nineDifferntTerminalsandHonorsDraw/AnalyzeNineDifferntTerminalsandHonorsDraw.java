@@ -20,7 +20,7 @@ public class AnalyzeNineDifferntTerminalsandHonorsDraw {
 
     public List<NineDifferntTerminalsandHonorsDrawable> analyze(PlayerTileManager playerTileManager) {
         TilesCounterUtilForPatternAnalyze tilesNumAnalyzer = new TilesCounterUtilForPatternAnalyze(playerTileManager);
-        if (tilesNumAnalyzer.differentTerminalsAndHonors() >= 9) {
+        if (tilesNumAnalyzer.differentTerminalsAndHonors() >= 9) {// 九种以上的幺九牌时才可以流局
             return Collections.singletonList(NineDifferntTerminalsandHonorsDrawable.of());
         }
         return Collections.emptyList();

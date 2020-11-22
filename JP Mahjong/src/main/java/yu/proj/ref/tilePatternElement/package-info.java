@@ -5,7 +5,7 @@
  *
  * @author 余定邦  
  *
- * @date 2020年11月8日  
+ * @date 2020年11月22日  
  *  
  */
-package yu.proj.ref.exposedTile;
+package yu.proj.ref.tilePatternElement;

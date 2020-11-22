@@ -1,4 +1,4 @@
-package yu.proj.ref.exposedTile;
+package yu.proj.ref.tilePatternElement.exposedTile;
 
 /**  
  * @ClassName: ExposedTile  

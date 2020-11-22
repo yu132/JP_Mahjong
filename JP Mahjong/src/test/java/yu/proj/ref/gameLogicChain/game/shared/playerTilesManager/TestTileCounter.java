@@ -7,9 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import yu.proj.ref.exposedTile.Kita;
-import yu.proj.ref.exposedTile.MeldSource;
-import yu.proj.ref.exposedTile.Triplet;
 import yu.proj.ref.ops.tilesRelated.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.tilesRelated.AddKanOperation;
 import yu.proj.ref.ops.tilesRelated.ChiOperation;
@@ -21,6 +18,9 @@ import yu.proj.ref.ops.tilesRelated.KitaOperation;
 import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.exposedTile.Kita;
+import yu.proj.ref.tilePatternElement.exposedTile.MeldSource;
+import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
 
 
 /**  

@@ -3,13 +3,13 @@ package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import yu.proj.ref.exposedTile.AddKanQuad;
-import yu.proj.ref.exposedTile.ConcealedKanQuad;
-import yu.proj.ref.exposedTile.ExposedKanQuad;
-import yu.proj.ref.exposedTile.Kita;
-import yu.proj.ref.exposedTile.Sequence;
-import yu.proj.ref.exposedTile.Triplet;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.exposedTile.AddKanQuad;
+import yu.proj.ref.tilePatternElement.exposedTile.ConcealedKanQuad;
+import yu.proj.ref.tilePatternElement.exposedTile.ExposedKanQuad;
+import yu.proj.ref.tilePatternElement.exposedTile.Kita;
+import yu.proj.ref.tilePatternElement.exposedTile.Sequence;
+import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
 
 /**
  * @ClassName : PlayerExposedTilesManager  

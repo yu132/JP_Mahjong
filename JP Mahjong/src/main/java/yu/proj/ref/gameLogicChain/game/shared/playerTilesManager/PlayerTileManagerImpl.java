@@ -8,13 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cn.hutool.core.util.ArrayUtil;
-import yu.proj.ref.exposedTile.AddKanQuad;
-import yu.proj.ref.exposedTile.ConcealedKanQuad;
-import yu.proj.ref.exposedTile.ExposedKanQuad;
-import yu.proj.ref.exposedTile.Kita;
-import yu.proj.ref.exposedTile.MeldSource;
-import yu.proj.ref.exposedTile.Sequence;
-import yu.proj.ref.exposedTile.Triplet;
 import yu.proj.ref.ops.tilesRelated.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.tilesRelated.AddKanOperation;
 import yu.proj.ref.ops.tilesRelated.ConcealedKanOperation;
@@ -30,6 +23,13 @@ import yu.proj.ref.ops.tilesRelated.Operation;
 import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.exposedTile.AddKanQuad;
+import yu.proj.ref.tilePatternElement.exposedTile.ConcealedKanQuad;
+import yu.proj.ref.tilePatternElement.exposedTile.ExposedKanQuad;
+import yu.proj.ref.tilePatternElement.exposedTile.Kita;
+import yu.proj.ref.tilePatternElement.exposedTile.MeldSource;
+import yu.proj.ref.tilePatternElement.exposedTile.Sequence;
+import yu.proj.ref.tilePatternElement.exposedTile.Triplet;
 
 /**  
  * @ClassName: TileCounter  

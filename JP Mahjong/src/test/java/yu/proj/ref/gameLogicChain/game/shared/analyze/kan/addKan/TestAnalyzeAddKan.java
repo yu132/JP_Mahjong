@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.junit.Test;
 
-import yu.proj.ref.exposedTile.MeldSource;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
 import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.exposedTile.MeldSource;
 
 /**  
  * @ClassName: TestAnalyzeAddKan  

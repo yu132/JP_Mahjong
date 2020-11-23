@@ -27,7 +27,8 @@ public class AddKanOperation implements ExposedTileOperation, GainTileOperation 
     public AddKanOperation(Tile[] exposedTiles, Triplet triplet, Tile gainTile) {
         super();
 
-        assert checkArgIfTilesInExposedTilesAndTripletIsSameType(exposedTiles, triplet) && exposedTiles.length == 1;
+        assert checkArgIfTilesInExposedTilesAndTripletIsSameType(exposedTiles, triplet);
+        assert exposedTiles.length == 1;
 
         this.exposedTiles = exposedTiles;
         this.triplet      = triplet;
@@ -35,6 +36,6 @@ public class AddKanOperation implements ExposedTileOperation, GainTileOperation 
     }
 
     private boolean checkArgIfTilesInExposedTilesAndTripletIsSameType(Tile[] exposedTiles, Triplet triplet) {
-        return !exposedTiles[0].sameNormalType(triplet.getSpecialTile());
+        return exposedTiles[0].sameNormalType(triplet.getSpecialTile());
     }
 }

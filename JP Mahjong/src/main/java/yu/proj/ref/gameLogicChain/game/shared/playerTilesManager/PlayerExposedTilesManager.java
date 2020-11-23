@@ -67,7 +67,7 @@ public class PlayerExposedTilesManager {
         kitas.add(kita);
     }
 
-    int sizeOfMakeCall() {
+    public int sizeOfMakeCall() {
         return sequences.size() + triplets.size() + exposedKanQuads.size() + concealedKanQuads.size()
             + addKanQuads.size();
     }

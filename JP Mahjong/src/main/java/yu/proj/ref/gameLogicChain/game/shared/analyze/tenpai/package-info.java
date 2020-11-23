@@ -1,7 +1,5 @@
-package yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai;
-
 /**  
- * @ClassName: AnalyzeTenpai  
+ * @ClassName: package-info  
  *
  * @Description: TODO(这里用一句话描述这个类的作用)  
  *
@@ -10,6 +8,4 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai;
  * @date 2020年11月22日  
  *  
  */
-public class AnalyzeTenpai {
-
-}
+package yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai;

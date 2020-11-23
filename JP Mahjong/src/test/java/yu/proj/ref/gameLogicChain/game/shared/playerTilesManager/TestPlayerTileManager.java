@@ -33,7 +33,7 @@ import yu.proj.ref.tilePatternElement.exposedTile.Kita;
  * @date 2020年11月8日  
  *  
  */
-public class TestTileCounter {
+public class TestPlayerTileManager {
 
     private PlayerTileManager tileCounter;
 
@@ -496,7 +496,7 @@ public class TestTileCounter {
     }
 
     public static void main(String[] args) {
-        TestTileCounter testTileCounter = new TestTileCounter();
+        TestPlayerTileManager testTileCounter = new TestPlayerTileManager();
         testTileCounter.beforeTest();
         testTileCounter.chi();
     }

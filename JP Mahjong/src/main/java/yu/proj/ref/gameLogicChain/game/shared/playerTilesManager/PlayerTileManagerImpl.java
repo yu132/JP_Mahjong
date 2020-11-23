@@ -1,13 +1,15 @@
 package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import cn.hutool.core.util.ArrayUtil;
+import lombok.AccessLevel;
+import lombok.Getter;
 import yu.proj.ref.ops.tilesRelated.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.tilesRelated.AddKanOperation;
 import yu.proj.ref.ops.tilesRelated.ConcealedKanOperation;
@@ -41,9 +43,11 @@ import yu.proj.ref.tilePatternElement.exposedTile.Kita;
  * @date 2020年11月8日  
  *  
  */
+
+@Getter(value = AccessLevel.PACKAGE)
 public final class PlayerTileManagerImpl implements PlayerTileManager {
 
-    private EnumMap<TileType, Set<Tile>> tilesInHand = new EnumMap<>(TileType.class);
+    private EnumMap<TileType, List<Tile>> tilesInHand = new EnumMap<>(TileType.class);
 
     private EnumMap<TileType, Integer> countNumberAll = new EnumMap<>(TileType.class);
 
@@ -53,7 +57,7 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
 
     @Override
     public int countInHand(TileType tileType) {
-        return tilesInHand.getOrDefault(tileType, Collections.emptySet()).size();
+        return tilesInHand.getOrDefault(tileType, Collections.emptyList()).size();
     }
 
     @Override
@@ -267,8 +271,8 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
         return getSetInTilesInHand(tile.getTileType()).contains(tile);
     }
 
-    private Set<Tile> getSetInTilesInHand(TileType tileType) {
-        return tilesInHand.computeIfAbsent(tileType, (x) -> new HashSet<>());
+    private List<Tile> getSetInTilesInHand(TileType tileType) {
+        return tilesInHand.computeIfAbsent(tileType, (x) -> new ArrayList<>());
     }
 
     private void insertTileToHand(Tile tile) {
@@ -298,5 +302,10 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
     @Override
     public PlayerExposedTilesManager getPlayerExposedTilesManager() {
         return playerExposedTilesManager;
+    }
+
+    @Override
+    public PlayerTileInHandGetter playerTileInHandGetter() {
+        return new PlayerTileInHandGetterImpl(this);
     }
 }

@@ -27,7 +27,7 @@ public class TilesCounterUtilForPatternAnalyze {
         this.playerTileManager = playerTileManager;
     }
 
-    int count(TileType... tileTypes) {
+    public int count(TileType... tileTypes) {
         int count = 0;
         for (TileType tileType : tileTypes) {
             count += playerTileManager.countKanAs3TileAndRedAsNormal(tileType);
@@ -35,7 +35,7 @@ public class TilesCounterUtilForPatternAnalyze {
         return count;
     }
 
-    int has(TileType... tileTypes) {
+    public int has(TileType... tileTypes) {
         int count = 0;
         for (TileType tileType : tileTypes) {
             boolean hasTile = playerTileManager.countKanAs3TileAndRedAsNormal(tileType) > 0;
@@ -54,5 +54,9 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public int differentTerminalsAndHonors() {
         return differentTerminals() + differentHonors();
+    }
+
+    public boolean isMenzenchin() {
+        return playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCall() == 0;
     }
 }

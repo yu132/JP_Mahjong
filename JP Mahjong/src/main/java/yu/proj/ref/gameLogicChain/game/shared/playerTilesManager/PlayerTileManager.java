@@ -59,4 +59,6 @@ public interface PlayerTileManager {
 
     void addKan(AddKanOperation kan);
 
+    PlayerTileInHandGetter playerTileInHandGetter();
+
 }

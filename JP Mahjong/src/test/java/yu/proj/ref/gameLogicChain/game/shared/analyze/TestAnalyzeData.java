@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze;
 
 import java.util.EnumMap;
+import java.util.List;
 
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManagerImpl;
@@ -53,5 +54,9 @@ public class TestAnalyzeData {
             DrawOperation op = new DrawOperation(tile);
             playerTileManager.draw(op);
         }
+    }
+
+    public void draw(List<TileType> tiles) {
+        draw(tiles.toArray(new TileType[0]));
     }
 }

@@ -7,9 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import yu.proj.ref.ops.tilesRelated.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.tilesRelated.AddKanOperation;
-import yu.proj.ref.ops.tilesRelated.ChiOperation;
+import yu.proj.ref.ops.tilesRelated.ChiiOperation;
 import yu.proj.ref.ops.tilesRelated.ConcealedKanOperation;
 import yu.proj.ref.ops.tilesRelated.DiscardOperation;
 import yu.proj.ref.ops.tilesRelated.DrawOperation;
@@ -102,11 +101,11 @@ public class TestPlayerTileManager {
 
         draw(m4);
 
-        Tile                                   m3  = Tile.of(MAN_3, 1);
+        Tile         m3  = Tile.of(MAN_3, 1);
 
-        AbstractGainAndExposedAllTileOperation chi = new ChiOperation(new Tile[] {m2, m4}, m3);
+        ChiiOperation chi = new ChiiOperation(new Tile[] {m2, m4}, m3);
 
-        tileCounter.chi(chi);
+        tileCounter.chii(chi);
 
         assertTotalTileNumber(MAN_3, 1);
 
@@ -126,12 +125,12 @@ public class TestPlayerTileManager {
 
         draw(m4);
 
-        Tile                                   m3  = Tile.of(MAN_3, 1);
+        Tile         m3  = Tile.of(MAN_3, 1);
 
-        AbstractGainAndExposedAllTileOperation chi = new ChiOperation(new Tile[] {m2, m4}, m3);
+        ChiiOperation chi = new ChiiOperation(new Tile[] {m2, m4}, m3);
 
         expectExceptionOrError(() -> {
-            tileCounter.chi(chi);
+            tileCounter.chii(chi);
         });
     }
 
@@ -146,7 +145,7 @@ public class TestPlayerTileManager {
         Tile m3 = Tile.of(MAN_3, 1);
 
         expectExceptionOrError(() -> {
-            new ChiOperation(new Tile[] {m2, m5}, m3);
+            new ChiiOperation(new Tile[] {m2, m5}, m3);
         });
     }
 

@@ -21,7 +21,7 @@ import yu.proj.ref.tilePatternElement.exposedTile.ExposedTile;
 @ToString
 public class Triplet extends SameTypeMeld implements ExposedTile, ConcealedTile {
 
-    private Tile specialTile;
+    private Tile specialTile;// 当其是暗刻时为null
 
     private Triplet(Tile[] tiles, MeldSource src, Tile specialTile) {
         super(tiles, src);

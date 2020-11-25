@@ -18,6 +18,6 @@ public interface PlayerTileInHandGetter {
 
     Tile claim(TileType tileType);
 
-    void reuse(TileType tileType);
+    void reclaim(TileType tileType);
 
 }

@@ -103,18 +103,18 @@ public enum TileType {
 
     private TileType(List<TileType> nextTile, int order) {
         this.nextTiles = nextTile;
-        this.nextDora  = nextTile;         // 一般的情况下，dora就是下一张牌
-        this.order     = order;
+        this.nextDora = nextTile; // 一般的情况下，dora就是下一张牌
+        this.order = order;
         this.lastTiles = new ArrayList<>();
     }
 
     /**
      * @Title: nextNormalTile  
      * 
-     * @Description: 和getNextTile不同，这个方法返回下一张普通牌(非红宝牌)，对于9牌和北和红中，返回的是None
+     * @Description: 和getNextTile不同，这个方法返回下一张普通牌(非红宝牌)，对于9牌和北和红中和NONE，返回的是None
      */
     public TileType nextNormalTile() {
-        if (isNineOrNorthOrRed()) {
+        if (isNineOrNorthOrRedOrNone()) {
             return NONE;
         }
         return nextTiles.get(0);
@@ -124,8 +124,8 @@ public enum TileType {
         return this == MAN_5 || this == PIN_5 || this == SOU_5;
     }
 
-    private boolean isNineOrNorthOrRed() {
-        return this == MAN_9 || this == PIN_9 || this == SOU_9 || this == NORTH || this == RED;
+    private boolean isNineOrNorthOrRedOrNone() {
+        return this == MAN_9 || this == PIN_9 || this == SOU_9 || this == NORTH || this == RED || this == NONE;
     }
 
     /**
@@ -179,5 +179,22 @@ public enum TileType {
         return this == tileType // 两者都是普通牌或者都为红宝牌时，这个成立
             || this.getRed() == tileType // this为普通牌，tileType为红宝牌是成立
             || this == tileType.getRed();// this为红宝牌，tileType为普通牌时成立
+    }
+
+    public static TileType next(TileType type) {
+        switch (type) {
+            case MAN_9:
+                return PIN_1;
+            case PIN_9:
+                return SOU_1;
+            case SOU_9:
+                return EAST;
+            case NORTH:
+                return WHITE;
+            case RED:
+                return NONE;
+            default:
+                return type.nextNormalTile();
+        }
     }
 }

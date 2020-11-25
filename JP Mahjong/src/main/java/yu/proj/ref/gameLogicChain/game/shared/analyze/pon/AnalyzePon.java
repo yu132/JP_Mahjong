@@ -40,5 +40,4 @@ public class AnalyzePon {
             ponables.addAll(Ponable.of(tileType, normal, red));
         });
     }
-
 }

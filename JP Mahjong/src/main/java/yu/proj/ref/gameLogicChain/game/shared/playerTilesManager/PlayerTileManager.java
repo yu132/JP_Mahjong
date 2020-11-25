@@ -1,7 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 
-import yu.proj.ref.ops.tilesRelated.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.tilesRelated.AddKanOperation;
+import yu.proj.ref.ops.tilesRelated.ChiiOperation;
 import yu.proj.ref.ops.tilesRelated.ConcealedKanOperation;
 import yu.proj.ref.ops.tilesRelated.DiscardOperation;
 import yu.proj.ref.ops.tilesRelated.DrawOperation;
@@ -39,7 +39,7 @@ public interface PlayerTileManager {
 
     PlayerExposedTilesManager getPlayerExposedTilesManager();
 
-    void chi(AbstractGainAndExposedAllTileOperation chi);
+    void chii(ChiiOperation chi);
 
     void pon(PonOperation pon);
 

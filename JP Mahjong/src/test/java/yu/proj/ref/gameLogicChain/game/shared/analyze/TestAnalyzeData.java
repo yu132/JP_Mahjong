@@ -5,11 +5,14 @@ import java.util.List;
 
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManagerImpl;
+import yu.proj.ref.ops.tilesRelated.ChiiOperation;
 import yu.proj.ref.ops.tilesRelated.DrawOperation;
+import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.rule.GameRule;
 import yu.proj.ref.rule.MahjongSoulRule;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.MeldSource;
 
 /**
  * @ClassName : TestAnalyzeChiiData  
@@ -41,12 +44,25 @@ public class TestAnalyzeData {
 
     public void draw(TileType... tileTypesToDraw) {
         for (TileType tileTypeToDraw : tileTypesToDraw) {
-            int index = count.getOrDefault(tileTypeToDraw, 0);
-            count.put(tileTypeToDraw, index + 1);
-            Tile          tile = Tile.of(tileTypeToDraw, index);
+            Tile          tile = getTile(tileTypeToDraw);
             DrawOperation op   = new DrawOperation(tile);
             playerTileManager.draw(op);
         }
+    }
+
+    private Tile getTile(TileType tileTypeToDraw) {
+        int index = count.getOrDefault(tileTypeToDraw, 0);
+        count.put(tileTypeToDraw, index + 1);
+        Tile tile = Tile.of(tileTypeToDraw, index);
+        return tile;
+    }
+
+    private Tile[] getTiles(TileType... tileTypeToDraw) {
+        Tile[] tiles = new Tile[tileTypeToDraw.length];
+        for (int i = 0; i < tiles.length; ++i) {
+            tiles[i] = getTile(tileTypeToDraw[i]);
+        }
+        return tiles;
     }
 
     public void draw(Tile... tiles) {
@@ -58,5 +74,29 @@ public class TestAnalyzeData {
 
     public void draw(List<TileType> tiles) {
         draw(tiles.toArray(new TileType[0]));
+    }
+
+    public void chii(TileType... tiles) {
+        assert tiles.length == 3 && tiles[0].previousOf(tiles[1]) && tiles[1].previousOf(tiles[2]);
+
+        Tile[] t = getTiles(tiles);
+
+        draw(t[0], t[1]);
+
+        ChiiOperation op = new ChiiOperation(new Tile[] {t[0], t[1]}, t[2]);
+
+        playerTileManager.chii(op);
+    }
+
+    public void pon(TileType... tiles) {
+        assert tiles.length == 3 && tiles[0].sameNormalType(tiles[1]) && tiles[1].sameNormalType(tiles[2]);
+
+        Tile[] t = getTiles(tiles);
+
+        draw(t[0], t[1]);
+
+        PonOperation op = new PonOperation(new Tile[] {t[0], t[1]}, t[2], MeldSource.NEXT_PLAYER);
+
+        playerTileManager.pon(op);
     }
 }

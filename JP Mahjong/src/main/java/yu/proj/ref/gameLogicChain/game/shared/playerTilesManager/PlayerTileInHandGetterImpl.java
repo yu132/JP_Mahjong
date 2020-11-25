@@ -1,5 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 
+import static yu.proj.ref.tile.TileType.*;
+
 import java.util.Collections;
 import java.util.EnumMap;
 
@@ -31,7 +33,12 @@ public class PlayerTileInHandGetterImpl implements PlayerTileInHandGetter {
     @Override
     public Tile claim(TileType tileType) {
 
-        assert hasEnoughTileToClaim(tileType);
+        if (!hasEnoughTileToClaim(tileType)) {
+            if (tileType.getRed() != NONE) {
+                return claim(tileType.getRed());// 没有牌的时候，去获取红宝牌作为替代
+            }
+            assert false;// 没有多的牌可以获取了
+        }
 
         Tile tile = getTile(tileType);
         claimThisTile(tileType);
@@ -57,8 +64,14 @@ public class PlayerTileInHandGetterImpl implements PlayerTileInHandGetter {
     }
 
     @Override
-    public void reuse(TileType tileType) {
-        assert index(tileType) != 0;
+    public void reclaim(TileType tileType) {
+        if (index(tileType) == 0) {
+            if (tileType.getRed() != NONE) {
+                reclaim(tileType.getRed());
+                return;
+            }
+            assert false;
+        }
 
         used.put(tileType, index(tileType) - 1);
     }

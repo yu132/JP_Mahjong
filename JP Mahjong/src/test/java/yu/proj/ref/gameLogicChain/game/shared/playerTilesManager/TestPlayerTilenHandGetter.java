@@ -23,7 +23,8 @@ public class TestPlayerTilenHandGetter {
 
     private TestAnalyzeData data = new TestAnalyzeData();
 
-    private PlayerTileInHandGetter getter = new PlayerTileInHandGetterImpl((PlayerTileManagerImpl)data.playerTileManager);
+    private PlayerTileInHandGetter getter =
+        new PlayerTileInHandGetterImpl((PlayerTileManagerImpl)data.playerTileManager);
 
     @Test
     public void test() {
@@ -53,7 +54,7 @@ public class TestPlayerTilenHandGetter {
 
         Tile tile = getter.claim(MAN_1);
 
-        getter.reuse(MAN_1);
+        getter.reclaim(MAN_1);
 
         Tile tile1 = getter.claim(MAN_1);
 
@@ -75,5 +76,27 @@ public class TestPlayerTilenHandGetter {
         });
     }
 
+    @Test
+    public void testRed() {
+        data.draw(MAN_5_RED);
+
+        Tile tile = getter.claim(MAN_5);
+
+        assertEquals(MAN_5_RED, tile.getTileType());
+    }
+
+    @Test
+    public void testRedReUse() {
+        data.draw(MAN_5_RED);
+
+        Tile tile = getter.claim(MAN_5);
+
+        getter.reclaim(MAN_5);
+
+        Tile tile2 = getter.claim(MAN_5);
+
+        assertEquals(MAN_5_RED, tile.getTileType());
+        assertEquals(tile, tile2);
+    }
 
 }

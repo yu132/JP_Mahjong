@@ -1,5 +1,7 @@
 package yu.proj.ref.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**  
@@ -21,6 +23,10 @@ public class MyListUtils {
             }
         }
         return true;
+    }
+
+    public static <T> List<T> unmodifiableCopy(List<T> list) {
+        return Collections.unmodifiableList(new ArrayList<>(list));
     }
 
 }

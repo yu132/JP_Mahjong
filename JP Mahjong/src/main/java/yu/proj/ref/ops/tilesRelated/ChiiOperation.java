@@ -21,9 +21,9 @@ import yu.proj.ref.tile.Tile;
 
 @Getter
 @ToString(callSuper = true)
-public final class ChiOperation extends AbstractGainAndExposedAllTileOperation {
+public final class ChiiOperation extends AbstractGainAndExposedAllTileOperation {
 
-    public ChiOperation(Tile[] exposedTiles, Tile gainExposedTile) {
+    public ChiiOperation(Tile[] exposedTiles, Tile gainExposedTile) {
         super(exposedTiles, gainExposedTile);
     }
 

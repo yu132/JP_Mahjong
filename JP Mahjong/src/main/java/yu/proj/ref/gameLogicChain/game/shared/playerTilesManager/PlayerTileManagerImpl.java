@@ -12,6 +12,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import yu.proj.ref.ops.tilesRelated.AbstractGainAndExposedAllTileOperation;
 import yu.proj.ref.ops.tilesRelated.AddKanOperation;
+import yu.proj.ref.ops.tilesRelated.ChiiOperation;
 import yu.proj.ref.ops.tilesRelated.ConcealedKanOperation;
 import yu.proj.ref.ops.tilesRelated.DiscardOperation;
 import yu.proj.ref.ops.tilesRelated.DiscardTileOperation;
@@ -95,7 +96,7 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
     }
 
     @Override
-    public void chi(AbstractGainAndExposedAllTileOperation chi) {
+    public void chii(ChiiOperation chi) {
         manageTilesAndCountWithOperation(chi);
         insertChiAsSequence(chi);
     }

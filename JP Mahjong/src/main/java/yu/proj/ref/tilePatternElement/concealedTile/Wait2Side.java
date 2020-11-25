@@ -17,17 +17,17 @@ import yu.proj.ref.tile.Tile;
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Wait2side implements ConcealedTile {
+public class Wait2Side implements ConcealedTile {
 
     private Tile lower;
     private Tile upper;
 
-    public static Wait2side of(Tile lower, Tile upper) {
+    public static Wait2Side of(Tile lower, Tile upper) {
 
         assert lower != null && upper != null;
         assert lower.previousOf(upper);
 
-        return new Wait2side(lower, upper);
+        return new Wait2Side(lower, upper);
     }
 
 }

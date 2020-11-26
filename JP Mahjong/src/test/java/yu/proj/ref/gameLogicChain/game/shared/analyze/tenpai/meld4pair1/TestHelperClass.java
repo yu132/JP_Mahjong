@@ -88,7 +88,7 @@ public class TestHelperClass {
         new HelperClass(NONE, TRY_NONE, builder.build()).help();
 
         assertEquals(1, ans.size());
-        assertTrue(ans.get(0) instanceof Meld3Pair1Wait2side1);
+        assertTrue(ans.get(0) instanceof Meld3Pair1Wait2Side1);
     }
 
     @Test

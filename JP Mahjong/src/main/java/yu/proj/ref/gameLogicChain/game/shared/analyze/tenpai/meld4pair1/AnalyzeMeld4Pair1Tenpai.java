@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileInHandGetter;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
-import yu.proj.ref.rule.GameRule;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.MeldSource;
@@ -36,24 +35,18 @@ import yu.proj.ref.tilePatternElement.concealedTile.WaitMiddle;
 @AllArgsConstructor
 public class AnalyzeMeld4Pair1Tenpai {
 
-    private GameRule rule;
-
     public List<Meld4Pair1Tenpaiable> analyze(PlayerTileManager playerTileManager) {
 
         int exposedMeldNum = playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCall();
 
-        PlayerTileInHandGetter getter = playerTileManager.playerTileInHandGetter();
+        List<Meld4Pair1Tenpaiable> tenpaiResult = new ArrayList<>();
 
-        List<Meld4Pair1Tenpaiable> ans = new ArrayList<>();
+        new HelperClass(MAN_1, TRY_NONE, NotChangedData.of(exposedMeldNum, tenpaiResult, playerTileManager)).help();
 
-        new HelperClass(MAN_1, TRY_NONE,
-            new NotChangedData(exposedMeldNum, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
-                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), ans, playerTileManager, getter,
-                new EnumMap<>(TileType.class))).help();
-
-        return null;
+        return tenpaiResult;
     }
 
+    // 递归中不变的数据
     @AllArgsConstructor
     @Builder(toBuilder = true)
     static class NotChangedData {
@@ -64,10 +57,17 @@ public class AnalyzeMeld4Pair1Tenpai {
         List<Singleton> singletons;
         List<Wait2Side> wait2Sides;
         List<WaitMiddle> waitMiddles;
-        List<Meld4Pair1Tenpaiable> ans;
+        List<Meld4Pair1Tenpaiable> tenpaiResult;
         PlayerTileManager playerTileManager;
         PlayerTileInHandGetter getter;
         EnumMap<TileType, Integer> used;
+
+        static NotChangedData of(int exposedMeldNum, List<Meld4Pair1Tenpaiable> tenpaiResult,
+            PlayerTileManager playerTileManager) {
+            return new NotChangedData(exposedMeldNum, new ArrayList<>(), new ArrayList<>(), new ArrayList<>(),
+                new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), tenpaiResult, playerTileManager,
+                playerTileManager.playerTileInHandGetter(), new EnumMap<>(TileType.class));
+        }
     }
 
     @AllArgsConstructor
@@ -95,7 +95,7 @@ public class AnalyzeMeld4Pair1Tenpai {
             private int order;
 
             boolean rightVisitOrder(TryOrder other) {
-                return this == TRY_SEQUENCE ? true : order < other.order;
+                return other == TRY_SEQUENCE ? true : order < other.order;
             }
         }
 
@@ -108,7 +108,7 @@ public class AnalyzeMeld4Pair1Tenpai {
         void help() {
 
             if (isEnd()) {
-                addAnsIfIsRightPattern();
+                addTenpaiResultIfIsRightPattern();
                 return;
             }
 
@@ -117,37 +117,74 @@ public class AnalyzeMeld4Pair1Tenpai {
                 return;
             }
 
-            if (checkOrder(TRY_TRIPLET)) {
-                tryTriplet();
-            }
+            tryTriplet();
+            tryPair();
+            trySingleton();
+            tryWait2Side();
+            tryWaitMiddle();
+            trySequence();
+        }
 
-            if (checkOrder(TRY_PAIR)) {
-                tryPair();
-            }
 
-            if (checkOrder(TRY_SINGLETON)) {
-                trySingleton();
-            }
 
-            if (checkOrder(TRY_WAIT_2_SIDE)) {
-                tryWait2Side();
-            }
+        /* tryXxx —— 尝试添加某个元素*/
 
-            if (checkOrder(TRY_WAIT_MIDDLE)) {
-                tryWaitMiddle();
-            }
-
-            if (checkOrder(TRY_SEQUENCE)) {
-                trySequence();
+        void tryTriplet() {
+            if (checkOrder(TRY_TRIPLET) && countTile() >= TRIPLET_TILE_NUM) {
+                addTriplet();
+                use(TRIPLET_TILE_NUM);
+                thisLevel(TRY_TRIPLET);
+                reuse(TRIPLET_TILE_NUM);
+                removeTriplet();
             }
         }
 
-        private boolean checkOrder(TryOrder order) {
-            return visitOrder.rightVisitOrder(order);
+        void tryPair() {
+            if (checkOrder(TRY_PAIR) && canHasPair()) {
+                addPair();
+                use(PAIR_TILE_NUM);
+                thisLevel(TRY_PAIR);
+                reuse(PAIR_TILE_NUM);
+                removePair();
+            }
+        }
+
+        void trySingleton() {
+            if (checkOrder(TRY_SINGLETON) && canHasSingleton()) {
+                addSingleton();
+                use(SINGLETON_TILE_NUM);
+                thisLevel(TRY_SINGLETON);
+                reuse(SINGLETON_TILE_NUM);
+                removeSingleton();
+            }
+        }
+
+        void tryWait2Side() {
+            if (checkOrder(TRY_WAIT_2_SIDE) && canHasWait2Side()) {
+                addWait2Side();
+                use(SEQUENCE_TILE_EACH_NUM);
+                use(nextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
+                thisLevel(TRY_WAIT_2_SIDE);
+                reuse(nextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
+                reuse(SEQUENCE_TILE_EACH_NUM);
+                removeWait2Side();
+            }
+        }
+
+        void tryWaitMiddle() {
+            if (checkOrder(TRY_WAIT_MIDDLE) && canHasWaitMiddle()) {
+                addWaitMiddle();
+                use(SEQUENCE_TILE_EACH_NUM);
+                use(nextNextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
+                thisLevel(TRY_WAIT_MIDDLE);
+                reuse(nextNextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
+                reuse(SEQUENCE_TILE_EACH_NUM);
+                removeWaitMiddle();
+            }
         }
 
         void trySequence() {
-            if (canHasSequence()) {
+            if (checkOrder(TRY_SEQUENCE) && canHasSequence()) {
                 addSequence();
                 use(SEQUENCE_TILE_EACH_NUM);
                 use(nextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
@@ -160,210 +197,17 @@ public class AnalyzeMeld4Pair1Tenpai {
             }
         }
 
-        private boolean canHasSequence() {
 
-            // 要有下下一张牌才能构成坎张听
-            boolean hasNextNextTile = (countTile(nextNextSequenceTile()) > 0);
 
-            // 要有下一张牌才能构成两面听
-            boolean hasNextTile = (countTile(nextSequenceTile()) > 0);
+        /* checkOrder —— 检查尝试的顺序 */
 
-            return hasNextTile && hasNextNextTile;
+        private boolean checkOrder(TryOrder order) {
+            return visitOrder.rightVisitOrder(order);
         }
 
-        private void removeSequence() {
-            data.concealedSequences.remove(data.concealedSequences.size() - 1);
-            reclaimTile();
-            reclaimTile(nextSequenceTile());
-            reclaimTile(nextNextSequenceTile());
-        }
 
-        private void addSequence() {
-            data.concealedSequences.add(sequence());
-        }
 
-        private Sequence sequence() {
-            Tile[] tiles = {claimTile(), claimTile(nextSequenceTile()), claimTile(nextNextSequenceTile())};
-            return Sequence.of(tiles, MeldSource.SELF, null);
-        }
-
-        void tryWaitMiddle() {
-            if (canHasWaitMiddle()) {
-                addWaitMiddle();
-                use(SEQUENCE_TILE_EACH_NUM);
-                use(nextNextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
-                thisLevel(TRY_WAIT_MIDDLE);
-                reuse(nextNextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
-                reuse(SEQUENCE_TILE_EACH_NUM);
-                removeWaitMiddle();
-            }
-        }
-
-        private void removeWaitMiddle() {
-            data.waitMiddles.remove(data.waitMiddles.size() - 1);
-            reclaimTile();
-            reclaimTile(nextNextSequenceTile());
-        }
-
-        private void addWaitMiddle() {
-            data.waitMiddles.add(waitMiddle());
-        }
-
-        private WaitMiddle waitMiddle() {
-            return WaitMiddle.of(claimTile(), claimTile(nextNextSequenceTile()));
-        }
-
-        private boolean canHasWaitMiddle() {
-            // 要有下下一张牌才能构成坎张听
-            boolean hasNextNextTile = (countTile(nextNextSequenceTile()) > 0);
-
-            // 坎张听时，就不能听单骑
-            boolean noSingleton = (singletonNum() == 0);
-
-            // 坎张听的时候，至多且必须有一个对子
-            boolean atMost1Pair = (pairNum() <= 1);
-
-            // 听两面的时候不能还有坎张听
-            boolean noWait2sides = (wait2SideNum() == 0);
-
-            // 不能同时听两个坎张听
-            boolean noWaitMiddles = (waitMiddleNum() == 0);
-
-            return hasNextNextTile && noSingleton && atMost1Pair && noWait2sides && noWaitMiddles;
-        }
-
-        void tryWait2Side() {
-            if (canHasWait2Side()) {
-                addWait2Side();
-                use(SEQUENCE_TILE_EACH_NUM);
-                use(nextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
-                thisLevel(TRY_WAIT_2_SIDE);
-                reuse(nextSequenceTile(), SEQUENCE_TILE_EACH_NUM);
-                reuse(SEQUENCE_TILE_EACH_NUM);
-                removeWait2Side();
-            }
-        }
-
-        private void removeWait2Side() {
-            data.wait2Sides.remove(data.wait2Sides.size() - 1);
-            reclaimTile();
-            reclaimTile(nextSequenceTile());
-        }
-
-        private void addWait2Side() {
-            data.wait2Sides.add(wait2Side());
-        }
-
-        private Wait2Side wait2Side() {
-            return Wait2Side.of(claimTile(), claimTile(nextSequenceTile()));
-        }
-
-        private TileType nextSequenceTile() {
-            return type.nextNormalTile();
-        }
-
-        private TileType nextNextSequenceTile() {
-            return type.nextNormalTile().nextNormalTile();
-        }
-
-        private boolean canHasWait2Side() {
-
-            // 要有下一张牌才能构成两面听
-            boolean hasNextTile = (countTile(nextSequenceTile()) > 0);
-
-            // 两面听时，就不能听单骑
-            boolean noSingleton = (singletonNum() == 0);
-
-            // 听两面的时候，至多且必须有一个对子
-            boolean atMost1Pair = (pairNum() <= 1);
-
-            // 不能同时听两个两面听
-            boolean noWait2sides = (wait2SideNum() == 0);
-
-            // 听坎张的时候不能还有两面听
-            boolean noWaitMiddles = (waitMiddleNum() == 0);
-
-            return hasNextTile && noSingleton && atMost1Pair && noWait2sides && noWaitMiddles;
-        }
-
-        void trySingleton() {
-            if (canHasSingleton()) {
-                addSingleton();
-                use(SINGLETON_TILE_NUM);
-                thisLevel(TRY_SINGLETON);
-                reuse(SINGLETON_TILE_NUM);
-                removeSingleton();
-            }
-        }
-
-        private void addSingleton() {
-            data.singletons.add(singleton());
-        }
-
-        private void removeSingleton() {
-            data.singletons.remove(singletonNum() - 1);
-            reclaimTiles(SINGLETON_TILE_NUM);
-        }
-
-        private Singleton singleton() {
-            return Singleton.of(claimTiles(SINGLETON_TILE_NUM)[0]);
-        }
-
-        private boolean canHasSingleton() {
-
-            // 单骑存在，就不能再有别的单骑
-            boolean noSingleton = (singletonNum() == 0);
-
-            // 对子存在也不能再由单骑
-            boolean noPair = (pairNum() == 0);
-
-            // 听双面听也不能再听单骑
-            boolean noWait2sides = (wait2SideNum() == 0);
-
-            // 听坎张听也不能再听单骑
-            boolean noWaitMiddles = (waitMiddleNum() == 0);
-
-            return noSingleton && noPair && noWait2sides && noWaitMiddles;
-        }
-
-        private int waitMiddleNum() {
-            return data.waitMiddles.size();
-        }
-
-        private int wait2SideNum() {
-            return data.wait2Sides.size();
-        }
-
-        private int pairNum() {
-            return data.pairs.size();
-        }
-
-        private int singletonNum() {
-            return data.singletons.size();
-        }
-
-        void tryPair() {
-            if (canHasPair()) {
-                addPair();
-                use(PAIR_TILE_NUM);
-                thisLevel(TRY_PAIR);
-                reuse(PAIR_TILE_NUM);
-                removePair();
-            }
-        }
-
-        private void addPair() {
-            data.pairs.add(pair());
-        }
-
-        private void removePair() {
-            data.pairs.remove(pairNum() - 1);
-            reclaimTiles(PAIR_TILE_NUM);
-        }
-
-        private Pair pair() {
-            return Pair.of(claimTiles(PAIR_TILE_NUM));
-        }
+        /* canHasXxx —— 检查某个元素是否有加入的可能*/
 
         private boolean canHasPair() {
 
@@ -382,28 +226,180 @@ public class AnalyzeMeld4Pair1Tenpai {
             return hasEnoughTile && hasNoSingleton && (pairNumIs0 || pairNumIs1AndNoWait2SideNorWaitMiddle);
         }
 
-        void tryTriplet() {
-            if (countTile() >= TRIPLET_TILE_NUM) {
-                addTriplet();
-                use(TRIPLET_TILE_NUM);
-                thisLevel(TRY_TRIPLET);
-                reuse(TRIPLET_TILE_NUM);
-                removeTriplet();
-            }
+        private boolean canHasSingleton() {
+            final int pairLimit = 0;
+            return canHasNotCompletedElement(pairLimit);
         }
+
+        private boolean canHasWait2Side() {
+            final int pairLimit = 1;
+            return hasNextTile() // 要有下一张牌才能构成两面听
+                && canHasNotCompletedElement(pairLimit);
+        }
+
+        private boolean canHasWaitMiddle() {
+            final int pairLimit = 1;
+            return hasNextNextTile() // 要有下下一张牌才能构成坎张听
+                && canHasNotCompletedElement(pairLimit);
+        }
+
+        private boolean canHasSequence() {
+            return hasNextTile()// 顺子要有下一张牌才能构成
+                && hasNextNextTile();// 顺子要有下下一张牌才能构成
+        }
+
+        /*  未完成元素指的是两个对子、单骑、两面听和坎张听这样的元素
+         * 只要有一种出现，那么其他的类型都不能出现
+         * 这是由于麻将中听牌的话，最多只有一种未完成的元素
+         * 否则就不叫听牌了，而是几向听了
+         * 对于坎张听和两面听，可以允许有一个对子，但是单骑不允许有对子出现
+         */
+        private boolean canHasNotCompletedElement(int pairLimit) {
+            boolean noSingleton = (singletonNum() == 0);
+            boolean atMost1Pair = (pairNum() <= pairLimit);
+            boolean noWait2sides = (wait2SideNum() == 0);
+            boolean noWaitMiddles = (waitMiddleNum() == 0);
+            return noSingleton && atMost1Pair && noWait2sides && noWaitMiddles;
+        }
+
+
+
+        /* addXxx —— 递归前新增元素*/
 
         private void addTriplet() {
             data.concealedTriplets.add(triplet());
         }
+
+        private void addPair() {
+            data.pairs.add(pair());
+        }
+
+        private void addSingleton() {
+            data.singletons.add(singleton());
+        }
+
+        private void addWait2Side() {
+            data.wait2Sides.add(wait2Side());
+        }
+
+        private void addWaitMiddle() {
+            data.waitMiddles.add(waitMiddle());
+        }
+
+        private void addSequence() {
+            data.concealedSequences.add(sequence());
+        }
+
+
+
+        /*  removeXxx —— 递归后移除元素*/
 
         private void removeTriplet() {
             data.concealedTriplets.remove(data.concealedTriplets.size() - 1);
             reclaimTiles(TRIPLET_TILE_NUM);
         }
 
+        private void removePair() {
+            data.pairs.remove(pairNum() - 1);
+            reclaimTiles(PAIR_TILE_NUM);
+        }
+
+        private void removeSingleton() {
+            data.singletons.remove(singletonNum() - 1);
+            reclaimTile();
+        }
+
+        private void removeWait2Side() {
+            data.wait2Sides.remove(data.wait2Sides.size() - 1);
+            reclaimTile();
+            reclaimTile(nextSequenceTile());
+        }
+
+        private void removeWaitMiddle() {
+            data.waitMiddles.remove(data.waitMiddles.size() - 1);
+            reclaimTile();
+            reclaimTile(nextNextSequenceTile());
+        }
+
+        private void removeSequence() {
+            data.concealedSequences.remove(data.concealedSequences.size() - 1);
+            reclaimTile();
+            reclaimTile(nextSequenceTile());
+            reclaimTile(nextNextSequenceTile());
+        }
+
+
+
+        /* xxx —— 创建新的元素 */
+
         private Triplet triplet() {
             return Triplet.of(claimTiles(TRIPLET_TILE_NUM), MeldSource.SELF, null);
         }
+
+        private Pair pair() {
+            return Pair.of(claimTiles(PAIR_TILE_NUM));
+        }
+
+        private Singleton singleton() {
+            return Singleton.of(claimTile());
+        }
+
+        private Wait2Side wait2Side() {
+            return Wait2Side.of(claimTile(), claimTile(nextSequenceTile()));
+        }
+
+        private Sequence sequence() {
+            Tile[] tiles = {claimTile(), claimTile(nextSequenceTile()), claimTile(nextNextSequenceTile())};
+            return Sequence.of(tiles, MeldSource.SELF, null);
+        }
+
+        private WaitMiddle waitMiddle() {
+            return WaitMiddle.of(claimTile(), claimTile(nextNextSequenceTile()));
+        }
+
+
+
+        /* xxxNum —— 元素数量计数*/
+
+        private int pairNum() {
+            return data.pairs.size();
+        }
+
+        private int singletonNum() {
+            return data.singletons.size();
+        }
+
+        private int waitMiddleNum() {
+            return data.waitMiddles.size();
+        }
+
+        private int wait2SideNum() {
+            return data.wait2Sides.size();
+        }
+
+
+
+        /* nextTile 和 nextNextTile —— 获取下一张牌和下下张牌*/
+
+        private TileType nextSequenceTile() {
+            return type.nextNormalTile();
+        }
+
+        private TileType nextNextSequenceTile() {
+            return type.nextNormalTile().nextNormalTile();
+        }
+
+        private boolean hasNextTile() {
+            return countTile(nextSequenceTile()) > 0;
+        }
+
+        private boolean hasNextNextTile() {
+            return countTile(nextNextSequenceTile()) > 0;
+        }
+
+
+
+        /* use 和 reuse —— 负责本地计数 */
 
         private void use(TileType type, int usedTileNum) {
             data.used.put(type, data.used.getOrDefault(type, 0) + usedTileNum);
@@ -420,6 +416,10 @@ public class AnalyzeMeld4Pair1Tenpai {
         private void reuse(int usedTileNum) {
             reuse(type, usedTileNum);
         }
+
+
+
+        /* claim 和 reclaim —— 负责从getter取牌和还牌 */
 
         private Tile claimTile(TileType type) {
             return data.getter.claim(type);
@@ -452,6 +452,10 @@ public class AnalyzeMeld4Pair1Tenpai {
             }
         }
 
+
+
+        /* countTile —— 牌计数*/
+
         private int countTile() {
             return countTile(type);
         }
@@ -459,6 +463,23 @@ public class AnalyzeMeld4Pair1Tenpai {
         private int countTile(TileType type) {
             return data.playerTileManager.countNormalAndRedInHand(type) - data.used.getOrDefault(type, 0);
         }
+
+
+
+        /* level —— 递归层级控制*/
+
+        /* 这里简单说明一下递归的作用和顺序
+         * 递归的作用就是将每种牌都转化为牌型中的元素，即把某张牌当作为顺子、刻子、对子、两面听、坎张听和单骑的一部分
+         * 如果可以转换，就重入本层，如果不能转换，就返回，如果本层没有牌，就进入下一层
+         * 
+         * 当遍历到NONE的时候，表示所有牌都遍历过了，那么就判断所有的元素是否能表现为一个四面子一雀头的听牌牌型
+         * 如果可以，那么就得到一个结果，但是无论可以或者不行，都会进行回溯
+         * 
+         * 因为一个牌可以有多种元素的解释方式，即一张牌既可以作为顺子的一部分，也可以作为刻子的一部分，也可以组成其他元素
+         * 因此需要遍历所有可能的元素的组成方式时，需要进行回溯
+         * 
+         * 递归的顺序是 MAN_1 -> MAN_9 -> PIN_1 -> PIN_9 -> SOU_1 -> SOU_9 -> EAST -> NORTH -> WHITE -> RED -> NONE
+         */
 
         private void nextLevel(TryOrder order) {
             getNewHelperClass(next(type), order, data).help();
@@ -477,57 +498,59 @@ public class AnalyzeMeld4Pair1Tenpai {
             return type == NONE;
         }
 
-        private void addAnsIfIsRightPattern() {
+
+
+        /* tenpaiResult 收集处理 */
+
+        private void addTenpaiResultIfIsRightPattern() {
             if (isMeld4Singleton1()) {
                 addMeld4Singleton1();
             } else if (isMeld3Pair2()) {
                 addMeld3Pair2();
-            } else if (isMeld3Pair1Wait2side1()) {
+            } else if (isMeld3Pair1Wait2Side1()) {
                 addMeld3Pair1Wait2side1();
             } else if (isMeld3Pair1WaitMiddle1()) {
                 addMeld3Pair1WaitMiddle1();
             }
         }
 
-        private void addMeld3Pair1WaitMiddle1() {
-            data.ans.add(Meld3Pair1WaitMiddle1.of(data.concealedSequences, data.concealedTriplets, data.pairs.get(0),
-                data.waitMiddles.get(0)));
+        private boolean isMeld4Singleton1() {
+            return meldNum() == 4 && singletonNum() == 1;
         }
 
-        private boolean isMeld3Pair1WaitMiddle1() {
-            return meldNum() == 3 && pairNum() == 1 && waitMiddleNum() == 1;
-        }
-
-        private void addMeld3Pair1Wait2side1() {
-            data.ans.add(Meld3Pair1Wait2side1.of(data.concealedSequences, data.concealedTriplets, data.pairs.get(0),
-                data.wait2Sides.get(0)));
-        }
-
-        private boolean isMeld3Pair1Wait2side1() {
-            return meldNum() == 3 && pairNum() == 1 && wait2SideNum() == 1;
-        }
-
-        private void addMeld3Pair2() {
-            data.ans.add(Meld3Pair2.of(data.concealedSequences, data.concealedTriplets, data.pairs));
+        private boolean addMeld4Singleton1() {
+            return data.tenpaiResult
+                .add(Meld4Singleton1.of(data.concealedSequences, data.concealedTriplets, data.singletons.get(0)));
         }
 
         private boolean isMeld3Pair2() {
             return meldNum() == 3 && pairNum() == 2;
         }
 
-        private boolean addMeld4Singleton1() {
-            return data.ans
-                .add(Meld4Singleton1.of(data.concealedSequences, data.concealedTriplets, data.singletons.get(0)));
+        private void addMeld3Pair2() {
+            data.tenpaiResult.add(Meld3Pair2.of(data.concealedSequences, data.concealedTriplets, data.pairs));
         }
 
-        private boolean isMeld4Singleton1() {
-            return meldNum() == 4 && singletonNum() == 1;
+        private boolean isMeld3Pair1Wait2Side1() {
+            return meldNum() == 3 && pairNum() == 1 && wait2SideNum() == 1;
+        }
+
+        private void addMeld3Pair1Wait2side1() {
+            data.tenpaiResult.add(Meld3Pair1Wait2Side1.of(data.concealedSequences, data.concealedTriplets,
+                data.pairs.get(0), data.wait2Sides.get(0)));
+        }
+
+        private boolean isMeld3Pair1WaitMiddle1() {
+            return meldNum() == 3 && pairNum() == 1 && waitMiddleNum() == 1;
+        }
+
+        private void addMeld3Pair1WaitMiddle1() {
+            data.tenpaiResult.add(Meld3Pair1WaitMiddle1.of(data.concealedSequences, data.concealedTriplets,
+                data.pairs.get(0), data.waitMiddles.get(0)));
         }
 
         private int meldNum() {
-            return data.concealedSequences.size() + data.concealedSequences.size() + data.exposedMeldNum;
+            return data.concealedSequences.size() + data.concealedTriplets.size() + data.exposedMeldNum;
         }
-
     }
-
 }

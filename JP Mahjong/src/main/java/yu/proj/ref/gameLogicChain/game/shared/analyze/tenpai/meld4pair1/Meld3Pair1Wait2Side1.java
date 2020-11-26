@@ -20,12 +20,12 @@ import yu.proj.ref.tilePatternElement.concealedTile.Wait2Side;
  */
 
 @Getter
-public class Meld3Pair1Wait2side1 extends Meld4Pair1Tenpaiable {
+public class Meld3Pair1Wait2Side1 extends Meld4Pair1Tenpaiable {
 
     private Pair pair;
     private Wait2Side wait2Side;
 
-    private Meld3Pair1Wait2side1(List<Sequence> concealedSequence, List<Triplet> concealedTriplet, Pair pair,
+    private Meld3Pair1Wait2Side1(List<Sequence> concealedSequence, List<Triplet> concealedTriplet, Pair pair,
         Wait2Side wait2Side) {
 
         super(concealedSequence, concealedTriplet);
@@ -35,9 +35,9 @@ public class Meld3Pair1Wait2side1 extends Meld4Pair1Tenpaiable {
         this.wait2Side = wait2Side;
     }
 
-    public static Meld3Pair1Wait2side1 of(List<Sequence> concealedSequence, List<Triplet> concealedTriplet, Pair pair,
+    public static Meld3Pair1Wait2Side1 of(List<Sequence> concealedSequence, List<Triplet> concealedTriplet, Pair pair,
         Wait2Side wait2Side) {
-        return new Meld3Pair1Wait2side1(concealedSequence, concealedTriplet, pair, wait2Side);
+        return new Meld3Pair1Wait2Side1(concealedSequence, concealedTriplet, pair, wait2Side);
     }
 
 }

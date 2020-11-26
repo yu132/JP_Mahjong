@@ -2,7 +2,7 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1;
 
 import static java.util.Collections.*;
 import static org.junit.Assert.*;
-import static yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.HelperClass.TryOrder.*;
+import static yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.BacktrackingAlgorithmForTenpaiAnalyze.TryOrder.*;
 import static yu.proj.ref.tile.TileType.*;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import org.junit.Test;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.HelperClass;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.BacktrackingAlgorithmForTenpaiAnalyze;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.NotChangedData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.NotChangedData.NotChangedDataBuilder;
 import yu.proj.ref.tile.Tile;
@@ -52,9 +52,10 @@ public class TestHelperClass {
 
         builder.exposedMeldNum(4).singletons(singletonList(Singleton.of(Tile.of(MAN_1, 0))));
 
-        HelperClass HelperClass = new HelperClass(NONE, TRY_NONE, builder.build());
+        BacktrackingAlgorithmForTenpaiAnalyze HelperClass =
+            new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build());
 
-        HelperClass.help();
+        HelperClass.execute();
 
         assertEquals(1, ans.size());
         assertTrue(ans.get(0) instanceof Meld4Singleton1);
@@ -68,9 +69,10 @@ public class TestHelperClass {
 
         builder.exposedMeldNum(3).pairs(Arrays.asList(pair, pair));
 
-        HelperClass HelperClass = new HelperClass(NONE, TRY_NONE, builder.build());
+        BacktrackingAlgorithmForTenpaiAnalyze HelperClass =
+            new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build());
 
-        HelperClass.help();
+        HelperClass.execute();
 
         assertEquals(1, ans.size());
         assertTrue(ans.get(0) instanceof Meld3Pair2);
@@ -85,7 +87,7 @@ public class TestHelperClass {
         builder.exposedMeldNum(3).pairs(singletonList(pair))
             .wait2Sides(singletonList(Wait2Side.of(Tile.of(MAN_2, 0), Tile.of(MAN_3, 1))));
 
-        new HelperClass(NONE, TRY_NONE, builder.build()).help();
+        new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build()).execute();
 
         assertEquals(1, ans.size());
         assertTrue(ans.get(0) instanceof Meld3Pair1Wait2Side1);
@@ -100,7 +102,7 @@ public class TestHelperClass {
         builder.exposedMeldNum(3).pairs(singletonList(pair))
             .waitMiddles(singletonList(WaitMiddle.of(Tile.of(MAN_2, 0), Tile.of(MAN_4, 1))));
 
-        new HelperClass(NONE, TRY_NONE, builder.build()).help();
+        new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build()).execute();
 
         assertEquals(1, ans.size());
         assertTrue(ans.get(0) instanceof Meld3Pair1WaitMiddle1);
@@ -113,7 +115,7 @@ public class TestHelperClass {
 
             assertEquals(MAN_2, helper.type);
 
-        }).help();;
+        }).execute();;
     }
 
     @Test
@@ -495,40 +497,41 @@ public class TestHelperClass {
         });
     }
 
-    static class TestableHelperClass extends HelperClass {
+    static class TestableHelperClass extends BacktrackingAlgorithmForTenpaiAnalyze {
 
-        private Consumer<HelperClass> consumer;
+        private Consumer<BacktrackingAlgorithmForTenpaiAnalyze> consumer;
 
         public TestableHelperClass(TileType type, TryOrder checkOrder, NotChangedData data,
-            Consumer<HelperClass> consumer) {
+            Consumer<BacktrackingAlgorithmForTenpaiAnalyze> consumer) {
             super(type, checkOrder, data);
             this.consumer = consumer;
         }
 
         @Override
-        void help() {
-            super.help();
+        void execute() {
+            super.execute();
         }
 
         @Override
-        HelperClass getNewHelperClass(TileType type, TryOrder checkOrder, NotChangedData data) {
+        BacktrackingAlgorithmForTenpaiAnalyze getNewHelperClass(TileType type, TryOrder checkOrder,
+            NotChangedData data) {
             return new MokeHelperClass(type, checkOrder, data, consumer);
         }
 
     }
 
-    static class MokeHelperClass extends HelperClass {
+    static class MokeHelperClass extends BacktrackingAlgorithmForTenpaiAnalyze {
 
-        private Consumer<HelperClass> consumer;
+        private Consumer<BacktrackingAlgorithmForTenpaiAnalyze> consumer;
 
         public MokeHelperClass(TileType type, TryOrder checkOrder, NotChangedData data,
-            Consumer<HelperClass> consumer) {
+            Consumer<BacktrackingAlgorithmForTenpaiAnalyze> consumer) {
             super(type, checkOrder, data);
             this.consumer = consumer;
         }
 
         @Override
-        void help() {
+        void execute() {
             consumer.accept(this);
         }
 

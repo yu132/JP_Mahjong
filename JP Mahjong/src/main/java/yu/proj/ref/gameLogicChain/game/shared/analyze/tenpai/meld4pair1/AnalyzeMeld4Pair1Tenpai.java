@@ -1,6 +1,6 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1;
 
-import static yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.HelperClass.TryOrder.*;
+import static yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.AnalyzeMeld4Pair1Tenpai.BacktrackingAlgorithmForTenpaiAnalyze.TryOrder.*;
 import static yu.proj.ref.tile.TileType.*;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class AnalyzeMeld4Pair1Tenpai {
 
         List<Meld4Pair1Tenpaiable> tenpaiResult = new ArrayList<>();
 
-        new HelperClass(MAN_1, TRY_NONE, NotChangedData.of(exposedMeldNum, tenpaiResult, playerTileManager)).help();
+        new BacktrackingAlgorithmForTenpaiAnalyze(MAN_1, TRY_NONE, NotChangedData.of(exposedMeldNum, tenpaiResult, playerTileManager)).execute();
 
         return tenpaiResult;
     }
@@ -71,7 +71,7 @@ public class AnalyzeMeld4Pair1Tenpai {
     }
 
     @AllArgsConstructor
-    static class HelperClass {
+    static class BacktrackingAlgorithmForTenpaiAnalyze {
 
         private final static int TRIPLET_TILE_NUM = 3;
 
@@ -99,13 +99,15 @@ public class AnalyzeMeld4Pair1Tenpai {
             }
         }
 
-        TileType type;
+        TileType type;// 递归中，本层的牌的类型
 
         TryOrder visitOrder;
 
         NotChangedData data;
 
-        void help() {
+
+        // 递归的核心方法
+        void execute() {
 
             if (isEnd()) {
                 addTenpaiResultIfIsRightPattern();
@@ -482,16 +484,16 @@ public class AnalyzeMeld4Pair1Tenpai {
          */
 
         private void nextLevel(TryOrder order) {
-            getNewHelperClass(next(type), order, data).help();
+            getNewHelperClass(next(type), order, data).execute();
         }
 
         private void thisLevel(TryOrder order) {
-            getNewHelperClass(type, order, data).help();
+            getNewHelperClass(type, order, data).execute();
         }
 
         // 以便测试可重写提供Moke对象
-        HelperClass getNewHelperClass(TileType type, TryOrder checkOrder, NotChangedData data) {
-            return new HelperClass(type, checkOrder, data);
+        BacktrackingAlgorithmForTenpaiAnalyze getNewHelperClass(TileType type, TryOrder checkOrder, NotChangedData data) {
+            return new BacktrackingAlgorithmForTenpaiAnalyze(type, checkOrder, data);
         }
 
         private boolean isEnd() {

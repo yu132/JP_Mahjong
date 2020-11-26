@@ -69,8 +69,10 @@ public enum TileType {
 
     RED(list(), 34), GREEN(list(RED), 33), WHITE(list(GREEN), 32); // 三元牌
 
+    /**
+     * nextTiles和lastTiles是用作吃牌分析和听牌分析中顺子类型的判断
+     */
     private List<TileType> nextTiles;// 本张牌的下一张牌，如果是本种花色的末尾牌，那么就没有下一张牌
-
     private List<TileType> lastTiles;// 本张牌的上一张牌，如果是本种花色的第一张牌，那么就没有上一张牌
 
     private List<TileType> nextDora;// 如果本张牌是指示牌，那么指定的宝牌为nextDora
@@ -157,30 +159,26 @@ public enum TileType {
         return this;
     }
 
-    // 提供迭代全部普通牌型的方法
-    public static void forEachNormalTileType(Consumer<TileType> consumer) {
-        foeEachHelper(MAN_1, consumer);
-        foeEachHelper(PIN_1, consumer);
-        foeEachHelper(SOU_1, consumer);
-
-        foeEachHelper(EAST, consumer);
-        foeEachHelper(WHITE, consumer);
-    }
-
-    // 迭代顺序是从某种牌型的开始迭代到这个牌型的结束，但是不区分普通牌和红宝牌
-    // 以万子为例，则遍历顺序为1 2 3 4 5 6 7 8 9，但不包括5r
-    private static void foeEachHelper(TileType start, Consumer<TileType> consumer) {
-        for (TileType now = start; now != NONE; now = now.nextNormalTile()) {
-            consumer.accept(now);
-        }
-    }
-
+    // 判断是不是同一种花色，不区分红宝牌和普通牌，例如MAN_5和MAN_5_RED比较时返回true
     public boolean sameNormalType(TileType tileType) {
         return this == tileType // 两者都是普通牌或者都为红宝牌时，这个成立
             || this.getRed() == tileType // this为普通牌，tileType为红宝牌是成立
             || this == tileType.getRed();// this为红宝牌，tileType为普通牌时成立
     }
 
+    // 提供迭代全部普通牌型的方法
+    // 迭代顺序是从某种牌型的开始迭代到这个牌型的结束，但是不区分普通牌和红宝牌
+    // 以万子为例，则遍历顺序为1 2 3 4 5 6 7 8 9，但不包括5r
+    public static void forEachNormalTileType(Consumer<TileType> consumer) {
+        for (TileType now = MAN_1; now != NONE; now = next(now)) {
+            consumer.accept(now);
+        }
+    }
+
+    /**
+     * 此处的next是牌型迭代时的下一张牌，此时不同种类的牌型就有前后顺序了
+     * 顺序是万子->饼子->索子->风牌->三元牌
+     */
     public static TileType next(TileType type) {
         switch (type) {
             case MAN_9:

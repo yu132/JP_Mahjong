@@ -5,6 +5,7 @@ import static yu.proj.ref.utils.MyListUtils.*;
 import java.util.List;
 
 import lombok.Getter;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
 import yu.proj.ref.tilePatternElement.Sequence;
 import yu.proj.ref.tilePatternElement.Triplet;
 
@@ -19,7 +20,7 @@ import yu.proj.ref.tilePatternElement.Triplet;
  *  
  */
 @Getter
-public abstract class Meld4Pair1Tenpaiable {
+public abstract class Meld4Pair1Tenpaiable implements Tenpaiable {
 
     private List<Sequence> concealedSequence;
     private List<Triplet> concealedTriplet;
@@ -27,7 +28,7 @@ public abstract class Meld4Pair1Tenpaiable {
     protected Meld4Pair1Tenpaiable(List<Sequence> concealedSequence, List<Triplet> concealedTriplet) {
         super();
         this.concealedSequence = unmodifiableCopy(concealedSequence);
-        this.concealedTriplet  = unmodifiableCopy(concealedTriplet);
+        this.concealedTriplet = unmodifiableCopy(concealedTriplet);
     }
 
 }

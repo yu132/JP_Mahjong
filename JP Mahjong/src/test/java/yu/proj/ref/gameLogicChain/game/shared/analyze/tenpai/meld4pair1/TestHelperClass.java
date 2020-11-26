@@ -48,74 +48,58 @@ public class TestHelperClass {
     @Test
     public void testMeld4Singleton1() {
 
-        NotChangedDataBuilder builder = builder();
+        NotChangedDataBuilder builder = oneSingletonBuilder().exposedMeldNum(4);
 
-        builder.exposedMeldNum(4).singletons(singletonList(Singleton.of(Tile.of(MAN_1, 0))));
+        executeAlgorithm(builder);
 
-        BacktrackingAlgorithmForTenpaiAnalyze HelperClass =
-            new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build());
+        checkAfter(1, Meld4Singleton1.class);
+    }
 
-        HelperClass.execute();
+    private void checkAfter(int num, Class<?> clazz) {
+        assertEquals(num, ans.size());
+        assertEquals(clazz, ans.get(0).getClass());
+    }
 
-        assertEquals(1, ans.size());
-        assertTrue(ans.get(0) instanceof Meld4Singleton1);
+    private void executeAlgorithm(NotChangedDataBuilder builder) {
+        new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build()).execute();
     }
 
     @Test
     public void testMeld3Pair2() {
-        Pair pair = Pair.of(new Tile[] {Tile.of(MAN_1, 0), Tile.of(MAN_1, 2)});
+        NotChangedDataBuilder builder = builder().pairs(getPair2()).exposedMeldNum(3);
 
-        NotChangedDataBuilder builder = builder();
+        executeAlgorithm(builder);
 
-        builder.exposedMeldNum(3).pairs(Arrays.asList(pair, pair));
-
-        BacktrackingAlgorithmForTenpaiAnalyze HelperClass =
-            new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build());
-
-        HelperClass.execute();
-
-        assertEquals(1, ans.size());
-        assertTrue(ans.get(0) instanceof Meld3Pair2);
+        checkAfter(1, Meld3Pair2.class);
     }
 
     @Test
     public void testMeld3Pair1Wait2side1() {
-        Pair pair = Pair.of(new Tile[] {Tile.of(MAN_1, 0), Tile.of(MAN_1, 2)});
+        NotChangedDataBuilder builder = builder().exposedMeldNum(3).pairs(getPair1()).wait2Sides(getWait2Side1());
 
-        NotChangedDataBuilder builder = builder();
+        executeAlgorithm(builder);
 
-        builder.exposedMeldNum(3).pairs(singletonList(pair))
-            .wait2Sides(singletonList(Wait2Side.of(Tile.of(MAN_2, 0), Tile.of(MAN_3, 1))));
-
-        new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build()).execute();
-
-        assertEquals(1, ans.size());
-        assertTrue(ans.get(0) instanceof Meld3Pair1Wait2Side1);
+        checkAfter(1, Meld3Pair1Wait2Side1.class);
     }
 
     @Test
     public void testMeld3Pair1WaitMiddle1() {
-        Pair pair = Pair.of(new Tile[] {Tile.of(MAN_1, 0), Tile.of(MAN_1, 2)});
+        NotChangedDataBuilder builder = builder().exposedMeldNum(3).pairs(getPair1()).waitMiddles(getWaitMiddle1());
 
-        NotChangedDataBuilder builder = builder();
+        executeAlgorithm(builder);
 
-        builder.exposedMeldNum(3).pairs(singletonList(pair))
-            .waitMiddles(singletonList(WaitMiddle.of(Tile.of(MAN_2, 0), Tile.of(MAN_4, 1))));
-
-        new BacktrackingAlgorithmForTenpaiAnalyze(NONE, TRY_NONE, builder.build()).execute();
-
-        assertEquals(1, ans.size());
-        assertTrue(ans.get(0) instanceof Meld3Pair1WaitMiddle1);
+        checkAfter(1, Meld3Pair1WaitMiddle1.class);
     }
 
     @Test
     public void testNoTile() {
-
-        new TestableHelperClass(MAN_1, TRY_NONE, defalutSetting, (helper) -> {
-
+        executeAndTestInRecursiveMethod((helper) -> {
             assertEquals(MAN_2, helper.type);
+        });
+    }
 
-        }).execute();;
+    private void executeAndTestInRecursiveMethod(Consumer<BacktrackingAlgorithmForTenpaiAnalyze> consumer) {
+        getTestableHelperClass(defalutSetting, consumer).execute();
     }
 
     @Test
@@ -125,7 +109,7 @@ public class TestHelperClass {
 
         NotChangedData data = builder().concealedTriplets(new ArrayList<>()).build();
 
-        new TestableHelperClass(MAN_1, TRY_NONE, data, (helper) -> {
+        getTestableHelperClass(data, (helper) -> {
 
             assertEquals(MAN_1, helper.type);
 
@@ -173,9 +157,6 @@ public class TestHelperClass {
         assertEquals(0, data.pairs.size());
     }
 
-    private List<Singleton> getSingleton1() {
-        return singletonList(Singleton.of(Tile.of(RED, 0)));
-    }
 
     @Test
     public void testTryPairIfPair1Wait2Side1() {
@@ -188,14 +169,6 @@ public class TestHelperClass {
         assertEquals(1, data.pairs.size());
     }
 
-    private NotChangedDataBuilder oneWait2SideBuilder() {
-        return builder().wait2Sides(getWait2Side1());
-    }
-
-    private List<Wait2Side> getWait2Side1() {
-        return singletonList(Wait2Side.of(Tile.of(SOU_1, 0), Tile.of(SOU_2, 1)));
-    }
-
     @Test
     public void testTryPairIfPair1WaitMiddle1() {
         data.draw(MAN_1, MAN_1);
@@ -205,23 +178,6 @@ public class TestHelperClass {
         assertNoRecursion(data).tryPair();
 
         assertEquals(1, data.pairs.size());
-    }
-
-    private NotChangedDataBuilder oneWaitMiddleBuilder() {
-        return builder().waitMiddles(getWaitMiddle1());
-    }
-
-    private List<Pair> getPair1() {
-        return Arrays.asList(Pair.of(new Tile[] {Tile.of(RED, 0), Tile.of(RED, 1)}));
-    }
-
-    private List<Pair> getPair2() {
-        Pair pair = Pair.of(new Tile[] {Tile.of(RED, 0), Tile.of(RED, 1)});
-        return Arrays.asList(pair, pair);
-    }
-
-    private List<WaitMiddle> getWaitMiddle1() {
-        return singletonList(WaitMiddle.of(Tile.of(SOU_1, 0), Tile.of(SOU_3, 1)));
     }
 
     @Test
@@ -256,9 +212,6 @@ public class TestHelperClass {
         assertEquals(1, data.singletons.size());
     }
 
-    private NotChangedDataBuilder oneSingletonBuilder() {
-        return builder().singletons(new ArrayList<>(getSingleton1()));
-    }
 
     @Test
     public void testTrySingletonWithPair1() {
@@ -490,6 +443,46 @@ public class TestHelperClass {
     private NotChangedDataBuilder builder() {
         return defalutSetting.toBuilder();
     }
+
+    private NotChangedDataBuilder oneWaitMiddleBuilder() {
+        return builder().waitMiddles(getWaitMiddle1());
+    }
+
+    private NotChangedDataBuilder oneWait2SideBuilder() {
+        return builder().wait2Sides(getWait2Side1());
+    }
+
+
+    private List<Pair> getPair1() {
+        return Arrays.asList(Pair.of(new Tile[] {Tile.of(RED, 0), Tile.of(RED, 1)}));
+    }
+
+    private List<Pair> getPair2() {
+        Pair pair = Pair.of(new Tile[] {Tile.of(RED, 0), Tile.of(RED, 1)});
+        return Arrays.asList(pair, pair);
+    }
+
+    private List<Singleton> getSingleton1() {
+        return singletonList(Singleton.of(Tile.of(RED, 0)));
+    }
+
+    private List<WaitMiddle> getWaitMiddle1() {
+        return singletonList(WaitMiddle.of(Tile.of(SOU_1, 0), Tile.of(SOU_3, 1)));
+    }
+
+    private List<Wait2Side> getWait2Side1() {
+        return singletonList(Wait2Side.of(Tile.of(SOU_1, 0), Tile.of(SOU_2, 1)));
+    }
+
+    private TestableHelperClass getTestableHelperClass(NotChangedData data,
+        Consumer<BacktrackingAlgorithmForTenpaiAnalyze> consumer) {
+        return new TestableHelperClass(MAN_1, TRY_NONE, data, consumer);
+    }
+
+    private NotChangedDataBuilder oneSingletonBuilder() {
+        return builder().singletons(new ArrayList<>(getSingleton1()));
+    }
+
 
     private TestableHelperClass assertNoRecursion(NotChangedData data) {
         return new TestableHelperClass(MAN_1, TRY_NONE, data, (helper) -> {

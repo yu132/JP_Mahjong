@@ -10,8 +10,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
-import yu.proj.ref.rule.GameRule;
-import yu.proj.ref.rule.MahjongSoulRule;
 
 /**  
  * @ClassName: AnalyzeMeld4Pair1Tenpai  
@@ -24,8 +22,6 @@ import yu.proj.ref.rule.MahjongSoulRule;
  *  
  */
 public class TestAnalyzeMeld4Pair1Tenpai {
-
-    private GameRule rule = MahjongSoulRule.mahjongSoulDefaultFourPalyerRule;
 
     private AnalyzeMeld4Pair1Tenpai analyzer = new AnalyzeMeld4Pair1Tenpai();
 

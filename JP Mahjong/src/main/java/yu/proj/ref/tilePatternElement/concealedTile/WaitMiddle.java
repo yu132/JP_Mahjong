@@ -1,9 +1,12 @@
 package yu.proj.ref.tilePatternElement.concealedTile;
 
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 
 /**  
  * @ClassName: WaitMiddle  
@@ -17,7 +20,7 @@ import yu.proj.ref.tile.Tile;
  */
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class WaitMiddle implements ConcealedTile {
+public class WaitMiddle implements ConcealedTile, NotCompletedElement {
 
     private Tile lower;
     private Tile upper;
@@ -32,5 +35,10 @@ public class WaitMiddle implements ConcealedTile {
 
     private static boolean lowerIsSecondPreviouseOfUpper(Tile lower, Tile upper) {
         return lower.getTileType().nextNormalTile().previousOf(upper.getTileType());
+    }
+
+    @Override
+    public List<TileType> getTilesToWin() {
+        return lower.getTileType().getNextTiles();// 坎张听听的是lower的下一张牌，或者upper的前一张牌
     }
 }

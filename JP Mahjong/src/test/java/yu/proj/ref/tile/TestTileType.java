@@ -3,6 +3,12 @@ package yu.proj.ref.tile;
 import static org.junit.Assert.*;
 import static yu.proj.ref.tile.TileType.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -45,5 +51,34 @@ public class TestTileType {
         assertTrue(NORTH.sameNormalType(NORTH));
 
         assertTrue(!NORTH.sameNormalType(SOU_1));
+    }
+
+    @Test
+    public void testNext() {
+        List<TileType> list = getNormalTileType();
+        AtomicInteger index = new AtomicInteger(0);
+        forEachNormalTileType((tileType) -> {
+            assertEquals(list.get(index.getAndIncrement()), tileType);
+        });
+        assertEquals(34, index.intValue());
+    }
+
+    @Test
+    public void testForEachNormalTile() {
+        List<TileType> list = getNormalTileType();
+        for (int i = 0; i < list.size() - 1; ++i) {
+            assertEquals(list.get(i + 1), next(list.get(i)));
+        }
+    }
+
+    private List<TileType> getNormalTileType() {
+        List<TileType> list = new ArrayList<>(Arrays.asList(TileType.values()));
+        list.remove(NONE);
+        list.remove(MAN_5_RED);
+        list.remove(PIN_5_RED);
+        list.remove(SOU_5_RED);
+        Collections.sort(list, (x, y) -> x.getOrder() - y.getOrder());
+
+        return list;
     }
 }

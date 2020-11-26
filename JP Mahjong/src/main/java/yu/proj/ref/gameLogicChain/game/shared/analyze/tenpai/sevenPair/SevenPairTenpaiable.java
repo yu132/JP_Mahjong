@@ -7,6 +7,8 @@ import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.concealedTile.Pair;
 import yu.proj.ref.tilePatternElement.concealedTile.Singleton;
 import yu.proj.ref.utils.MyListUtils;
@@ -24,7 +26,7 @@ import yu.proj.ref.utils.MyListUtils;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class SevenPairTenpaiable {
+public class SevenPairTenpaiable implements Tenpaiable {
 
     private List<Pair> pairs;
     private Singleton singleton;
@@ -37,5 +39,10 @@ public class SevenPairTenpaiable {
         List<Pair> unmodifiableCopy = Collections.unmodifiableList(new ArrayList<>(pairs));
 
         return new SevenPairTenpaiable(unmodifiableCopy, singleton);
+    }
+
+    @Override
+    public List<TileType> getTilesToWin() {
+        return singleton.getTilesToWin();
     }
 }

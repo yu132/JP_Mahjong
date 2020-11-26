@@ -3,6 +3,7 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1;
 import java.util.List;
 
 import lombok.Getter;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.Sequence;
 import yu.proj.ref.tilePatternElement.Triplet;
 import yu.proj.ref.tilePatternElement.concealedTile.Singleton;
@@ -34,5 +35,10 @@ public class Meld4Singleton1 extends Meld4Pair1Tenpaiable {
     public static Meld4Singleton1 of(List<Sequence> concealedSequence, List<Triplet> concealedTriplet,
         Singleton singleton) {
         return new Meld4Singleton1(concealedSequence, concealedTriplet, singleton);
+    }
+
+    @Override
+    public List<TileType> getTilesToWin() {
+        return singleton.getTilesToWin();
     }
 }

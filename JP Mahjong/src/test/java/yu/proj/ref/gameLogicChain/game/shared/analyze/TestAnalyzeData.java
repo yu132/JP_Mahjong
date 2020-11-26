@@ -37,32 +37,36 @@ public class TestAnalyzeData {
      *  
      */
     public TestAnalyzeData() {
-        this.gameRule          = MahjongSoulRule.mahjongSoulDefaultFourPalyerRule;
-        this.count             = new EnumMap<>(TileType.class);
+        this.gameRule = MahjongSoulRule.mahjongSoulDefaultFourPalyerRule;
+        this.count = new EnumMap<>(TileType.class);
         this.playerTileManager = new PlayerTileManagerImpl();
     }
 
     public void draw(TileType... tileTypesToDraw) {
         for (TileType tileTypeToDraw : tileTypesToDraw) {
-            Tile          tile = getTile(tileTypeToDraw);
-            DrawOperation op   = new DrawOperation(tile);
+            Tile tile = getTile(tileTypeToDraw);
+            DrawOperation op = new DrawOperation(tile);
             playerTileManager.draw(op);
         }
     }
 
-    private Tile getTile(TileType tileTypeToDraw) {
+    public Tile getTile(TileType tileTypeToDraw) {
         int index = count.getOrDefault(tileTypeToDraw, 0);
         count.put(tileTypeToDraw, index + 1);
         Tile tile = Tile.of(tileTypeToDraw, index);
         return tile;
     }
 
-    private Tile[] getTiles(TileType... tileTypeToDraw) {
+    public Tile[] getTiles(TileType... tileTypeToDraw) {
         Tile[] tiles = new Tile[tileTypeToDraw.length];
         for (int i = 0; i < tiles.length; ++i) {
             tiles[i] = getTile(tileTypeToDraw[i]);
         }
         return tiles;
+    }
+
+    public Tile[] getTiles(List<TileType> tileTypeToDraw) {
+        return getTiles(tileTypeToDraw.toArray(new TileType[0]));
     }
 
     public void draw(Tile... tiles) {

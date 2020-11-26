@@ -41,7 +41,8 @@ public class AnalyzeMeld4Pair1Tenpai {
 
         List<Meld4Pair1Tenpaiable> tenpaiResult = new ArrayList<>();
 
-        new BacktrackingAlgorithmForTenpaiAnalyze(MAN_1, TRY_NONE, NotChangedData.of(exposedMeldNum, tenpaiResult, playerTileManager)).execute();
+        new BacktrackingAlgorithmForTenpaiAnalyze(MAN_1, TRY_NONE,
+            NotChangedData.of(exposedMeldNum, tenpaiResult, playerTileManager)).execute();
 
         return tenpaiResult;
     }
@@ -492,7 +493,8 @@ public class AnalyzeMeld4Pair1Tenpai {
         }
 
         // 以便测试可重写提供Moke对象
-        BacktrackingAlgorithmForTenpaiAnalyze getNewHelperClass(TileType type, TryOrder checkOrder, NotChangedData data) {
+        BacktrackingAlgorithmForTenpaiAnalyze getNewHelperClass(TileType type, TryOrder checkOrder,
+            NotChangedData data) {
             return new BacktrackingAlgorithmForTenpaiAnalyze(type, checkOrder, data);
         }
 

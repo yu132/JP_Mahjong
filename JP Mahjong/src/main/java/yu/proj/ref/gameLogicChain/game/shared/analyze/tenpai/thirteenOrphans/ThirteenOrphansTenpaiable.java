@@ -9,6 +9,7 @@ import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.utils.TileTypeGroup;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
@@ -26,7 +27,7 @@ import yu.proj.ref.tile.TileType;
 
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ThirteenOrphansTenpaiable {
+public class ThirteenOrphansTenpaiable implements Tenpaiable {
 
     private List<Tile> terminalsAndHonors;
 
@@ -78,6 +79,11 @@ public class ThirteenOrphansTenpaiable {
         }
 
         return set;
+    }
+
+    @Override
+    public List<TileType> getTilesToWin() {
+        return wait;
     }
 
 }

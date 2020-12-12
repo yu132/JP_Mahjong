@@ -1,4 +1,6 @@
-package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.wind;
+package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.dragon;
+
+import static yu.proj.ref.tile.TileType.*;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.AnalyzeTriplet;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
@@ -6,7 +8,7 @@ import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
 
 /**  
- * @ClassName: AnalyzeWindTriplet  
+ * @ClassName: White  
  *
  * @Description: TODO(这里用一句话描述这个类的作用)  
  *
@@ -15,20 +17,16 @@ import yu.proj.ref.tile.Yaku;
  * @date 2020年12月12日  
  *  
  */
-public abstract class AnalyzeWindTriplet extends AnalyzeTriplet {
+public class AnalyzeWhiteTriplet extends AnalyzeTriplet {
 
     @Override
     protected TileType getTripletType(YakuAnalyzeData data) {
-        return wind(data);
+        return WHITE;
     }
 
     @Override
     protected Yaku getYaku(YakuAnalyzeData data) {
-        return toYaku(wind(data));
+        return Yaku.DRAGON_WH;
     }
-
-    protected abstract TileType wind(YakuAnalyzeData data);
-
-    protected abstract Yaku toYaku(TileType wind);
 
 }

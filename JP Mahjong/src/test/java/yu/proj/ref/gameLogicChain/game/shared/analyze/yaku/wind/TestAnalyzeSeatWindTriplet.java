@@ -1,12 +1,10 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.wind;
 
-import static org.junit.Assert.*;
 import static yu.proj.ref.tile.TileType.*;
 
 import org.junit.Test;
 
-import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.TestTripletUtil;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -21,46 +19,18 @@ import yu.proj.ref.tile.Yaku;
  */
 public class TestAnalyzeSeatWindTriplet {
 
-    private TestAnalyzeData taData = new TestAnalyzeData();
-
     private AnalyzeSeatWindTriplet analyzer = new AnalyzeSeatWindTriplet();
 
     @Test
     public void test() {
-        taData.draw(EAST, EAST, EAST);
-
-        taData.draw(MAN_4, MAN_4, MAN_4);
-
-        taData.draw(MAN_6, MAN_6, MAN_6);
-
-        taData.draw(MAN_8, MAN_8, MAN_8);
-
-        taData.draw(PIN_2);
-
-        YakuAnalyzeData yaData = taData.yaData(taData.getFirstTenpai(PIN_2), PIN_2);
-
-        analyzer.analyzeYaku(yaData, taData.yakuManager);
-
-        assertTrue(taData.bothContainYaku(Yaku.SEAT_WIND_E));
+        new TestTripletUtil(EAST, Yaku.SEAT_WIND_E, analyzer).test();
     }
 
     @Test
     public void test2() {
-        taData.draw(WEST, WEST, WEST);
 
-        taData.draw(MAN_4, MAN_4, MAN_4);
+        TestTripletUtil testTripletUtil = new TestTripletUtil(WEST, Yaku.SEAT_WIND_W, analyzer);
 
-        taData.draw(MAN_6, MAN_6, MAN_6);
-
-        taData.draw(MAN_8, MAN_8, MAN_8);
-
-        taData.draw(PIN_2);
-
-        YakuAnalyzeData yaData = taData.yaBuilder(taData.getFirstTenpai(PIN_2), PIN_2).seatWind(WEST).build();
-
-        analyzer.analyzeYaku(yaData, taData.yakuManager);
-
-        assertTrue(taData.bothContainYaku(Yaku.SEAT_WIND_W));
+        testTripletUtil.test((taData) -> taData.yaBuilder(taData.getFirstTenpai(PIN_2), PIN_2).seatWind(WEST).build());
     }
-
 }

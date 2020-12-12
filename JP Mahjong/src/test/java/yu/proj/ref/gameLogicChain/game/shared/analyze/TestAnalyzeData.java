@@ -2,6 +2,8 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.AnalyzeTenpaiable;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.TenpaiManager;
@@ -116,13 +118,26 @@ public class TestAnalyzeData {
         return tenpaiable;
     }
 
+    public Tenpaiable getFirstTenpai(TileType tileType, Class<?> clazz) {
+        return getFirstTenpai(tileType, (tenpaiable) -> clazz.isInstance(tenpaiable));
+    }
+
+    public Tenpaiable getFirstTenpai(TileType tileType, Function<Tenpaiable, Boolean> filter) {
+        for (Tenpaiable tenpaiable : analyzeTenpai().getTenpaiable(tileType)) {
+            if (filter.apply(tenpaiable)) {
+                return tenpaiable;
+            }
+        }
+        throw new NoSuchElementException();
+    }
+
     public TenpaiManager analyzeTenpai() {
         TenpaiManager tenpaiManager = new AnalyzeTenpaiable(this.gameRule).analyze(this.playerTileManager);
         return tenpaiManager;
     }
 
     public YakuAnalyzeDataBuilder yaBuilder(Tenpaiable tenpaiable, TileType tileToWin) {
-        return YakuAnalyzeDataForTest.builder(this, tenpaiable, tileToWin);
+        return YakuAnalyzeDataForTest.builder(this, tenpaiable, tileToWin).rule(gameRule);
     }
 
     public YakuAnalyzeData yaData(Tenpaiable tenpaiable, TileType tileToWin) {

@@ -4,6 +4,7 @@ import static yu.proj.ref.tile.TileType.*;
 
 import org.junit.Test;
 
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.NoYaku;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.TestTripletUtil;
 import yu.proj.ref.tile.Yaku;
 
@@ -18,6 +19,11 @@ import yu.proj.ref.tile.Yaku;
  *  
  */
 public class TestAnalyzeRedTriplet {
+
+    @Test
+    public void noYaku() {
+        new NoYaku().test(new AnalyzeRedTriplet());
+    }
 
     @Test
     public void test() {

@@ -27,11 +27,9 @@ public class AnalyzePinfu implements YakuAnalyzer {
 
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
-
         if (isPinfu(data)) {
             yakuManager.both(Yaku.PINFU);
         }
-
     }
 
     public boolean isPinfu(YakuAnalyzeData data) {

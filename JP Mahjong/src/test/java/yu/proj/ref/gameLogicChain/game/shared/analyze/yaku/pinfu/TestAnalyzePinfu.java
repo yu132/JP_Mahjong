@@ -6,6 +6,7 @@ import static yu.proj.ref.tile.TileType.*;
 import org.junit.Test;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.NoYaku;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.TileType;
@@ -26,6 +27,11 @@ public class TestAnalyzePinfu {
     private TestAnalyzeData taData = new TestAnalyzeData();
 
     private YakuAnalyzer analyzer = new AnalyzePinfu();
+
+    @Test
+    public void noYaku() {
+        new NoYaku().test(analyzer);
+    }
 
     @Test
     public void test() {

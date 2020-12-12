@@ -5,20 +5,20 @@ import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
 
 /**  
- * @ClassName: WindTriplet  
+ * @ClassName: AnalyzeSeatWindTriplet  
  *
  * @Description: TODO(这里用一句话描述这个类的作用)  
  *
  * @author 余定邦  
  *
- * @date 2020年11月28日  
+ * @date 2020年12月12日  
  *  
  */
-public class AnalyzePrevalentWindTriplet extends AnalyzeWindTriplet {
+public class AnalyzeSeatWindTriplet extends AnalyzeWindTriplet {
 
     @Override
     protected TileType wind(YakuAnalyzeData data) {
-        return data.getPrevalentWind();
+        return data.getSeatWind();
     }
 
     @Override
@@ -27,16 +27,15 @@ public class AnalyzePrevalentWindTriplet extends AnalyzeWindTriplet {
 
         switch (wind) {
             case EAST:
-                return Yaku.PREVALENT_WIND_E;
+                return Yaku.SEAT_WIND_E;
             case SOUTH:
-                return Yaku.PREVALENT_WIND_S;
+                return Yaku.SEAT_WIND_S;
             case WEST:
-                return Yaku.PREVALENT_WIND_W;
+                return Yaku.SEAT_WIND_W;
             case NORTH:
-                return Yaku.PREVALENT_WIND_N;
+                return Yaku.SEAT_WIND_N;
             default:
                 throw new RuntimeException();
         }
     }
-
 }

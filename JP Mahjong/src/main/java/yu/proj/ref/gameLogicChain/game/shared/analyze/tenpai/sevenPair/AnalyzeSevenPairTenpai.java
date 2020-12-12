@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import yu.proj.ref.gameLogicChain.game.shared.analyze.utils.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileInHandGetter;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
+import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tilePatternElement.concealedTile.Pair;
 import yu.proj.ref.tilePatternElement.concealedTile.Singleton;
@@ -32,7 +32,7 @@ public class AnalyzeSevenPairTenpai {
             return Collections.emptyList();
         }
 
-        List<Pair>      pairs      = new ArrayList<>();
+        List<Pair> pairs = new ArrayList<>();
         List<Singleton> singletons = new ArrayList<>();
 
         analyzePairsAndSingleton(playerTileManager, pairs, singletons);

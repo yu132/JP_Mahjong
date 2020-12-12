@@ -6,6 +6,7 @@ import static yu.proj.ref.tile.TileType.*;
 import org.junit.Test;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 
 /**  
  * @ClassName: TestTilesCounterUtil  

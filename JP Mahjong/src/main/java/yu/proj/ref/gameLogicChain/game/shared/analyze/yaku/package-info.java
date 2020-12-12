@@ -5,7 +5,7 @@
  *
  * @author 余定邦  
  *
- * @date 2020年11月19日  
+ * @date 2020年11月26日  
  *  
  */
-package yu.proj.ref.gameLogicChain.game.shared.analyze.chii;
+package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku;

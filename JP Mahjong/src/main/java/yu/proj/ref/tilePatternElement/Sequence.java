@@ -3,6 +3,7 @@ package yu.proj.ref.tilePatternElement;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.concealedTile.ConcealedTile;
 import yu.proj.ref.tilePatternElement.exposedTile.ExposedTile;
 
@@ -41,5 +42,9 @@ public class Sequence extends Meld implements ExposedTile, ConcealedTile {
 
     private static boolean checkIndex1IsPreviousOfIndex2(Tile[] tiles, int index1, int index2) {
         return tiles[index1].previousOf(tiles[index2]);
+    }
+
+    public TileType tileType() {
+        return this.getTiles()[0].getTileType();
     }
 }

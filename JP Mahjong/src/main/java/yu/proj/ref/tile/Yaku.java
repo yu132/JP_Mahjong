@@ -99,34 +99,36 @@ public enum Yaku {
         return DEPENDING_TO_RULE;
     }
 
-    public final static ValueDefine ALL_1_HAN = new ValueDefine(1, 1, 0, 0);
+    private static class CleanDefineUtil {
+        public final static ValueDefine ALL_1_HAN = new ValueDefine(1, 1, 0, 0);
 
-    public final static ValueDefine ALL_2_HAN = new ValueDefine(2, 2, 0, 0);
+        public final static ValueDefine ALL_2_HAN = new ValueDefine(2, 2, 0, 0);
 
-    public final static ValueDefine ALL_3_HAN = new ValueDefine(2, 2, 0, 0);
+        public final static ValueDefine ALL_3_HAN = new ValueDefine(2, 2, 0, 0);
 
-    public final static ValueDefine ALL_1_YAKUMAN = new ValueDefine(0, 0, 1, 1);
+        public final static ValueDefine ALL_1_YAKUMAN = new ValueDefine(0, 0, 1, 1);
 
-    public final static ValueDefine ALL_2_YAKUMAN = new ValueDefine(0, 0, 2, 2);
+        public final static ValueDefine ALL_2_YAKUMAN = new ValueDefine(0, 0, 2, 2);
+    }
 
     public final static ValueDefine ALL_1_HAN() {
-        return ALL_1_HAN;
+        return CleanDefineUtil.ALL_1_HAN;
     }
 
     public final static ValueDefine ALL_2_HAN() {
-        return ALL_2_HAN;
+        return CleanDefineUtil.ALL_2_HAN;
     }
 
     public final static ValueDefine ALL_3_HAN() {
-        return ALL_3_HAN;
+        return CleanDefineUtil.ALL_3_HAN;
     }
 
     public final static ValueDefine ALL_1_YAKUMAN() {
-        return ALL_1_YAKUMAN;
+        return CleanDefineUtil.ALL_1_YAKUMAN;
     }
 
     public final static ValueDefine ALL_2_YAKUMAN() {
-        return ALL_2_YAKUMAN;
+        return CleanDefineUtil.ALL_2_YAKUMAN;
     }
 
     @Getter
@@ -144,10 +146,10 @@ public enum Yaku {
     private final int yakumanWhenMakeCall;
 
     private Yaku(ValueDefine valueDefine) {
-        this.hanWhenMenzenchin     = valueDefine.hanWhenMakeCall;
-        this.hanWhenMakeCall       = valueDefine.hanWhenMakeCall;
+        this.hanWhenMenzenchin = valueDefine.hanWhenMakeCall;
+        this.hanWhenMakeCall = valueDefine.hanWhenMakeCall;
         this.yakumanWhenMenzenchin = valueDefine.yakumanWhenMenzenchin;
-        this.yakumanWhenMakeCall   = valueDefine.yakumanWhenMakeCall;
+        this.yakumanWhenMakeCall = valueDefine.yakumanWhenMakeCall;
     }
 
     public int getHanWhenMenzenchin(Rule rule) {

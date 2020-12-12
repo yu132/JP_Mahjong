@@ -32,7 +32,6 @@ import yu.proj.ref.tilePatternElement.concealedTile.WaitMiddle;
  *  
  */
 
-@AllArgsConstructor
 public class AnalyzeMeld4Pair1Tenpai {
 
     public List<Meld4Pair1Tenpaiable> analyze(PlayerTileManager playerTileManager) {
@@ -336,7 +335,7 @@ public class AnalyzeMeld4Pair1Tenpai {
         /* xxx —— 创建新的元素 */
 
         private Triplet triplet() {
-            return Triplet.of(claimTiles(TRIPLET_TILE_NUM), MeldSource.SELF, null);
+            return Triplet.of(claimTiles(TRIPLET_TILE_NUM), MeldSource.SELF, Tile.NONE_TILE);
         }
 
         private Pair pair() {
@@ -353,7 +352,7 @@ public class AnalyzeMeld4Pair1Tenpai {
 
         private Sequence sequence() {
             Tile[] tiles = {claimTile(), claimTile(nextSequenceTile()), claimTile(nextNextSequenceTile())};
-            return Sequence.of(tiles, MeldSource.SELF, null);
+            return Sequence.of(tiles, MeldSource.SELF, Tile.NONE_TILE);
         }
 
         private WaitMiddle waitMiddle() {

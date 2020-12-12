@@ -3,8 +3,8 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.draw.nineDifferntTerminal
 import java.util.Collections;
 import java.util.List;
 
-import yu.proj.ref.gameLogicChain.game.shared.analyze.utils.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
+import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 
 /**  
  * @ClassName: NineDifferntTerminalsandHonorsDrawAnalyze  

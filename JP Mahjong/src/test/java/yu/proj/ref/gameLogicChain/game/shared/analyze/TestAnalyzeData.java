@@ -3,6 +3,13 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze;
 import java.util.EnumMap;
 import java.util.List;
 
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.AnalyzeTenpaiable;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.TenpaiManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData.YakuAnalyzeDataBuilder;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeDataForTest;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManagerImpl;
 import yu.proj.ref.ops.tilesRelated.ChiiOperation;
@@ -12,6 +19,7 @@ import yu.proj.ref.rule.GameRule;
 import yu.proj.ref.rule.MahjongSoulRule;
 import yu.proj.ref.tile.Tile;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tile.Yaku;
 import yu.proj.ref.tilePatternElement.MeldSource;
 
 /**
@@ -21,25 +29,16 @@ import yu.proj.ref.tilePatternElement.MeldSource;
  * @date  2020年11月21日  
  */
 public class TestAnalyzeData {
-    /**  
-     * @Fields field:field:{todo}(用一句话描述这个变量表示什么)  
-     */
     public PlayerTileManager playerTileManager;
-    /**  
-     * @Fields field:field:{todo}(用一句话描述这个变量表示什么)  
-     */
     public GameRule gameRule;
-
     public EnumMap<TileType, Integer> count;
+    public YakuManager yakuManager;
 
-    /**  
-     * 创建一个新的实例 yu.proj.ref.gameLogicChain.game.shared.analyze.chii.TestAnalyzeChiiData.  
-     *  
-     */
     public TestAnalyzeData() {
         this.gameRule = MahjongSoulRule.mahjongSoulDefaultFourPalyerRule;
         this.count = new EnumMap<>(TileType.class);
         this.playerTileManager = new PlayerTileManagerImpl();
+        this.yakuManager = new YakuManager();
     }
 
     public void draw(TileType... tileTypesToDraw) {
@@ -102,5 +101,31 @@ public class TestAnalyzeData {
         PonOperation op = new PonOperation(new Tile[] {t[0], t[1]}, t[2], MeldSource.NEXT_PLAYER);
 
         playerTileManager.pon(op);
+    }
+
+    public boolean bothContainYaku(Yaku yaku) {
+        return this.yakuManager.getRonYakus().contains(yaku) && this.yakuManager.getTsumoYakus().contains(yaku);
+    }
+
+    public boolean bothNotContainYaku(Yaku yaku) {
+        return !this.yakuManager.getRonYakus().contains(yaku) && !this.yakuManager.getTsumoYakus().contains(yaku);
+    }
+
+    public Tenpaiable getFirstTenpai(TileType tileType) {
+        Tenpaiable tenpaiable = analyzeTenpai().getTenpaiable(tileType).get(0);
+        return tenpaiable;
+    }
+
+    public TenpaiManager analyzeTenpai() {
+        TenpaiManager tenpaiManager = new AnalyzeTenpaiable(this.gameRule).analyze(this.playerTileManager);
+        return tenpaiManager;
+    }
+
+    public YakuAnalyzeDataBuilder yaBuilder(Tenpaiable tenpaiable, TileType tileToWin) {
+        return YakuAnalyzeDataForTest.builder(this, tenpaiable, tileToWin);
+    }
+
+    public YakuAnalyzeData yaData(Tenpaiable tenpaiable, TileType tileToWin) {
+        return yaBuilder(tenpaiable, tileToWin).build();
     }
 }

@@ -3,6 +3,7 @@ package yu.proj.ref.tilePatternElement;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.concealedTile.ConcealedTile;
 import yu.proj.ref.tilePatternElement.exposedTile.ExposedTile;
 
@@ -33,6 +34,10 @@ public class Triplet extends SameTypeMeld implements ExposedTile, ConcealedTile 
         assert tiles.length == 3;
 
         return new Triplet(tiles, src, specialTile);
+    }
+
+    public TileType tileType() {
+        return this.getTiles()[0].getTileType();
     }
 
 }

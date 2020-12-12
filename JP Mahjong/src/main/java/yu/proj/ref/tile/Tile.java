@@ -24,6 +24,8 @@ import lombok.ToString;
 @ToString
 public class Tile implements Comparable<Tile> {
 
+    public final static Tile NONE_TILE = new Tile(TileType.NONE, 0);
+
     private TileType tileType;
 
     private int index;
@@ -31,10 +33,10 @@ public class Tile implements Comparable<Tile> {
     private Tile(TileType tileType, int index) {
         super();
 
-        assert tileType != null && tileType != TileType.NONE;
+        assert tileType != null;
 
         this.tileType = tileType;
-        this.index    = index;
+        this.index = index;
     }
 
     public boolean sameNormalType(Tile tile) {
@@ -59,10 +61,9 @@ public class Tile implements Comparable<Tile> {
         return comp != 0 ? comp : index - o.index;
     }
 
-
     public static Tile of(TileType tileType, int index) {
 
-        assert tileType != null && index >= 0 && index <= 4;
+        assert tileType != null && tileType != TileType.NONE && index >= 0 && index <= 4;
 
         return TileFlyWeightFactory.FACTORY.getInstance(tileType, index);
     }

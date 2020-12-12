@@ -39,4 +39,8 @@ public class Pair implements ConcealedTile, NotCompletedElement {
         return Collections.singletonList(tiles[0].getTileType());
     }
 
+    public TileType type() {
+        return tiles[0].getTileType();
+    }
+
 }

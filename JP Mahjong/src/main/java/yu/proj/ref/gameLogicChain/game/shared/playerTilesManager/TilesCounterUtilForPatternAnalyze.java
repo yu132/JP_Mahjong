@@ -36,17 +36,20 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private EnumMap<TileType, Integer> sequenceCount;
 
+    private Tenpaiable tenpaiable;
+
     public TilesCounterUtilForPatternAnalyze(PlayerTileManager playerTileManager, Tenpaiable tenpaiable,
         TileType tileToWin) {
         assert playerTileManager != null && tenpaiable != null && tileToWin != null;
 
         this.playerTileManager = playerTileManager;
         this.tileToWin = tileToWin;
+        this.tenpaiable = tenpaiable;
 
-        initTripletAndSequenceCount(playerTileManager, tenpaiable);
+        initTripletAndSequenceCount(playerTileManager);
     }
 
-    private void initTripletAndSequenceCount(PlayerTileManager playerTileManager, Tenpaiable tenpaiable) {
+    private void initTripletAndSequenceCount(PlayerTileManager playerTileManager) {
         tripletCount = new EnumMap<>(TileType.class);
         sequenceCount = new EnumMap<>(TileType.class);
 
@@ -106,6 +109,18 @@ public class TilesCounterUtilForPatternAnalyze {
             count += hasTile ? 1 : 0;
         }
         return count;
+    }
+
+    public int tripletTotalNum() {
+        assert tenpaiable instanceof Meld4Pair1Tenpaiable;
+        return playerTileManager.getPlayerExposedTilesManager().triplets.size()
+            + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedTriplet().size();
+    }
+
+    public int sequenceTotalNum() {
+        assert tenpaiable instanceof Meld4Pair1Tenpaiable;
+        return playerTileManager.getPlayerExposedTilesManager().sequences.size()
+            + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedSequence().size();
     }
 
     public boolean hasTriplet(TileType tileType) {

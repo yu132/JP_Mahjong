@@ -6,6 +6,7 @@ import static yu.proj.ref.tile.TileType.*;
 import org.junit.Test;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 
 /**  
@@ -112,5 +113,37 @@ public class TestTilesCounterUtilForPatternAnalyze {
         initTiles();// 每个牌都有2个了
 
         assertEquals(13, tilesCounterUtil.differentTerminalsAndHonors());
+    }
+
+    @Test
+    public void testSequencetTotalNum() {
+        data.draw(MAN_1, MAN_2, MAN_3);
+        data.chii(MAN_1, MAN_2, MAN_3);
+        data.draw(SOU_1, SOU_2, SOU_3);
+        data.draw(PIN_1, PIN_2, PIN_3);
+
+        data.draw(SOUTH);
+
+        Tenpaiable tenpaiable = data.getFirstTenpai(SOUTH);
+
+        tilesCounterUtil = new TilesCounterUtilForPatternAnalyze(data.playerTileManager, tenpaiable, SOUTH);
+
+        assertEquals(4, tilesCounterUtil.sequenceTotalNum());
+    }
+
+    @Test
+    public void testTripletTotalNum() {
+        data.draw(MAN_1, MAN_1, MAN_1);
+        data.pon(MAN_2, MAN_2, MAN_2);
+        data.draw(SOU_1, SOU_1, SOU_1);
+        data.draw(PIN_1, PIN_1, PIN_1);
+
+        data.draw(SOUTH);
+
+        Tenpaiable tenpaiable = data.getFirstTenpai(SOUTH);
+
+        tilesCounterUtil = new TilesCounterUtilForPatternAnalyze(data.playerTileManager, tenpaiable, SOUTH);
+
+        assertEquals(4, tilesCounterUtil.tripletTotalNum());
     }
 }

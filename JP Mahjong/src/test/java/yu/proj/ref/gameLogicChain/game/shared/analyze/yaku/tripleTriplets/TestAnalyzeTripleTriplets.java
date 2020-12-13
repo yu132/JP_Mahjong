@@ -50,4 +50,23 @@ public class TestAnalyzeTripleTriplets {
         assertTrue(taData.bothContainYaku(Yaku.TRIPLE_TRIPLETS));
     }
 
+    @Test
+    public void test2() {
+        taData.draw(MAN_2, MAN_2, MAN_2);
+
+        taData.draw(PIN_2, PIN_2, PIN_2);
+
+        taData.draw(SOU_2, SOU_2);
+
+        taData.draw(MAN_8, MAN_8, MAN_8);
+
+        taData.draw(PIN_5, PIN_5);
+
+        YakuAnalyzeData yaData = taData.yaData(taData.getFirstTenpai(SOU_2), SOU_2);
+
+        analyzer.analyzeYaku(yaData, taData.yakuManager);
+
+        assertTrue(taData.bothContainYaku(Yaku.TRIPLE_TRIPLETS));
+    }
+
 }

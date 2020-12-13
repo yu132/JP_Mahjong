@@ -75,5 +75,24 @@ public class TestAnalyzeDanyao {
         assertTrue(taData.bothNotContainYaku(Yaku.DANYAO));
     }
 
+    @Test
+    public void testNotDanyao() {
+        taData.draw(MAN_2, MAN_3);
+
+        taData.draw(MAN_4, MAN_4, MAN_4);
+
+        taData.draw(MAN_6, MAN_6, MAN_6);
+
+        taData.draw(MAN_8, MAN_8, MAN_8);
+
+        taData.draw(PIN_2, PIN_2);
+
+        YakuAnalyzeData yaData = taData.yaData(taData.getFirstTenpai(MAN_1), MAN_1);
+
+        analyzer.analyzeYaku(yaData, taData.yakuManager);
+
+        assertTrue(taData.bothNotContainYaku(Yaku.DANYAO));
+    }
+
 
 }

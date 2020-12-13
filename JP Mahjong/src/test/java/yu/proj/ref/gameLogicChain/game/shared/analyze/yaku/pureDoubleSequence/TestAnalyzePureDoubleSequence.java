@@ -54,6 +54,25 @@ public class TestAnalyzePureDoubleSequence {
     }
 
     @Test
+    public void testWaitMiddle() {
+        taData.draw(MAN_1, MAN_2, MAN_3);
+
+        taData.draw(MAN_1, MAN_3);
+
+        taData.draw(SOU_1, SOU_2, SOU_3);
+
+        taData.draw(SOU_5, SOU_6, SOU_7);
+
+        taData.draw(PIN_2, PIN_2);
+
+        YakuAnalyzeData yaData = taData.yaData(taData.getFirstTenpai(MAN_2), MAN_2);
+
+        analyzer.analyzeYaku(yaData, taData.yakuManager);
+
+        assertTrue(taData.bothContainYaku(Yaku.PURE_DOUBLE_SEQUENCE));
+    }
+
+    @Test
     public void testTwice() {
         taData.draw(MAN_1, MAN_2, MAN_3);
 

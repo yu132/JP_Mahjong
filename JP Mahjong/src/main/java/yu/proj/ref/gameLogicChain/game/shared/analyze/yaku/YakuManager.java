@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import yu.proj.ref.tile.Yaku;
+import yu.proj.ref.tilePatternElement.MeldSource;
 
 /**  
  * @ClassName: YakuManager  
@@ -20,6 +21,10 @@ public class YakuManager {
 
     private Set<Yaku> yakusWhenRon = new HashSet<>();
     private Set<Yaku> yakusWhenTsumo = new HashSet<>();
+
+    private MeldSource bigThreeDragonResponsibility = null;
+    private MeldSource fourBigWindResponsibility = null;
+    private MeldSource fourQuadsResponsibility = null;
 
     public void ron(Yaku yaku) {
         yakusWhenRon.add(yaku);
@@ -40,6 +45,30 @@ public class YakuManager {
 
     public Set<Yaku> getTsumoYakus() {
         return Collections.unmodifiableSet(yakusWhenTsumo);
+    }
+
+    public MeldSource getBigThreeDragonResponsibility() {
+        return bigThreeDragonResponsibility;
+    }
+
+    public void setBigThreeDragonResponsibility(MeldSource bigThreeDragonResponsibility) {
+        this.bigThreeDragonResponsibility = bigThreeDragonResponsibility;
+    }
+
+    public MeldSource getFourBigWindResponsibility() {
+        return fourBigWindResponsibility;
+    }
+
+    public void setFourBigWindResponsibility(MeldSource fourBigWindResponsibility) {
+        this.fourBigWindResponsibility = fourBigWindResponsibility;
+    }
+
+    public MeldSource getFourQuadsResponsibility() {
+        return fourQuadsResponsibility;
+    }
+
+    public void setFourQuadsResponsibility(MeldSource fourQuadsResponsibility) {
+        this.fourQuadsResponsibility = fourQuadsResponsibility;
     }
 
 }

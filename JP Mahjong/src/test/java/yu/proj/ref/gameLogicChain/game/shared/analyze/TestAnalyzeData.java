@@ -2,6 +2,7 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze;
 
 import static yu.proj.ref.tile.TileType.*;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,6 +21,7 @@ import yu.proj.ref.ops.tilesRelated.ChiiOperation;
 import yu.proj.ref.ops.tilesRelated.ConcealedKanOperation;
 import yu.proj.ref.ops.tilesRelated.DiscardOperation;
 import yu.proj.ref.ops.tilesRelated.DrawOperation;
+import yu.proj.ref.ops.tilesRelated.ExposedKanOperation;
 import yu.proj.ref.ops.tilesRelated.PonOperation;
 import yu.proj.ref.rule.GameRule;
 import yu.proj.ref.rule.MahjongSoulRule;
@@ -122,6 +124,25 @@ public class TestAnalyzeData {
         ConcealedKanOperation op = new ConcealedKanOperation(t, temp);
 
         playerTileManager.concealedKan(op);
+
+        DiscardOperation opDis = new DiscardOperation(temp);
+
+        playerTileManager.discard(opDis);
+    }
+
+    public void exposedKan(MeldSource source, TileType... tiles) {
+        assert tiles.length == 4 && tiles[0].sameNormalType(tiles[1]) && tiles[1].sameNormalType(tiles[2])
+            && tiles[2].sameNormalType(tiles[3]);
+
+        Tile[] t = getTiles(tiles);
+
+        Tile temp = Tile.of(NORTH, 1);
+
+        draw(t[0], t[1], t[2]);
+
+        ExposedKanOperation op = new ExposedKanOperation(Arrays.copyOfRange(t, 0, 3), t[3], temp, source);
+
+        playerTileManager.exposedKan(op);
 
         DiscardOperation opDis = new DiscardOperation(temp);
 

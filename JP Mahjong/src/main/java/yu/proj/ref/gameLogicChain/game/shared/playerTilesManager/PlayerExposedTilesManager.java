@@ -1,9 +1,11 @@
 package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.Meld;
 import yu.proj.ref.tilePatternElement.Sequence;
 import yu.proj.ref.tilePatternElement.Triplet;
 import yu.proj.ref.tilePatternElement.exposedTile.AddKanQuad;
@@ -26,12 +28,15 @@ public class PlayerExposedTilesManager {
     List<Kita> kitas = new ArrayList<>();
     List<AddKanQuad> addKanQuads = new ArrayList<>();
 
+    List<Meld> tripletAndQuadOrder = new LinkedList<>();// 用于包牌分析
+
     void addSequence(Sequence sequence) {
         sequences.add(sequence);
     }
 
     void addTriplet(Triplet triplet) {
         triplets.add(triplet);
+        tripletAndQuadOrder.add(triplet);
     }
 
     boolean containTriplet(Triplet triplet) {
@@ -49,18 +54,22 @@ public class PlayerExposedTilesManager {
 
     void removeTriplet(Triplet triplet) {
         triplets.remove(triplet);
+        tripletAndQuadOrder.remove(triplet);
     }
 
     void addExposedKanQuad(ExposedKanQuad exposedKanQuad) {
         exposedKanQuads.add(exposedKanQuad);
+        tripletAndQuadOrder.add(exposedKanQuad);
     }
 
     void addConcealedKanQuad(ConcealedKanQuad concealedKanQuad) {
         concealedKanQuads.add(concealedKanQuad);
+        tripletAndQuadOrder.add(concealedKanQuad);
     }
 
     void addAddKanQuad(AddKanQuad addKanQuad) {
         addKanQuads.add(addKanQuad);
+        tripletAndQuadOrder.add(addKanQuad);
     }
 
     void addKita(Kita kita) {

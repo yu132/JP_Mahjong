@@ -3,7 +3,9 @@ package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 import static yu.proj.ref.tile.TileType.*;
 import static yu.proj.ref.utils.IntValueMapUtil.*;
 
+import java.util.Collections;
 import java.util.EnumMap;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -13,6 +15,7 @@ import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pai
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair2;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld4Pair1Tenpaiable;
 import yu.proj.ref.tile.TileType;
+import yu.proj.ref.tilePatternElement.Meld;
 import yu.proj.ref.tilePatternElement.Sequence;
 import yu.proj.ref.tilePatternElement.Triplet;
 import yu.proj.ref.tilePatternElement.concealedTile.Pair;
@@ -190,7 +193,13 @@ public class TilesCounterUtilForPatternAnalyze {
     public int tripletTotalNum() {
         assert tenpaiable instanceof Meld4Pair1Tenpaiable;
         return playerTileManager.getPlayerExposedTilesManager().triplets.size()
-            + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedTriplet().size();
+            + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedTriplet().size() + quadTotalNum();
+    }
+
+    public int quadTotalNum() {
+        return playerTileManager.getPlayerExposedTilesManager().addKanQuads.size()
+            + playerTileManager.getPlayerExposedTilesManager().concealedKanQuads.size()
+            + playerTileManager.getPlayerExposedTilesManager().exposedKanQuads.size();
     }
 
     public Set<Entry<TileType, Integer>> sequencesNum() {
@@ -253,6 +262,10 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public boolean isMenzenchin() {
         return playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCall() == 0;
+    }
+
+    public List<Meld> tripletsAndQuadsOrder() {
+        return Collections.unmodifiableList(playerTileManager.getPlayerExposedTilesManager().tripletAndQuadOrder);
     }
 
 }

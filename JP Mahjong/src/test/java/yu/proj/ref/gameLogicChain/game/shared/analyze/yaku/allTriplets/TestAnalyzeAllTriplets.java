@@ -51,4 +51,23 @@ public class TestAnalyzeAllTriplets {
         assertTrue(taData.bothContainYaku(Yaku.ALL_TRIPLETS));
     }
 
+    @Test
+    public void test2() {
+        taData.concealedKan(MAN_2, MAN_2, MAN_2, MAN_2);
+
+        taData.concealedKan(PIN_2, PIN_2, PIN_2, PIN_2);
+
+        taData.concealedKan(SOU_2, SOU_2, SOU_2, SOU_2);
+
+        taData.draw(MAN_8, MAN_8);
+
+        taData.draw(PIN_5, PIN_5);
+
+        YakuAnalyzeData yaData = taData.yaData(taData.getFirstTenpai(PIN_5), PIN_5);
+
+        analyzer.analyzeYaku(yaData, taData.yakuManager);
+
+        assertTrue(taData.bothContainYaku(Yaku.ALL_TRIPLETS));
+    }
+
 }

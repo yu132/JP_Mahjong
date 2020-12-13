@@ -50,7 +50,11 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private EnumMap<TileType, Integer> tripletCount;
 
+    int tripletTotalNum = 0;
+
     private EnumMap<TileType, Integer> sequenceCount;
+
+    int sequenceTotalNum = 0;
 
     public TilesCounterUtilForPatternAnalyze(PlayerTileManager playerTileManager, Tenpaiable tenpaiable,
         TileType tileToWin) {
@@ -85,25 +89,25 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private void countConcealedSequence() {
         for (Sequence sequence : ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedSequence()) {
-            acc(sequenceCount, sequence.tileType());
+            accSequenceCount(sequence.tileType());
         }
     }
 
     private void countExposedSequence() {
         for (Sequence sequence : playerTileManager.getPlayerExposedTilesManager().sequences) {
-            acc(sequenceCount, sequence.tileType());
+            accSequenceCount(sequence.tileType());
         }
     }
 
     private void countConcealedTriplet() {
         for (Triplet triplet : ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedTriplet()) {
-            acc(tripletCount, triplet.tileType());
+            accTripletCount(triplet.tileType());
         }
     }
 
     private void countExposedTriplet() {
         for (Triplet triplet : playerTileManager.getPlayerExposedTilesManager().triplets) {
-            acc(tripletCount, triplet.tileType());
+            accTripletCount(triplet.tileType());
         }
     }
 
@@ -117,7 +121,7 @@ public class TilesCounterUtilForPatternAnalyze {
         if (tenpaiable instanceof Meld3Pair2) {
             for (Pair pair : ((Meld3Pair2)tenpaiable).getPairs()) {
                 if (pair.type() == tileToWin) {
-                    acc(tripletCount, tileToWin);
+                    accTripletCount(tileToWin);
                 }
             }
         }
@@ -126,7 +130,7 @@ public class TilesCounterUtilForPatternAnalyze {
     private void fillWaitMiddleToSequence() {
         if (tenpaiable instanceof Meld3Pair1WaitMiddle1) {
             WaitMiddle middle = ((Meld3Pair1WaitMiddle1)tenpaiable).getWaitMiddle();
-            acc(sequenceCount, middle.getLower().getTileType());
+            accSequenceCount(middle.getLower().getTileType());
         }
     }
 
@@ -134,9 +138,9 @@ public class TilesCounterUtilForPatternAnalyze {
         if (tenpaiable instanceof Meld3Pair1Wait2Side1) {
             Wait2Side wait2Side = ((Meld3Pair1Wait2Side1)tenpaiable).getWait2Side();
             if (wait2Side.getLower().getTileType().nextOf(tileToWin)) {// 当听两面且听的是前面那张
-                acc(sequenceCount, tileToWin);// 记作听的牌的类型
+                accSequenceCount(tileToWin);// 记作听的牌的类型
             } else {
-                acc(sequenceCount, wait2Side.getLower().getTileType());// 否则记作lower类型
+                accSequenceCount(wait2Side.getLower().getTileType());// 否则记作lower类型
             }
         }
     }
@@ -144,14 +148,24 @@ public class TilesCounterUtilForPatternAnalyze {
     // 由于杠子在牌型分析中可同时视为刻子和杠子，因此计数时需要考虑这一点
     private void countQuadsAsTriplet() {
         for (AddKanQuad quad : playerTileManager.getPlayerExposedTilesManager().addKanQuads) {
-            acc(tripletCount, quad.tileType());
+            accTripletCount(quad.tileType());
         }
         for (ConcealedKanQuad quad : playerTileManager.getPlayerExposedTilesManager().concealedKanQuads) {
-            acc(tripletCount, quad.tileType());
+            accTripletCount(quad.tileType());
         }
         for (ExposedKanQuad quad : playerTileManager.getPlayerExposedTilesManager().exposedKanQuads) {
-            acc(tripletCount, quad.tileType());
+            accTripletCount(quad.tileType());
         }
+    }
+
+    private void accTripletCount(TileType type) {
+        acc(tripletCount, type);
+        ++tripletTotalNum;
+    }
+
+    private void accSequenceCount(TileType type) {
+        acc(sequenceCount, type);
+        ++sequenceTotalNum;
     }
 
     public TilesCounterUtilForPatternAnalyze(PlayerTileManager playerTileManager) {
@@ -192,8 +206,7 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public int tripletTotalNum() {
         assert tenpaiable instanceof Meld4Pair1Tenpaiable;
-        return playerTileManager.getPlayerExposedTilesManager().triplets.size()
-            + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedTriplet().size() + quadTotalNum();
+        return tripletTotalNum;
     }
 
     public int quadTotalNum() {
@@ -208,8 +221,7 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public int sequenceTotalNum() {
         assert tenpaiable instanceof Meld4Pair1Tenpaiable;
-        return playerTileManager.getPlayerExposedTilesManager().sequences.size()
-            + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedSequence().size();
+        return sequenceTotalNum;
     }
 
     public boolean hasTriplet(TileType tileType) {
@@ -266,6 +278,11 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public List<Meld> tripletsAndQuadsOrder() {
         return Collections.unmodifiableList(playerTileManager.getPlayerExposedTilesManager().tripletAndQuadOrder);
+    }
+
+    public List<Meld> tripletAndQuadOrderIgnoreAddKan() {
+        return Collections
+            .unmodifiableList(playerTileManager.getPlayerExposedTilesManager().tripletAndQuadOrderIgnoreAddKan);
     }
 
 }

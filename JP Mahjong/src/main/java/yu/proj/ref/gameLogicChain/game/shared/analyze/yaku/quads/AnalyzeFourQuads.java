@@ -3,6 +3,7 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.quads;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.rule.responsibility.ResponsibilityRule.FourQuads;
 import yu.proj.ref.tile.Yaku;
 import yu.proj.ref.tilePatternElement.Meld;
 import yu.proj.ref.tilePatternElement.exposedTile.ExposedKanQuad;
@@ -25,8 +26,15 @@ public class AnalyzeFourQuads implements YakuAnalyzer {
         if (isFourQuads(data)) {
             yakuManager.both(Yaku.FOUR_QUADS);
 
-            analyzeResponsibility(data, yakuManager);
+            if (enableResponsibility(data)) {
+                analyzeResponsibility(data, yakuManager);
+            }
+
         }
+    }
+
+    private boolean enableResponsibility(YakuAnalyzeData data) {
+        return data.getRule().responsibilityForFourQuads == FourQuads.ENABLE;
     }
 
     private boolean isFourQuads(YakuAnalyzeData data) {

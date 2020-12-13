@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import lombok.Getter;
+import yu.proj.ref.utils.TriConsumer;
 
 /**  
  * @ClassName: TypeType  
@@ -194,5 +195,17 @@ public enum TileType {
             default:
                 return type.nextNormalTile();
         }
+    }
+
+    public static void forEachManPinSou(TriConsumer<TileType, TileType, TileType> consumer) {
+        consumer.accept(MAN_1, PIN_1, SOU_1);
+        consumer.accept(MAN_2, PIN_2, SOU_2);
+        consumer.accept(MAN_3, PIN_3, SOU_3);
+        consumer.accept(MAN_4, PIN_4, SOU_4);
+        consumer.accept(MAN_5, PIN_5, SOU_5);
+        consumer.accept(MAN_6, PIN_6, SOU_6);
+        consumer.accept(MAN_7, PIN_7, SOU_7);
+        consumer.accept(MAN_8, PIN_8, SOU_8);
+        consumer.accept(MAN_9, PIN_9, SOU_9);
     }
 }

@@ -33,23 +33,29 @@ public class AnalyzeBigThreeDragons implements YakuAnalyzer {
         if (hasAllDragonTriplets(data)) {
             yakuManager.both(Yaku.BIG_THREE_DRAGONS);
         }
-        if (data.getRule().responsibilityForBigThreeDragon == BigThreeDragon.ENABLE) {
+        if (enableResponsibility(data)) {
+            analyzeResponsibility(data, yakuManager);
+        }
+    }
 
-            int count = 0;
-            MeldSource src = null;
-            List<Meld> tripletsAndQuadsIgnoreAddKan = data.getTilesCountUtil().tripletAndQuadOrderIgnoreAddKan();
+    private void analyzeResponsibility(YakuAnalyzeData data, YakuManager yakuManager) {
+        int count = 0;
+        MeldSource src = null;
 
-            for (Meld meld : tripletsAndQuadsIgnoreAddKan) {
-                if (DRAGONS.contains(meld.tileType())) {
-                    ++count;
-                    src = meld.getSrc();
-                }
-            }
-
-            if (count == 3 && src != MeldSource.SELF) {
-                yakuManager.setBigThreeDragonResponsibility(src);
+        for (Meld meld : data.getTilesCountUtil().tripletAndQuadOrderIgnoreAddKan()) {
+            if (DRAGONS.contains(meld.tileType())) {
+                ++count;
+                src = meld.getSrc();
             }
         }
+
+        if (count == 3 && src != MeldSource.SELF) {
+            yakuManager.setBigThreeDragonResponsibility(src);
+        }
+    }
+
+    private boolean enableResponsibility(YakuAnalyzeData data) {
+        return data.getRule().responsibilityForBigThreeDragon == BigThreeDragon.ENABLE;
     }
 
     private boolean hasAllDragonTriplets(YakuAnalyzeData data) {

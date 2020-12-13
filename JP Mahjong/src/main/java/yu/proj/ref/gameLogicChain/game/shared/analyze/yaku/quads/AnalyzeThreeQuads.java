@@ -1,8 +1,6 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.quads;
 
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,16 +13,11 @@ import yu.proj.ref.tile.Yaku;
  * @date 2020年12月13日  
  *  
  */
-public class AnalyzeThreeQuads implements YakuAnalyzer {
+public class AnalyzeThreeQuads extends SimpleConditionYakuAnalyzer {
 
-    @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
-        if (isThreeQuads(data)) {
-            yakuManager.both(Yaku.THREE_QUADS);
-        }
+    public AnalyzeThreeQuads() {
+        super((util) -> util.quadTotalNum() == 3, Yaku.THREE_QUADS);
     }
 
-    private boolean isThreeQuads(YakuAnalyzeData data) {
-        return data.getTilesCountUtil().quadTotalNum() == 3;
-    }
 }
+

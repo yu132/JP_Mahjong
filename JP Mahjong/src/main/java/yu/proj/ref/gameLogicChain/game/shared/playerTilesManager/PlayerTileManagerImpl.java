@@ -104,9 +104,9 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
     // 将吃的牌转化为Sequence数据结构存入Meld中
     private void insertChiAsSequence(AbstractGainAndExposedAllTileOperation chi) {
 
-        Tile[]   tiles = copyAndSortTiles(chi.getGainExposedTile(), chi.getExposedTiles());
+        Tile[] tiles = copyAndSortTiles(chi.getGainExposedTile(), chi.getExposedTiles());
 
-        Sequence seq   = Sequence.of(tiles, MeldSource.LAST_PLAYER, chi.getGainExposedTile());
+        Sequence seq = Sequence.of(tiles, MeldSource.LAST_PLAYER, chi.getGainExposedTile());
 
         playerExposedTilesManager.addSequence(seq);
     }
@@ -122,7 +122,7 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
     // 将碰的牌转化为Triplet数据结构存入Meld中
     private void insertPonAsTriplet(PonOperation pon) {
 
-        Tile[]  tiles   = copyAndSortTiles(pon.getGainExposedTile(), pon.getExposedTiles());
+        Tile[] tiles = copyAndSortTiles(pon.getGainExposedTile(), pon.getExposedTiles());
 
         Triplet triplet = Triplet.of(tiles, pon.getSrc(), pon.getGainExposedTile());
 
@@ -140,11 +140,12 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
 
     private void insertExposedKanAsQuad(ExposedKanOperation kan) {
 
-        Tile[]         tiles = copyAndSortTiles(kan.getGainExposedTile(), kan.getExposedTiles());
+        Tile[] tiles = copyAndSortTiles(kan.getGainExposedTile(), kan.getExposedTiles());
 
-        ExposedKanQuad quad  = ExposedKanQuad.of(tiles, kan.getSrc(), kan.getGainExposedTile());
+        ExposedKanQuad quad = ExposedKanQuad.of(tiles, kan.getSrc(), kan.getGainExposedTile());
 
         playerExposedTilesManager.addExposedKanQuad(quad);
+        kanNumber.add(quad.tileType());
     }
 
     @Override
@@ -166,6 +167,7 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
         ConcealedKanQuad quad = ConcealedKanQuad.of(kan.getExposedTiles(), MeldSource.SELF);
 
         playerExposedTilesManager.addConcealedKanQuad(quad);
+        kanNumber.add(quad.tileType());
     }
 
     @Override
@@ -194,11 +196,11 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
     }
 
     private void removeOldTripletAndInsertAddKanAsQuad(AddKanOperation kan) {
-        Triplet triplet        = kan.getTriplet();
+        Triplet triplet = kan.getTriplet();
 
-        Tile[]  tiles          = copyAndSortTiles(kan.getExposedTiles()[0], triplet.getTiles());
+        Tile[] tiles = copyAndSortTiles(kan.getExposedTiles()[0], triplet.getTiles());
 
-        int     numOfMakeCalls = playerExposedTilesManager.sizeOfMakeCall();
+        int numOfMakeCalls = playerExposedTilesManager.sizeOfMakeCall();
 
         playerExposedTilesManager.removeTriplet(triplet);
 
@@ -206,6 +208,7 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
             AddKanQuad.of(tiles, triplet.getSrc(), triplet.getSpecialTile(), kan.getExposedTiles()[0], numOfMakeCalls);
 
         playerExposedTilesManager.addAddKanQuad(quad);
+        kanNumber.add(quad.tileType());
     }
 
     private void manageTilesAndCountWithOperation(Operation op) {
@@ -292,7 +295,7 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
 
         final int TILE_NUM = 1;
 
-        Tile[]    tiles    = new Tile[TILE_NUM + tilesArray.length];
+        Tile[] tiles = new Tile[TILE_NUM + tilesArray.length];
         ArrayUtil.copy(tilesArray, tiles, tilesArray.length);
         tiles[tiles.length - 1] = tile;
         Arrays.sort(tiles);

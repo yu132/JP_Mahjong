@@ -41,6 +41,7 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private final static TileType[] TERMINALS = {MAN_1, MAN_9, PIN_1, PIN_9, SOU_1, SOU_9};
     private final static TileType[] HONORS = {EAST, SOUTH, WEST, NORTH, WHITE, GREEN, RED};
+    private final static TileType[] DRAGONS = {WHITE, GREEN, RED};
 
     private PlayerTileManager playerTileManager;
 
@@ -176,7 +177,7 @@ public class TilesCounterUtilForPatternAnalyze {
         this.tileToWin = NONE;
     }
 
-    // 返回指定牌型的牌的总数，是所有牌型的牌的数量之和
+    // 返回指定牌型的牌的总数，是所有牌型的牌的数量之和，但是杠子只算作3张，牌的总数应为14张
     public int count(TileType... tileTypes) {
         int count = 0;
         for (TileType tileType : tileTypes) {
@@ -268,6 +269,10 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public boolean all2to8() {
         return count2to8() == ALL_TILES_IN_HAND_NUM;
+    }
+
+    public int countDragons() {
+        return count(DRAGONS);
     }
 
     public int differentTerminals() {

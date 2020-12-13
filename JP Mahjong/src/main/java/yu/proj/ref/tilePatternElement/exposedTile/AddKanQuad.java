@@ -3,6 +3,7 @@ package yu.proj.ref.tilePatternElement.exposedTile;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.MeldSource;
 import yu.proj.ref.tilePatternElement.SameTypeMeld;
 
@@ -31,8 +32,8 @@ public class AddKanQuad extends SameTypeMeld implements ExposedTile {
     private AddKanQuad(Tile[] tiles, MeldSource src, Tile lowTile, Tile upperTile, int numsOfMakeCallsWhenAddKan) {
         // 加杠的src依然是原来的碰对应的src，目的是为了保留原有的碰的样式，这对于日麻鸣牌的摆放规则很重要
         super(tiles, src);
-        this.lowTile                  = lowTile;
-        this.upperTile                = upperTile;
+        this.lowTile = lowTile;
+        this.upperTile = upperTile;
         this.numOfMakeCallsWhenAddKan = numsOfMakeCallsWhenAddKan;
     }
 
@@ -43,6 +44,10 @@ public class AddKanQuad extends SameTypeMeld implements ExposedTile {
         assert src != MeldSource.SELF && tiles.length == 4;
 
         return new AddKanQuad(tiles, src, lowTile, upperTile, numsOfMakeCallsWhenAddKan);
+    }
+
+    public TileType tileType() {
+        return lowTile.getTileType();
     }
 
 }

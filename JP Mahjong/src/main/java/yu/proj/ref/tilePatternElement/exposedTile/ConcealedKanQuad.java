@@ -3,6 +3,7 @@ package yu.proj.ref.tilePatternElement.exposedTile;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.MeldSource;
 import yu.proj.ref.tilePatternElement.SameTypeMeld;
 
@@ -30,6 +31,10 @@ public class ConcealedKanQuad extends SameTypeMeld implements ExposedTile {
         assert src == MeldSource.SELF && tiles.length == 4;
 
         return new ConcealedKanQuad(tiles, src);
+    }
+
+    public TileType tileType() {
+        return getTiles()[0].getTileType();
     }
 
 }

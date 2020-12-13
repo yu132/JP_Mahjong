@@ -3,6 +3,7 @@ package yu.proj.ref.tilePatternElement.exposedTile;
 import lombok.Getter;
 import lombok.ToString;
 import yu.proj.ref.tile.Tile;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.MeldSource;
 import yu.proj.ref.tilePatternElement.SameTypeMeld;
 
@@ -33,6 +34,10 @@ public class ExposedKanQuad extends SameTypeMeld implements ExposedTile {
         assert src != MeldSource.SELF && tiles.length == 4;
 
         return new ExposedKanQuad(tiles, src, specialTile);
+    }
+
+    public TileType tileType() {
+        return specialTile.getTileType();
     }
 
 }

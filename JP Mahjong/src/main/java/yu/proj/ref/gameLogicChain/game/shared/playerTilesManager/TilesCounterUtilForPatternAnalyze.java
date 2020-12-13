@@ -3,6 +3,8 @@ package yu.proj.ref.gameLogicChain.game.shared.playerTilesManager;
 import static yu.proj.ref.tile.TileType.*;
 
 import java.util.EnumMap;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld4Pair1Tenpaiable;
@@ -115,6 +117,10 @@ public class TilesCounterUtilForPatternAnalyze {
         assert tenpaiable instanceof Meld4Pair1Tenpaiable;
         return playerTileManager.getPlayerExposedTilesManager().triplets.size()
             + ((Meld4Pair1Tenpaiable)tenpaiable).getConcealedTriplet().size();
+    }
+
+    public Set<Entry<TileType, Integer>> sequencesNum() {
+        return sequenceCount.entrySet();
     }
 
     public int sequenceTotalNum() {

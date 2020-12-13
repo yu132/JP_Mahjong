@@ -1,6 +1,6 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.pureDoubleSequence;
 
-import static yu.proj.ref.tile.TileType.*;
+import java.util.Map.Entry;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
@@ -39,20 +39,27 @@ public class AnalyzePureDoubleSequence implements YakuAnalyzer {
 
         int count = 0;
 
-        for (TileType tileType = MAN_1; tileType != NONE; tileType = next(tileType)) {
-            if (data.getRule().pureFourSequenceRule == PureFourSequenceRule.AS_TWICE_PURE_DOUBLE_SEQUENCE) {
+        for (Entry<TileType, Integer> seqTypeAndNum : countUtil.sequencesNum()) {
+
+            int num = seqTypeAndNum.getValue();
+
+            if (pureFourSequenceAsTwiceDoubleSequence(data)) {
                 // 一色四通顺如果可以记作二杯口，那么整除2即可获取累加结果
                 // 对于1个和3个同顺，都会舍去多余的那个通顺，只计2的倍数个同顺的数量
-                count += countUtil.countSequence(tileType) / 2;
+                count += num / 2;
             } else {
                 // 如果不能计，那么无论有几个，当大于两个的时候，只记作一个2同顺
                 // 保证一色四通顺只被记作一杯口
-                if (countUtil.countSequence(tileType) >= 2) {
+                if (num >= 2) {
                     ++count;
                 }
             }
         }
+
         return count;
     }
 
+    private boolean pureFourSequenceAsTwiceDoubleSequence(YakuAnalyzeData data) {
+        return data.getRule().pureFourSequenceRule == PureFourSequenceRule.AS_TWICE_PURE_DOUBLE_SEQUENCE;
+    }
 }

@@ -1,4 +1,4 @@
-package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.tripleTriplets;
+package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.mixedTripleSequence;
 
 import static yu.proj.ref.tile.TileType.*;
 
@@ -10,7 +10,7 @@ import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
 
 /**  
- * @ClassName: AnalyzeTripleTriplets  
+ * @ClassName: AnalyzeMixedTripletSequence  
  *
  * @Description: TODO(这里用一句话描述这个类的作用)  
  *
@@ -19,23 +19,22 @@ import yu.proj.ref.tile.Yaku;
  * @date 2020年12月13日  
  *  
  */
-public class AnalyzeTripleTriplets implements YakuAnalyzer {
+public class AnalyzeMixedTripletSequence implements YakuAnalyzer {
 
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
-
         TilesCounterUtilForPatternAnalyze countUtil = data.getTilesCountUtil();
 
         forEachManPinSou((man, pin, sou) -> {
-            if (hasAllManPinSouTriplet(countUtil, man, pin, sou)) {
-                yakuManager.both(Yaku.TRIPLE_TRIPLETS);
+            if (hasAllManPinSouSequence(countUtil, man, pin, sou)) {
+                yakuManager.both(Yaku.MIXED_TRIPLE_SEQUENCE);
             }
         });
     }
 
-    private boolean hasAllManPinSouTriplet(TilesCounterUtilForPatternAnalyze countUtil, TileType man, TileType pin,
+    private boolean hasAllManPinSouSequence(TilesCounterUtilForPatternAnalyze countUtil, TileType man, TileType pin,
         TileType sou) {
-        return countUtil.hasTriplet(man) && countUtil.hasTriplet(pin) && countUtil.hasTriplet(sou);
+        return countUtil.hasSequence(man) && countUtil.hasSequence(pin) && countUtil.hasSequence(sou);
     }
 
 }

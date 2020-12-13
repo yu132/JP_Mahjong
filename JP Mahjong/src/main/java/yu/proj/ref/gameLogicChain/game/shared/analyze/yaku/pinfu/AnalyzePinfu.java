@@ -37,7 +37,7 @@ public class AnalyzePinfu implements YakuAnalyzer {
 
         boolean isMenzenchin = countUtil.isMenzenchin();
 
-        boolean _3Sequence = countUtil.sequenceTotalNum() == 3;
+        boolean _4Sequence = countUtil.sequenceTotalNum() == 4;
 
         boolean wait2side = // 必须为不是边张听的真正的两面听
             data.getTenpaiable() instanceof Meld3Pair1Wait2Side1 && data.getTenpaiable().getTilesToWin().size() == 2;
@@ -45,7 +45,7 @@ public class AnalyzePinfu implements YakuAnalyzer {
         boolean isNotDragonNorPrevalentWindNorSeatWind = wait2side && // 此处使用短路与是因为后续判断必须为两面听才合法
             isNotDragonNorPrevalentWindNorSeatWind(data);
 
-        return isMenzenchin && _3Sequence && wait2side && isNotDragonNorPrevalentWindNorSeatWind;
+        return isMenzenchin && _4Sequence && wait2side && isNotDragonNorPrevalentWindNorSeatWind;
     }
 
     private boolean isNotDragonNorPrevalentWindNorSeatWind(YakuAnalyzeData data) {

@@ -28,7 +28,11 @@ public class PlayerExposedTilesManager {
     List<Kita> kitas = new ArrayList<>();
     List<AddKanQuad> addKanQuads = new ArrayList<>();
 
-    List<Meld> tripletAndQuadOrder = new LinkedList<>();// 用于包牌分析
+    // 用于包牌分析的两个顺序链表
+    // 前者是为了四杠子分析使用的，其保证了加杠的正确顺序，当发生加杠的时候，会将原有的刻子删除，然后在最后添加加杠
+    List<Meld> tripletAndQuadOrder = new LinkedList<>();
+    // 后者是为了大三元和大四喜包牌分析使用，其忽略加杠，保证是副露的先后顺序
+    List<Meld> tripletAndQuadOrderIgnoreAddKan = new LinkedList<>();
 
     void addSequence(Sequence sequence) {
         sequences.add(sequence);
@@ -37,6 +41,7 @@ public class PlayerExposedTilesManager {
     void addTriplet(Triplet triplet) {
         triplets.add(triplet);
         tripletAndQuadOrder.add(triplet);
+        tripletAndQuadOrderIgnoreAddKan.add(triplet);
     }
 
     boolean containTriplet(Triplet triplet) {
@@ -60,11 +65,13 @@ public class PlayerExposedTilesManager {
     void addExposedKanQuad(ExposedKanQuad exposedKanQuad) {
         exposedKanQuads.add(exposedKanQuad);
         tripletAndQuadOrder.add(exposedKanQuad);
+        tripletAndQuadOrderIgnoreAddKan.add(exposedKanQuad);
     }
 
     void addConcealedKanQuad(ConcealedKanQuad concealedKanQuad) {
         concealedKanQuads.add(concealedKanQuad);
         tripletAndQuadOrder.add(concealedKanQuad);
+        tripletAndQuadOrderIgnoreAddKan.add(concealedKanQuad);
     }
 
     void addAddKanQuad(AddKanQuad addKanQuad) {

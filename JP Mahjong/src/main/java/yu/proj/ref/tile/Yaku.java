@@ -52,7 +52,7 @@ public enum Yaku {
     TRIPLE_TRIPLETS(ALL_2_HAN()), // 三色同刻
     THREE_QUADS(ALL_2_HAN()), // 三杠子
     ALL_TRIPLETS(ALL_2_HAN()), // 对对和
-    THREE_CONCEALED_TRIPLETS(2, 0, 0, 0), THREE_CONCEALED_TRIPLETS_WHEN_TSUMO(2, 0, 0, 0), // 三暗刻
+    THREE_CONCEALED_TRIPLETS(2, 0, 0, 0), // 三暗刻
     LITTLE_THREE_DRAGONS(ALL_2_HAN()), // 小三元
     ALL_TERMINALS_AND_HONORS(ALL_2_HAN()), // 混老头
     SEVEN_PAIRS(2, 0, 0, 0), // 七对子
@@ -75,7 +75,7 @@ public enum Yaku {
     BLESSING_OF_HEAVEN(ALL_1_YAKUMAN()), // 天和
     BLESSING_OF_EARTH(ALL_1_YAKUMAN()), // 地和
     BIG_THREE_DRAGONS(ALL_1_YAKUMAN()), // 大三元
-    FOUR_CONCEALED_TRIPLETS_WHEN_TSUMO(0, 0, 1, 0), // 四暗刻
+    FOUR_CONCEALED_TRIPLETS(0, 0, 1, 0), // 四暗刻
     ALL_HONORS(ALL_1_YAKUMAN()), // 字一色
     ALL_GREENS(ALL_1_YAKUMAN()), // 绿一色
     ALL_TERMINALS(ALL_1_YAKUMAN()), // 清老头

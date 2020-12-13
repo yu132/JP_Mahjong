@@ -209,6 +209,16 @@ public class TilesCounterUtilForPatternAnalyze {
         return tripletTotalNum;
     }
 
+    public int exposedTripletNum() {
+        return playerTileManager.getPlayerExposedTilesManager().triplets.size()
+            + playerTileManager.getPlayerExposedTilesManager().addKanQuads.size()
+            + playerTileManager.getPlayerExposedTilesManager().exposedKanQuads.size();
+    }
+
+    public int concealedTripletNum() {
+        return tripletTotalNum() - exposedTripletNum();
+    }
+
     public int quadTotalNum() {
         return playerTileManager.getPlayerExposedTilesManager().addKanQuads.size()
             + playerTileManager.getPlayerExposedTilesManager().concealedKanQuads.size()

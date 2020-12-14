@@ -1,5 +1,8 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.allTerminals;
 
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.tile.Yaku;
+
 /**  
  * @ClassName: AnalyzeAllTerminals  
  *
@@ -10,6 +13,10 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.allTerminals;
  * @date 2020年12月14日  
  *  
  */
-public class AnalyzeAllTerminals {
+public class AnalyzeAllTerminals extends SimpleConditionYakuAnalyzer {
+
+    protected AnalyzeAllTerminals() {
+        super((util) -> util.allTerminals(), Yaku.ALL_TERMINALS);
+    }
 
 }

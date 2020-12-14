@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.wind;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -17,7 +18,13 @@ public class AnalyzeFourLittleWinds extends SimpleConditionYakuAnalyzer {
 
     private final static int NUM_OF_FOUR_LITTLE_WINDS = 3 * 3 + 2;// 包括风牌的三个刻子和一个对子
 
-    protected AnalyzeFourLittleWinds() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeFourLittleWinds();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeFourLittleWinds() {
         super((util) -> util.countWinds() == NUM_OF_FOUR_LITTLE_WINDS, Yaku.FOUR_LITTLE_WINDS);
     }
 

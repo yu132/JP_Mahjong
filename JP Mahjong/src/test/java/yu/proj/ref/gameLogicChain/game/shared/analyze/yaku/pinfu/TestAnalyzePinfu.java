@@ -26,7 +26,7 @@ public class TestAnalyzePinfu {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzePinfu();
+    private YakuAnalyzer analyzer = AnalyzePinfu.getInstance();
 
     @Test
     public void noYaku() {

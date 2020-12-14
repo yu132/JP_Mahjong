@@ -27,7 +27,7 @@ public class TestAnalyzePureDoubleSequence {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzePureDoubleSequence();
+    private YakuAnalyzer analyzer = AnalyzePureDoubleSequence.getInstance();
 
     @Test
     public void noYaku() {

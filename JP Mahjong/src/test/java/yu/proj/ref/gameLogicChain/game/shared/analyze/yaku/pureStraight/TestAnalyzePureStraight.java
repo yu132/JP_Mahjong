@@ -25,7 +25,7 @@ public class TestAnalyzePureStraight {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzePureStraight();
+    private YakuAnalyzer analyzer = AnalyzePureStraight.getInstance();
 
     @Test
     public void noYaku() {

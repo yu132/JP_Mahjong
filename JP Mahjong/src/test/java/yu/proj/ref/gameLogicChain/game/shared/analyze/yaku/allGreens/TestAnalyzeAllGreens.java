@@ -26,7 +26,7 @@ public class TestAnalyzeAllGreens {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeAllGreens();
+    private YakuAnalyzer analyzer = AnalyzeAllGreens.getInstance();
 
     @Test
     public void noYaku() {

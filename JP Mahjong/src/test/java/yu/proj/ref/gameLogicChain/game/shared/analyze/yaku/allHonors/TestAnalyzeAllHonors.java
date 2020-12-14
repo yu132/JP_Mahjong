@@ -25,7 +25,7 @@ public class TestAnalyzeAllHonors {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeAllHonors();
+    private YakuAnalyzer analyzer = AnalyzeAllHonors.getInstance();
 
     @Test
     public void noYaku() {

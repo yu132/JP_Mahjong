@@ -25,7 +25,7 @@ public class TestAnalyzeAllTerminals {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeAllTerminals();
+    private YakuAnalyzer analyzer = AnalyzeAllTerminals.getInstance();
 
     @Test
     public void noYaku() {

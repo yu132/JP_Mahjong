@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.allTerminals;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeAllTerminalsAndHonors extends SimpleConditionYakuAnalyzer {
 
-    protected AnalyzeAllTerminalsAndHonors() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeAllTerminalsAndHonors();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeAllTerminalsAndHonors() {
         // 混老头不能同时是清老头或者字一色
         super((util) -> (util.allTerminalsAndHonors() && !(util.allHonors() || util.allTerminals())),
             Yaku.ALL_TERMINALS_AND_HONORS);

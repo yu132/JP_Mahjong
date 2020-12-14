@@ -21,6 +21,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeMixedTripletSequence implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeMixedTripletSequence();
+
+    private AnalyzeMixedTripletSequence() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         TilesCounterUtilForPatternAnalyze countUtil = data.getTilesCountUtil();

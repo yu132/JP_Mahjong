@@ -25,7 +25,7 @@ public class TestAnalyzeThreeQuads {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeThreeQuads();
+    private YakuAnalyzer analyzer = AnalyzeThreeQuads.getInstance();
 
     @Test
     public void noYaku() {

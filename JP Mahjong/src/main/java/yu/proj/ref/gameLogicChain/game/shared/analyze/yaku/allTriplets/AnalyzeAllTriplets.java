@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.allTriplets;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeAllTriplets extends SimpleConditionYakuAnalyzer {
 
-    public AnalyzeAllTriplets() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeAllTriplets();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeAllTriplets() {
         super((util) -> util.tripletTotalNum() == 4, Yaku.ALL_TRIPLETS);
     }
 

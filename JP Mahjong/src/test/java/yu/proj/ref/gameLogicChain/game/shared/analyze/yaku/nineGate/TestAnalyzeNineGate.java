@@ -25,7 +25,7 @@ public class TestAnalyzeNineGate {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeNineGate();
+    private YakuAnalyzer analyzer = AnalyzeNineGate.getInstance();
 
     @Test
     public void noYaku() {

@@ -28,6 +28,14 @@ public class AnalyzeFourBigWinds implements YakuAnalyzer {
 
     private final static List<TileType> WINDS = Arrays.asList(EAST, SOUTH, WEST, NORTH);
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeFourBigWinds();
+
+    private AnalyzeFourBigWinds() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (hasAllWindTriplets(data)) {

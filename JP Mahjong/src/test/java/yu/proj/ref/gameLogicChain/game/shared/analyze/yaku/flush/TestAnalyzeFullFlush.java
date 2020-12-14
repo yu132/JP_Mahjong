@@ -25,7 +25,7 @@ public class TestAnalyzeFullFlush {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeFullFlush();
+    private YakuAnalyzer analyzer = AnalyzeFullFlush.getInstance();
 
     @Test
     public void noYaku() {

@@ -20,6 +20,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeAllGreens implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeAllGreens();
+
+    private AnalyzeAllGreens() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         TilesCounterUtilForPatternAnalyze countUtil = data.getTilesCountUtil();

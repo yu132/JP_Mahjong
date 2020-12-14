@@ -22,6 +22,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzePureDoubleSequence implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzePureDoubleSequence();
+
+    private AnalyzePureDoubleSequence() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
 

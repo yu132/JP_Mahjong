@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.outsideHand;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeHalfOutsideHand extends SimpleConditionYakuAnalyzer {
 
-    protected AnalyzeHalfOutsideHand() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeHalfOutsideHand();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeHalfOutsideHand() {
         // 混老头一定是混全带，因此不重复计算
         super((util) -> (util.allOutSideHandAndHonors() && !util.allTerminalsAndHonors()), Yaku.HALF_OUTSIDE_HAND);
     }

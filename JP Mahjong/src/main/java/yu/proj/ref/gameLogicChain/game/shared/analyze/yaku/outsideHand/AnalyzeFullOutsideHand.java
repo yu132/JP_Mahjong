@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.outsideHand;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeFullOutsideHand extends SimpleConditionYakuAnalyzer {
 
-    protected AnalyzeFullOutsideHand() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeFullOutsideHand();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeFullOutsideHand() {
         super((util) -> util.allOutSideHand(), Yaku.FULL_OUTSIDE_HAND);
     }
 

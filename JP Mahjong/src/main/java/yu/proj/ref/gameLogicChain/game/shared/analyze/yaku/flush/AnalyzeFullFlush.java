@@ -1,5 +1,6 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.flush;
 
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -14,7 +15,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeFullFlush extends AnalyzeFlush {
 
-    protected AnalyzeFullFlush() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeFullFlush();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeFullFlush() {
         super((util) -> isFullFlush(util), Yaku.FULL_FLUSH);
     }
 

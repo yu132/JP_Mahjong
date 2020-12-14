@@ -22,12 +22,12 @@ public class TestAnalyzeRedTriplet {
 
     @Test
     public void noYaku() {
-        new NoYaku().test(new AnalyzeRedTriplet());
+        new NoYaku().test(AnalyzeRedTriplet.getInstance());
     }
 
     @Test
     public void test() {
-        new TestTripletUtil(RED, Yaku.DRAGON_R, new AnalyzeRedTriplet()).test();
+        new TestTripletUtil(RED, Yaku.DRAGON_R, AnalyzeRedTriplet.getInstance()).test();
     }
 
 }

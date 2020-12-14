@@ -25,7 +25,7 @@ public class TestAnalyzeHalfOutsideHand {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeHalfOutsideHand();
+    private YakuAnalyzer analyzer = AnalyzeHalfOutsideHand.getInstance();
 
     @Test
     public void noYaku() {

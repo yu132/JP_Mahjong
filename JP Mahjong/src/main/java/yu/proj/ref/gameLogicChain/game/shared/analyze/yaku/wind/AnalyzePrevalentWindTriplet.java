@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.wind;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
 
@@ -15,6 +16,14 @@ import yu.proj.ref.tile.Yaku;
  *  
  */
 public class AnalyzePrevalentWindTriplet extends AnalyzeWindTriplet {
+
+    private final static YakuAnalyzer SINGLETON = new AnalyzePrevalentWindTriplet();
+
+    private AnalyzePrevalentWindTriplet() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
 
     @Override
     protected TileType wind(YakuAnalyzeData data) {

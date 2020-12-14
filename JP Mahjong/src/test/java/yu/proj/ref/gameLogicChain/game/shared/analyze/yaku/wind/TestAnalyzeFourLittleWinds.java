@@ -25,7 +25,7 @@ public class TestAnalyzeFourLittleWinds {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeFourLittleWinds();
+    private YakuAnalyzer analyzer = AnalyzeFourLittleWinds.getInstance();
 
     @Test
     public void noYaku() {

@@ -8,6 +8,7 @@ import org.junit.Test;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.TestAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.NoYaku;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -24,7 +25,7 @@ public class TestAnalyzeTripleTriplets {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private AnalyzeTripleTriplets analyzer = new AnalyzeTripleTriplets();
+    private YakuAnalyzer analyzer = AnalyzeTripleTriplets.getInstance();
 
     @Test
     public void noYaku() {

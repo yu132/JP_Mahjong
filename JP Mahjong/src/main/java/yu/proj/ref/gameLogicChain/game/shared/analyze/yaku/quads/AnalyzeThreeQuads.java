@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.quads;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeThreeQuads extends SimpleConditionYakuAnalyzer {
 
-    public AnalyzeThreeQuads() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeThreeQuads();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeThreeQuads() {
         super((util) -> util.quadTotalNum() == 3, Yaku.THREE_QUADS);
     }
 

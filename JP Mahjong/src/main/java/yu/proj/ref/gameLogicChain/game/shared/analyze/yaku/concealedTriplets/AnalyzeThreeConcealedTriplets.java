@@ -18,6 +18,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeThreeConcealedTriplets implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeThreeConcealedTriplets();
+
+    private AnalyzeThreeConcealedTriplets() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (data.getTilesCountUtil().concealedTripletNum() == 3) {

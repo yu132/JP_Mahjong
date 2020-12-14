@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.allTerminals;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeAllTerminals extends SimpleConditionYakuAnalyzer {
 
-    protected AnalyzeAllTerminals() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeAllTerminals();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeAllTerminals() {
         super((util) -> util.allTerminals(), Yaku.ALL_TERMINALS);
     }
 

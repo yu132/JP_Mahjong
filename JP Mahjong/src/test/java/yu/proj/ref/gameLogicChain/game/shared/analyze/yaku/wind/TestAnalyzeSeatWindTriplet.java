@@ -5,6 +5,7 @@ import static yu.proj.ref.tile.TileType.*;
 import org.junit.Test;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.TestTripletUtil;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -19,7 +20,7 @@ import yu.proj.ref.tile.Yaku;
  */
 public class TestAnalyzeSeatWindTriplet {
 
-    private AnalyzeSeatWindTriplet analyzer = new AnalyzeSeatWindTriplet();
+    private YakuAnalyzer analyzer = AnalyzeSeatWindTriplet.getInstance();
 
     @Test
     public void test() {

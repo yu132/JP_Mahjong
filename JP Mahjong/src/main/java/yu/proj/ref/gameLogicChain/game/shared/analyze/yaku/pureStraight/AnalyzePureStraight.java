@@ -21,6 +21,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzePureStraight implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzePureStraight();
+
+    private AnalyzePureStraight() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (isPureStraight(data)) {

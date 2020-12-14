@@ -28,6 +28,14 @@ public class AnalyzeBigThreeDragons implements YakuAnalyzer {
 
     private final static List<TileType> DRAGONS = Arrays.asList(WHITE, GREEN, RED);
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeBigThreeDragons();
+
+    private AnalyzeBigThreeDragons() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (hasAllDragonTriplets(data)) {

@@ -1,6 +1,7 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.allHonors;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.SimpleConditionYakuAnalyzer;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeAllHonors extends SimpleConditionYakuAnalyzer {
 
-    protected AnalyzeAllHonors() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeAllHonors();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeAllHonors() {
         super((util) -> util.allHonors(), Yaku.ALL_HONORS);
     }
 

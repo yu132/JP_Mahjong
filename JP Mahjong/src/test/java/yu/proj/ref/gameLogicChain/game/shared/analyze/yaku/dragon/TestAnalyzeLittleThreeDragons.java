@@ -25,7 +25,7 @@ public class TestAnalyzeLittleThreeDragons {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeLittleThreeDragons();
+    private YakuAnalyzer analyzer = AnalyzeLittleThreeDragons.getInstance();
 
     @Test
     public void noYaku() {

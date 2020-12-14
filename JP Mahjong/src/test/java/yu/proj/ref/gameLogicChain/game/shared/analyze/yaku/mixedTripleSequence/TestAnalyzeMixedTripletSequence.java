@@ -25,7 +25,7 @@ public class TestAnalyzeMixedTripletSequence {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeMixedTripletSequence();
+    private YakuAnalyzer analyzer = AnalyzeMixedTripletSequence.getInstance();
 
     @Test
     public void noYaku() {

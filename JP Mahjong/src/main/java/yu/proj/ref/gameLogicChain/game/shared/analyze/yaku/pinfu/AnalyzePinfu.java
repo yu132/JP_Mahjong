@@ -25,6 +25,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzePinfu implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzePinfu();
+
+    private AnalyzePinfu() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (isPinfu(data)) {

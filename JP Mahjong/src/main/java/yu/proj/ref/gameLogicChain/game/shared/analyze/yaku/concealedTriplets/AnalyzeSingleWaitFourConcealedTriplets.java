@@ -18,6 +18,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeSingleWaitFourConcealedTriplets implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeSingleWaitFourConcealedTriplets();
+
+    private AnalyzeSingleWaitFourConcealedTriplets() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (data.getTilesCountUtil().concealedTripletNum() == 4 && data.getTenpaiable() instanceof Meld4Singleton1) {

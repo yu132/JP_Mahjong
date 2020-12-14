@@ -25,7 +25,7 @@ public class TestAnalyzeSingleWaitFourConcealedTriplets {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private YakuAnalyzer analyzer = new AnalyzeSingleWaitFourConcealedTriplets();
+    private YakuAnalyzer analyzer = AnalyzeSingleWaitFourConcealedTriplets.getInstance();
 
     @Test
     public void noYaku() {

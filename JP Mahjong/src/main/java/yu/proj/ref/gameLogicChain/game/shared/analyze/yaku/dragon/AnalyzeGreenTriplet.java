@@ -4,6 +4,7 @@ import static yu.proj.ref.tile.TileType.*;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.AnalyzeTriplet;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
 
@@ -18,6 +19,14 @@ import yu.proj.ref.tile.Yaku;
  *  
  */
 public class AnalyzeGreenTriplet extends AnalyzeTriplet {
+
+    private final static YakuAnalyzer SINGLETON = new AnalyzeGreenTriplet();
+
+    private AnalyzeGreenTriplet() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
 
     @Override
     protected TileType getTripletType(YakuAnalyzeData data) {

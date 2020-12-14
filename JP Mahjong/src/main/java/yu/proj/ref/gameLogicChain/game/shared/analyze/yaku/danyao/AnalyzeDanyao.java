@@ -18,6 +18,14 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeDanyao implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeDanyao();
+
+    private AnalyzeDanyao() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
 

@@ -1,5 +1,6 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.flush;
 
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.tile.Yaku;
 
@@ -15,7 +16,13 @@ import yu.proj.ref.tile.Yaku;
  */
 public class AnalyzeHalfFlush extends AnalyzeFlush {
 
-    protected AnalyzeHalfFlush() {
+    private final static YakuAnalyzer SINGLETON = new AnalyzeHalfFlush();
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
+    private AnalyzeHalfFlush() {
         // 混一色不能是清一色
         super((util) -> (isHalfFlush(util) && !isFullFlush(util)), Yaku.HALF_FLUSH);
     }

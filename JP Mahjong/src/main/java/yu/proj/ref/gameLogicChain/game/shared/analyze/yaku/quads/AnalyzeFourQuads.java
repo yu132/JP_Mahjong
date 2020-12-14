@@ -20,6 +20,14 @@ import yu.proj.ref.tilePatternElement.exposedTile.ExposedKanQuad;
  */
 public class AnalyzeFourQuads implements YakuAnalyzer {
 
+    private final static YakuAnalyzer SINGLETON = new AnalyzeFourQuads();
+
+    private AnalyzeFourQuads() {}
+
+    static public YakuAnalyzer getInstance() {
+        return SINGLETON;
+    }
+
     @Override
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
 

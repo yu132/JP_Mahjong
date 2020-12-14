@@ -42,6 +42,7 @@ public class TilesCounterUtilForPatternAnalyze {
     private final static TileType[] TERMINALS = {MAN_1, MAN_9, PIN_1, PIN_9, SOU_1, SOU_9};
     private final static TileType[] HONORS = {EAST, SOUTH, WEST, NORTH, WHITE, GREEN, RED};
     private final static TileType[] DRAGONS = {WHITE, GREEN, RED};
+    private final static TileType[] GREENS = {SOU_2, SOU_3, SOU_4, SOU_6, SOU_8, GREEN};
 
     private PlayerTileManager playerTileManager;
 
@@ -285,6 +286,14 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public int countDragons() {
         return count(DRAGONS);
+    }
+
+    public int countGreens() {
+        return count(GREENS);
+    }
+
+    public boolean allGreens() {
+        return countGreens() == ALL_TILES_IN_HAND_NUM;
     }
 
     public int differentTerminals() {

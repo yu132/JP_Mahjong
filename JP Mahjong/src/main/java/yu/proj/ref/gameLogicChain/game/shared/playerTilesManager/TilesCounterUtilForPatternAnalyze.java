@@ -49,6 +49,10 @@ public class TilesCounterUtilForPatternAnalyze {
     private final static TileType[] DRAGONS = {WHITE, GREEN, RED};
     private final static TileType[] GREENS = {SOU_2, SOU_3, SOU_4, SOU_6, SOU_8, GREEN};
 
+    private final static TileType[] MANS = {MAN_1, MAN_2, MAN_3, MAN_4, MAN_5, MAN_6, MAN_7, MAN_8, MAN_9};
+    private final static TileType[] PINS = {PIN_1, PIN_2, PIN_3, PIN_4, PIN_5, PIN_6, PIN_7, PIN_8, PIN_9};
+    private final static TileType[] SOUS = {SOU_1, SOU_2, SOU_3, SOU_4, SOU_5, SOU_6, SOU_7, SOU_8, SOU_9};
+
     private final static TileType[] TERMINAL_SEQUENCES = {MAN_1, MAN_7, PIN_1, PIN_7, SOU_1, SOU_7};
 
     private PlayerTileManager playerTileManager;
@@ -353,6 +357,42 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public boolean allOutSideHandAndHonors() {
         return all(countOutSideHandAndHonors());
+    }
+
+    public int countMans() {
+        return count(MANS);
+    }
+
+    public boolean allMans() {
+        return all(countMans());
+    }
+
+    public boolean allMansAndHonors() {
+        return all(countMans() + countHonors());
+    }
+
+    public int countPins() {
+        return count(PINS);
+    }
+
+    public boolean allPins() {
+        return all(countPins());
+    }
+
+    public boolean allPinsAndHonors() {
+        return all(countPins() + countHonors());
+    }
+
+    public int countSous() {
+        return count(SOUS);
+    }
+
+    public boolean allSous() {
+        return all(countSous());
+    }
+
+    public boolean allSousAndHonors() {
+        return all(countSous() + countHonors());
     }
 
     public int differentTerminals() {

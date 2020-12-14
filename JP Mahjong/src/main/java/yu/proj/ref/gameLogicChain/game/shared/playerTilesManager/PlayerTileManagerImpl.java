@@ -200,12 +200,9 @@ public final class PlayerTileManagerImpl implements PlayerTileManager {
 
         Tile[] tiles = copyAndSortTiles(kan.getExposedTiles()[0], triplet.getTiles());
 
-        int numOfMakeCalls = playerExposedTilesManager.sizeOfMakeCall();
-
         playerExposedTilesManager.removeTriplet(triplet);
 
-        AddKanQuad quad =
-            AddKanQuad.of(tiles, triplet.getSrc(), triplet.getSpecialTile(), kan.getExposedTiles()[0], numOfMakeCalls);
+        AddKanQuad quad = AddKanQuad.of(tiles, triplet.getSrc(), triplet.getSpecialTile(), kan.getExposedTiles()[0]);
 
         playerExposedTilesManager.addAddKanQuad(quad);
         kanNumber.add(quad.tileType());

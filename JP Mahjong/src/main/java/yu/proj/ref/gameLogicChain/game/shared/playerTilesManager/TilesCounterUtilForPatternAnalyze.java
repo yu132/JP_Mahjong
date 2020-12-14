@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import cn.hutool.core.util.ArrayUtil;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair1Wait2Side1;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair1WaitMiddle1;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair2;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld4Pair1Tenpaiable;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld4Singleton1;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.Meld;
 import yu.proj.ref.tilePatternElement.Sequence;
@@ -39,10 +41,15 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private final static int ALL_TILES_IN_HAND_NUM = 14;
 
+    private final static int MELD_TILE_NUM = 3;
+    private final static int PAIR_TILE_NUM = 2;
+
     private final static TileType[] TERMINALS = {MAN_1, MAN_9, PIN_1, PIN_9, SOU_1, SOU_9};
     private final static TileType[] HONORS = {EAST, SOUTH, WEST, NORTH, WHITE, GREEN, RED};
     private final static TileType[] DRAGONS = {WHITE, GREEN, RED};
     private final static TileType[] GREENS = {SOU_2, SOU_3, SOU_4, SOU_6, SOU_8, GREEN};
+
+    private final static TileType[] TERMINAL_SEQUENCES = {MAN_1, MAN_7, PIN_1, PIN_7, SOU_1, SOU_7};
 
     private PlayerTileManager playerTileManager;
 
@@ -52,11 +59,13 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private EnumMap<TileType, Integer> tripletCount;
 
-    int tripletTotalNum = 0;
+    private int tripletTotalNum = 0;
 
     private EnumMap<TileType, Integer> sequenceCount;
 
-    int sequenceTotalNum = 0;
+    private int sequenceTotalNum = 0;
+
+    private TileType pairType;
 
     public TilesCounterUtilForPatternAnalyze(PlayerTileManager playerTileManager, Tenpaiable tenpaiable,
         TileType tileToWin) {
@@ -67,6 +76,14 @@ public class TilesCounterUtilForPatternAnalyze {
         this.tenpaiable = tenpaiable;
 
         initTripletAndSequenceCount();
+
+        analyzePairType();
+    }
+
+    private void analyzePairType() {
+        if (tenpaiable instanceof Meld4Singleton1) {
+            pairType = ((Meld4Singleton1)tenpaiable).pairType(tileToWin);
+        }
     }
 
     private void initTripletAndSequenceCount() {
@@ -244,12 +261,28 @@ public class TilesCounterUtilForPatternAnalyze {
         return tripletCount.getOrDefault(tileType, 0);
     }
 
+    public int countTriplets(TileType... tileTypes) {
+        int count = 0;
+        for (TileType tileType : tileTypes) {
+            count += tripletCount.getOrDefault(tileType, 0);
+        }
+        return count;
+    }
+
     public boolean hasSequence(TileType tileType) {
         return countSequence(tileType) != 0;
     }
 
     public int countSequence(TileType tileType) {
         return sequenceCount.getOrDefault(tileType, 0);
+    }
+
+    public int countSequences(TileType... tileTypes) {
+        int count = 0;
+        for (TileType tileType : tileTypes) {
+            count += sequenceCount.getOrDefault(tileType, 0);
+        }
+        return count;
     }
 
     public int countTerminals() {
@@ -268,12 +301,16 @@ public class TilesCounterUtilForPatternAnalyze {
         return countHonors() == ALL_TILES_IN_HAND_NUM;
     }
 
+    private boolean all(int num) {
+        return num == ALL_TILES_IN_HAND_NUM;
+    }
+
     public int countTreminalsAndHonors() {
         return countTerminals() + countHonors();
     }
 
-    public boolean allTreminalsAndHonors() {
-        return countTreminalsAndHonors() == ALL_TILES_IN_HAND_NUM;
+    public boolean allTerminalsAndHonors() {
+        return all(countTreminalsAndHonors());
     }
 
     public int count2to8() {
@@ -281,7 +318,7 @@ public class TilesCounterUtilForPatternAnalyze {
     }
 
     public boolean all2to8() {
-        return count2to8() == ALL_TILES_IN_HAND_NUM;
+        return all(count2to8());
     }
 
     public int countDragons() {
@@ -293,7 +330,29 @@ public class TilesCounterUtilForPatternAnalyze {
     }
 
     public boolean allGreens() {
-        return countGreens() == ALL_TILES_IN_HAND_NUM;
+        return all(countGreens());
+    }
+
+    public int countOutSideHand() {
+        int count = 0;
+        count += countSequences(TERMINAL_SEQUENCES) * MELD_TILE_NUM;// 计算包含1、9的顺子的牌数
+        count += countTriplets(TERMINALS) * MELD_TILE_NUM;// 计算包含1、9的刻子的牌数
+        if (ArrayUtil.contains(TERMINALS, pairType)) {// 计算包含1、9的雀头的牌数
+            count += PAIR_TILE_NUM;
+        }
+        return count;
+    }
+
+    public boolean allOutSideHand() {
+        return all(countOutSideHand());
+    }
+
+    public int countOutSideHandAndHonors() {
+        return countOutSideHand() + countHonors();
+    }
+
+    public boolean allOutSideHandAndHonors() {
+        return all(countOutSideHandAndHonors());
     }
 
     public int differentTerminals() {

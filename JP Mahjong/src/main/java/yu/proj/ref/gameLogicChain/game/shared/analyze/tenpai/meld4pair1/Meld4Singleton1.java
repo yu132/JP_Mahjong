@@ -41,4 +41,9 @@ public class Meld4Singleton1 extends Meld4Pair1Tenpaiable {
     public List<TileType> getTilesToWin() {
         return singleton.getTilesToWin();
     }
+
+    @Override
+    public TileType pairType(TileType tileToWin) {
+        return this.getSingleton().getTile().getTileType();
+    }
 }

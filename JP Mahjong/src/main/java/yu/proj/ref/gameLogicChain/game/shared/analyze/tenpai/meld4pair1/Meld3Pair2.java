@@ -46,4 +46,14 @@ public class Meld3Pair2 extends Meld4Pair1Tenpaiable {
         }
         return tilesToWin;
     }
+
+    @Override
+    public TileType pairType(TileType tileToWin) {
+        for (Pair pair : getPairs()) {
+            if (pair.type() != tileToWin) {
+                return pair.type();
+            }
+        }
+        throw new RuntimeException("不可到达");
+    }
 }

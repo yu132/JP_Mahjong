@@ -45,4 +45,10 @@ public class Meld3Pair1WaitMiddle1 extends Meld4Pair1Tenpaiable {
     public List<TileType> getTilesToWin() {
         return waitMiddle.getTilesToWin();
     }
+
+    @Override
+    public TileType pairType(TileType tileToWin) {
+        return getPair().type();
+    }
+
 }

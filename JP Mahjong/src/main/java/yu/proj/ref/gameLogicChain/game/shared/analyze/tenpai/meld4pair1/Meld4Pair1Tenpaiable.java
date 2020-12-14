@@ -6,6 +6,7 @@ import java.util.List;
 
 import lombok.Getter;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
+import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.Sequence;
 import yu.proj.ref.tilePatternElement.Triplet;
 
@@ -30,5 +31,7 @@ public abstract class Meld4Pair1Tenpaiable implements Tenpaiable {
         this.concealedSequence = unmodifiableCopy(concealedSequence);
         this.concealedTriplet = unmodifiableCopy(concealedTriplet);
     }
+
+    public abstract TileType pairType(TileType tileToWin);
 
 }

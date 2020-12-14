@@ -46,4 +46,9 @@ public class Meld3Pair1Wait2Side1 extends Meld4Pair1Tenpaiable {
         return wait2Side.getTilesToWin();
     }
 
+    @Override
+    public TileType pairType(TileType tileToWin) {
+        return getPair().type();
+    }
+
 }

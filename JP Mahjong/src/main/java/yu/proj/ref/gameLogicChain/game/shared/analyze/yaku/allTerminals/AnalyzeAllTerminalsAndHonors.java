@@ -17,7 +17,7 @@ public class AnalyzeAllTerminalsAndHonors extends SimpleConditionYakuAnalyzer {
 
     protected AnalyzeAllTerminalsAndHonors() {
         // 混老头不能同时是清老头或者字一色
-        super((util) -> (util.allTreminalsAndHonors() && !(util.allHonors() || util.allTerminals())),
+        super((util) -> (util.allTerminalsAndHonors() && !(util.allHonors() || util.allTerminals())),
             Yaku.ALL_TERMINALS_AND_HONORS);
     }
 

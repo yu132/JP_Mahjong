@@ -32,9 +32,9 @@ public class AnalyzeBigThreeDragons implements YakuAnalyzer {
     public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
         if (hasAllDragonTriplets(data)) {
             yakuManager.both(Yaku.BIG_THREE_DRAGONS);
-        }
-        if (enableResponsibility(data)) {
-            analyzeResponsibility(data, yakuManager);
+            if (enableResponsibility(data)) {
+                analyzeResponsibility(data, yakuManager);
+            }
         }
     }
 

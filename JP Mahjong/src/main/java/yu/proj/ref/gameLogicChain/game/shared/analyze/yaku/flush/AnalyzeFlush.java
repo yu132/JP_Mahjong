@@ -22,7 +22,7 @@ public abstract class AnalyzeFlush extends SimpleConditionYakuAnalyzer {
         super(condition, yaku);
     }
 
-    protected static boolean isFullFlush(TilesCounterUtilForPatternAnalyze util) {
+    public static boolean isFullFlush(TilesCounterUtilForPatternAnalyze util) {
         return util.allMans() || util.allPins() || util.allSous();
     }
 

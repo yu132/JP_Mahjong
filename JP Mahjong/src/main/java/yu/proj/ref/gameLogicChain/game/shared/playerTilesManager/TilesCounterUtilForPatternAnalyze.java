@@ -408,12 +408,30 @@ public class TilesCounterUtilForPatternAnalyze {
         return has(WINDS) + has(DRAGONS);
     }
 
+    public int differentMans() {
+        return has(MANS);
+    }
+
+    public int differentPins() {
+        return has(PINS);
+    }
+
+    public int differentSous() {
+        return has(SOUS);
+    }
+
     public int differentTerminalsAndHonors() {
         return differentTerminals() + differentHonors();
     }
 
+    // 是否门清是不判断暗杠的
     public boolean isMenzenchin() {
         return playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCallExceptConcealedKan() == 0;
+    }
+
+    // 这个是否鸣牌中包括暗杠
+    public boolean hasNotMakeCall() {
+        return playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCall() == 0;
     }
 
     public List<Meld> tripletsAndQuadsOrder() {

@@ -28,6 +28,7 @@ public class YakuAnalyzeData {
     private TileType prevalentWind;
     private TileType seatWind;
     private Tenpaiable tenpaiable;
+    private TileType tileToWin;
     private PlayerTileManager playerTileManager;
     private TilesCounterUtilForPatternAnalyze tilesCountUtil;
 }

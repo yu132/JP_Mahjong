@@ -255,12 +255,24 @@ public class TilesCounterUtilForPatternAnalyze {
         return count(TERMINALS);
     }
 
+    public boolean allTerminals() {
+        return countTerminals() == ALL_TILES_IN_HAND_NUM;
+    }
+
     public int countHonors() {
         return count(HONORS);
     }
 
+    public boolean allHonors() {
+        return countHonors() == ALL_TILES_IN_HAND_NUM;
+    }
+
     public int countTreminalsAndHonors() {
         return countTerminals() + countHonors();
+    }
+
+    public boolean allTreminalsAndHonors() {
+        return countTreminalsAndHonors() == ALL_TILES_IN_HAND_NUM;
     }
 
     public int count2to8() {

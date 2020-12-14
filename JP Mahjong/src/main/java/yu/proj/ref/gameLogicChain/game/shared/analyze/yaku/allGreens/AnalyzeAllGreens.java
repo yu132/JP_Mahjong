@@ -44,6 +44,8 @@ public class AnalyzeAllGreens implements YakuAnalyzer {
             case WITHOUT_GREEN_DRAGON_AS_TRUE_ALL_GREEN:
                 if (countUtil.count(GREEN) == 0) {
                     yakuManager.both(Yaku.TRUE_ALL_GREENS);
+                } else {
+                    yakuManager.both(Yaku.ALL_GREENS);
                 }
                 break;
 

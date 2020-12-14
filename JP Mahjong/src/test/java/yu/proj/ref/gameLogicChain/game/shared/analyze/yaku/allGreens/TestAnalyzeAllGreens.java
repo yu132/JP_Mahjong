@@ -98,4 +98,27 @@ public class TestAnalyzeAllGreens {
         assertTrue(taData.bothContainYaku(Yaku.TRUE_ALL_GREENS));
     }
 
+    @Test
+    public void testRuleHasGreenNotToTrueGreen() {
+
+        taData.gameRule = taData.gameRule.toBuilder()
+            .allGreenRule(GreenDragonInAllGreenRule.WITHOUT_GREEN_DRAGON_AS_TRUE_ALL_GREEN).build();
+
+        taData.draw(SOU_2, SOU_2, SOU_2);
+
+        taData.draw(SOU_3, SOU_3, SOU_3);
+
+        taData.draw(SOU_4, SOU_4, SOU_4);
+
+        taData.draw(SOU_6, SOU_6);
+
+        taData.draw(GREEN, GREEN);
+
+        YakuAnalyzeData yaData = taData.yaData(taData.getFirstTenpai(GREEN), GREEN);
+
+        analyzer.analyzeYaku(yaData, taData.yakuManager);
+
+        assertTrue(taData.bothContainYaku(Yaku.ALL_GREENS));
+    }
+
 }

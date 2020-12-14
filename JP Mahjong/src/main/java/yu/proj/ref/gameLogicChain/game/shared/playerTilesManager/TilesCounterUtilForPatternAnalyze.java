@@ -413,7 +413,7 @@ public class TilesCounterUtilForPatternAnalyze {
     }
 
     public boolean isMenzenchin() {
-        return playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCall() == 0;
+        return playerTileManager.getPlayerExposedTilesManager().sizeOfMakeCallExceptConcealedKan() == 0;
     }
 
     public List<Meld> tripletsAndQuadsOrder() {

@@ -88,4 +88,9 @@ public class PlayerExposedTilesManager {
             + addKanQuads.size();
     }
 
+    public int sizeOfMakeCallExceptConcealedKan() {
+        return sequences.size() + triplets.size() + exposedKanQuads.size() + concealedKanQuads.size()
+            + addKanQuads.size();
+    }
+
 }

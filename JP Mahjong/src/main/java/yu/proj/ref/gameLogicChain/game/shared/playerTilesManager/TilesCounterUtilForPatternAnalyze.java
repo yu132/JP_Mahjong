@@ -45,7 +45,8 @@ public class TilesCounterUtilForPatternAnalyze {
     private final static int PAIR_TILE_NUM = 2;
 
     private final static TileType[] TERMINALS = {MAN_1, MAN_9, PIN_1, PIN_9, SOU_1, SOU_9};
-    private final static TileType[] HONORS = {EAST, SOUTH, WEST, NORTH, WHITE, GREEN, RED};
+    // private final static TileType[] HONORS = {EAST, SOUTH, WEST, NORTH, WHITE, GREEN, RED};
+    private final static TileType[] WINDS = {EAST, SOUTH, WEST, NORTH};
     private final static TileType[] DRAGONS = {WHITE, GREEN, RED};
     private final static TileType[] GREENS = {SOU_2, SOU_3, SOU_4, SOU_6, SOU_8, GREEN};
 
@@ -298,7 +299,7 @@ public class TilesCounterUtilForPatternAnalyze {
     }
 
     public int countHonors() {
-        return count(HONORS);
+        return countWinds() + countDragons();
     }
 
     public boolean allHonors() {
@@ -327,6 +328,10 @@ public class TilesCounterUtilForPatternAnalyze {
 
     public int countDragons() {
         return count(DRAGONS);
+    }
+
+    public int countWinds() {
+        return count(WINDS);
     }
 
     public int countGreens() {
@@ -400,7 +405,7 @@ public class TilesCounterUtilForPatternAnalyze {
     }
 
     public int differentHonors() {
-        return has(HONORS);
+        return has(WINDS) + has(DRAGONS);
     }
 
     public int differentTerminalsAndHonors() {

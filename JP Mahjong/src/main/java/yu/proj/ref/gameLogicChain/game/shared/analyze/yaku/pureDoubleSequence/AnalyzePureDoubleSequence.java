@@ -4,7 +4,7 @@ import java.util.Map.Entry;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.rule.yaku.pureFourSequence.PureFourSequenceRule;
 import yu.proj.ref.tile.TileType;
@@ -31,7 +31,7 @@ public class AnalyzePureDoubleSequence implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
 
         int count = pureDoubleSequenceCount(data);
 

@@ -8,7 +8,7 @@ import java.util.List;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair1Wait2Side1;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
@@ -34,7 +34,7 @@ public class AnalyzePinfu implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         if (isPinfu(data)) {
             yakuManager.both(Yaku.PINFU);
         }

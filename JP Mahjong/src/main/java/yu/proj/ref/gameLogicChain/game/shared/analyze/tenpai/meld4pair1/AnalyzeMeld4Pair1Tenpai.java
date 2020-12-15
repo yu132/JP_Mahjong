@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileInHandGetter;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
@@ -47,7 +46,6 @@ public class AnalyzeMeld4Pair1Tenpai {
     }
 
     // 递归中不变的数据
-    @AllArgsConstructor
     @Builder(toBuilder = true)
     static class NotChangedData {
         int exposedMeldNum;
@@ -68,9 +66,26 @@ public class AnalyzeMeld4Pair1Tenpai {
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), tenpaiResult, playerTileManager,
                 playerTileManager.playerTileInHandGetter(), new EnumMap<>(TileType.class));
         }
+
+        NotChangedData(int exposedMeldNum, List<Sequence> concealedSequences, List<Triplet> concealedTriplets,
+            List<Pair> pairs, List<Singleton> singletons, List<Wait2Side> wait2Sides, List<WaitMiddle> waitMiddles,
+            List<Meld4Pair1Tenpaiable> tenpaiResult, PlayerTileManager playerTileManager, PlayerTileInHandGetter getter,
+            EnumMap<TileType, Integer> used) {
+            super();
+            this.exposedMeldNum = exposedMeldNum;
+            this.concealedSequences = concealedSequences;
+            this.concealedTriplets = concealedTriplets;
+            this.pairs = pairs;
+            this.singletons = singletons;
+            this.wait2Sides = wait2Sides;
+            this.waitMiddles = waitMiddles;
+            this.tenpaiResult = tenpaiResult;
+            this.playerTileManager = playerTileManager;
+            this.getter = getter;
+            this.used = used;
+        }
     }
 
-    @AllArgsConstructor
     static class BacktrackingAlgorithmForTenpaiAnalyze {
 
         private final static int TRIPLET_TILE_NUM = 3;
@@ -87,12 +102,15 @@ public class AnalyzeMeld4Pair1Tenpai {
          * 然后要求必须按照序号进行遍历，例如遍历完刻子可以遍历顺子，但是遍历完顺子之后不能再去遍历刻子
          * 这样保证了顺序的唯一性，因此就不会产生重复
          */
-        @AllArgsConstructor
         static enum TryOrder {
             TRY_NONE(0), TRY_TRIPLET(1), TRY_PAIR(2), TRY_SINGLETON(3), TRY_WAIT_2_SIDE(4), TRY_WAIT_MIDDLE(5),
             TRY_SEQUENCE(6);
 
             private int order;
+
+            private TryOrder(int order) {
+                this.order = order;
+            }
 
             boolean rightVisitOrder(TryOrder other) {
                 return other == TRY_SEQUENCE ? true : order < other.order;
@@ -105,6 +123,12 @@ public class AnalyzeMeld4Pair1Tenpai {
 
         NotChangedData data;
 
+        BacktrackingAlgorithmForTenpaiAnalyze(TileType type, TryOrder visitOrder, NotChangedData data) {
+            super();
+            this.type = type;
+            this.visitOrder = visitOrder;
+            this.data = data;
+        }
 
         // 递归的核心方法
         void execute() {

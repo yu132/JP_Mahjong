@@ -23,7 +23,6 @@ public class YakuAnalyzeDataForTest {
 
     public static YakuAnalyzeData data(TestAnalyzeData tadata, Tenpaiable tenpaiable, TileType tileToWin) {
         return new YakuAnalyzeData(MahjongSoulRule.mahjongSoulDefaultFourPalyerRule, EAST, EAST, tenpaiable, tileToWin,
-            tadata.playerTileManager,
             new TilesCounterUtilForPatternAnalyze(tadata.playerTileManager, tenpaiable, tileToWin));
     }
 

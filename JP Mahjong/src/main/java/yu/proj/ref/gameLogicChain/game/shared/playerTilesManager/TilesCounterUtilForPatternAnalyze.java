@@ -86,7 +86,7 @@ public class TilesCounterUtilForPatternAnalyze {
     }
 
     private void analyzePairType() {
-        if (tenpaiable instanceof Meld4Singleton1) {
+        if (tenpaiable instanceof Meld4Pair1Tenpaiable) {
             pairType = ((Meld4Singleton1)tenpaiable).pairType(tileToWin);
         }
     }

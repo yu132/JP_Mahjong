@@ -12,6 +12,6 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku;
  */
 public interface YakuAnalyzer {
 
-    void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager);
+    void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager);
 
 }

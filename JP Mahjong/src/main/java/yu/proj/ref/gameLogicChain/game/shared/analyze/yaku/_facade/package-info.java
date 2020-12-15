@@ -8,4 +8,4 @@
  * @date 2020年12月14日  
  *  
  */
-package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.outsideHand;
+package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku._facade;

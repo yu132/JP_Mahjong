@@ -4,7 +4,7 @@ import static yu.proj.ref.tile.TileType.*;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
@@ -30,7 +30,7 @@ public class AnalyzePureStraight implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         if (isPureStraight(data)) {
             yakuManager.both(Yaku.PURE_STRAIGHT);
         }

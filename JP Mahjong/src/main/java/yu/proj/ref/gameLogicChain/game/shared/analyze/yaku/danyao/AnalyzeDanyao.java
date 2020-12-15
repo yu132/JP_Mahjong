@@ -2,7 +2,7 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.danyao;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.rule.danyao.DanyaoRule;
 import yu.proj.ref.tile.Yaku;
@@ -27,7 +27,7 @@ public class AnalyzeDanyao implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
 
         TilesCounterUtilForPatternAnalyze countUtil = data.getTilesCountUtil();
 

@@ -48,7 +48,7 @@ public class TenpaiManager {
 
     public void addTenpaiable(Tenpaiable tenpaiable) {
         for (TileType tileToWin : tenpaiable.getTilesToWin()) {
-            if (allowNotRealTenpai() || isNotNotRealTenpai(tileToWin)) {
+            if (allowNotRealTenpai() || isNotNotRealTenpai(tileToWin)) {// 虚听处理
                 tileToWinAndTenpaiablesMap.computeIfAbsent(tileToWin, (x) -> new ArrayList<>()).add(tenpaiable);
             }
         }

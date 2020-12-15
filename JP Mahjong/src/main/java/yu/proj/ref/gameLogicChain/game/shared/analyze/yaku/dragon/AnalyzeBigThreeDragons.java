@@ -7,7 +7,7 @@ import java.util.List;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.rule.responsibility.ResponsibilityRule.BigThreeDragon;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tile.Yaku;
@@ -37,7 +37,7 @@ public class AnalyzeBigThreeDragons implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         if (hasAllDragonTriplets(data)) {
             yakuManager.both(Yaku.BIG_THREE_DRAGONS);
             if (enableResponsibility(data)) {
@@ -46,7 +46,7 @@ public class AnalyzeBigThreeDragons implements YakuAnalyzer {
         }
     }
 
-    private void analyzeResponsibility(YakuAnalyzeData data, YakuManager yakuManager) {
+    private void analyzeResponsibility(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         int count = 0;
         MeldSource src = null;
 

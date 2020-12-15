@@ -2,7 +2,7 @@ package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.quads;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.rule.responsibility.ResponsibilityRule.FourQuads;
 import yu.proj.ref.tile.Yaku;
 import yu.proj.ref.tilePatternElement.Meld;
@@ -29,7 +29,7 @@ public class AnalyzeFourQuads implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
 
         if (isFourQuads(data)) {
             yakuManager.both(Yaku.FOUR_QUADS);
@@ -49,7 +49,7 @@ public class AnalyzeFourQuads implements YakuAnalyzer {
         return data.getTilesCountUtil().quadTotalNum() == 4;
     }
 
-    private void analyzeResponsibility(YakuAnalyzeData data, YakuManager yakuManager) {
+    private void analyzeResponsibility(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         // 最后一个杠子是明杠的时候，就需要包牌
         if (lastQuad(data) instanceof ExposedKanQuad) {
             yakuManager.setFourQuadsResponsibility(((ExposedKanQuad)lastQuad(data)).getSrc());

@@ -17,7 +17,7 @@ import yu.proj.ref.tile.Yaku;
 public abstract class AnalyzeTriplet implements YakuAnalyzer {
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         TilesCounterUtilForPatternAnalyze countUtil = data.getTilesCountUtil();
 
         if (hasTriplet(data, countUtil)) {

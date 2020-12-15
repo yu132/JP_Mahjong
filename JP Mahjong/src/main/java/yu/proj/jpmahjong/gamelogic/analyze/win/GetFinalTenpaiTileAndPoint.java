@@ -19,15 +19,16 @@ import yu.proj.jpmahjong.tiles.meld.Meld;
 import yu.proj.jpmahjong.tiles.tenpaiPattern.TilePatternNode;
 import yu.proj.jpmahjong.yaku.Yaku;
 
-/**  
- * @ClassName: GetFinalTenpaiTileAndPoint  
+/***
+
+@ClassName: GetFinalTenpaiTileAndPoint
  *
  * @Description: 获取每张听的牌，以及这张牌对应自摸和荣和对应的符数和役和番数，并算出最后的打点
  *
- * @author 余定邦  
+ * @author 余定邦
  *
- * @date 2020年9月22日  
- *  
+ * @date 2020年9月22日
+ *
  */
 public class GetFinalTenpaiTileAndPoint {
 
@@ -41,98 +42,97 @@ public class GetFinalTenpaiTileAndPoint {
     public FinalTenpaiAns analyzeTenpaiAns(CountNum concealedHand, CountNum fullHand, List<Meld> makeCall,
         List<Meld> concealedKan, TileType prevalentWind, TileType seatWind, boolean isDealer) {
 
-        AnalyzeTenpai                       analyzeTenpai =
-            new AnalyzeTenpai(rule, concealedHand, fullHand, makeCall, concealedKan);
+        AnalyzeTenpai analyzeTenpai = new AnalyzeTenpai(rule, concealedHand, fullHand, makeCall, concealedKan);
 
-        Map<Integer, List<TilePatternNode>> tenpaiAns     = analyzeTenpai.isTenpai();
+        Map<Integer, List<TilePatternNode>> tenpaiAns = analyzeTenpai.isTenpai();
 
-        Map<Integer, TenpaiAnsNode>         ron           = new HashMap<>();
-        Map<Integer, TenpaiAnsNode>         tsumo         = new HashMap<>();
+        Map<Integer, TenpaiAnsNode> ron = new HashMap<>();
+        Map<Integer, TenpaiAnsNode> tsumo = new HashMap<>();
 
         for (Entry<Integer, List<TilePatternNode>> entry : tenpaiAns.entrySet()) {
 
-            int           tenpaiTileIndex = entry.getKey();
+            int tenpaiTileIndex = entry.getKey();
 
             /*
-             * 对于每种听的牌去计算听这张牌的情况下最大的一种牌型
-             * 由于非牌型的番对于每种牌型都是适用的，因此不存在哪种牌型在某种情况下会有额外的番
-             * 因此大家的加的番同样的情况下，之前分数高的解释情况依然适用，而不会说受到加番的影响
-             * 而导致某种解释情况在加番之前得分低，而之后得分高的情况
-             * 因此我们可以直接先把得分高的解释情况先筛选出来
-             */
-            TenpaiAnsNode ronMaxPoint     = null;
-            TenpaiAnsNode tsumoMaxPoint   = null;
+            * 对于每种听的牌去计算听这张牌的情况下最大的一种牌型
+            * 由于非牌型的番对于每种牌型都是适用的，因此不存在哪种牌型在某种情况下会有额外的番
+            * 因此大家的加的番同样的情况下，之前分数高的解释情况依然适用，而不会说受到加番的影响
+            * 而导致某种解释情况在加番之前得分低，而之后得分高的情况
+            * 因此我们可以直接先把得分高的解释情况先筛选出来
+            */
+            TenpaiAnsNode ronMaxPoint = null;
+            TenpaiAnsNode tsumoMaxPoint = null;
 
             for (TilePatternNode tpn : entry.getValue()) {
-                CountPatternYaku countYaku        =
+                CountPatternYaku countYaku =
                     new CountPatternYaku(rule, prevalentWind, seatWind, tpn, tenpaiTileIndex, fullHand);
 
-                YakuAns          yakuAns          = countYaku.countYaku();
+                YakuAns yakuAns = countYaku.countYaku();
 
-                Set<Yaku>        yakuSet          = yakuAns.getYaku();
+                Set<Yaku> yakuSet = yakuAns.getYaku();
 
-                CountPatternFu   countFu          = new CountPatternFu(rule, prevalentWind, seatWind, tpn,
-                    tenpaiTileIndex, yakuAns.getYaku().contains(Yaku.PINFU), yakuAns.isMenzenchin());
+                CountPatternFu countFu = new CountPatternFu(rule, prevalentWind, seatWind, tpn, tenpaiTileIndex,
+                    yakuAns.getYaku().contains(Yaku.PINFU), yakuAns.isMenzenchin());
 
-                FuAns            fuAns            = countFu.countFu();
+                FuAns fuAns = countFu.countFu();
 
-                int              hanWhenRon       = 0;
-                int              hanWhenTsumo     = 0;
+                int hanWhenRon = 0;
+                int hanWhenTsumo = 0;
 
-                int              yakumanWhenRon   = 0;
-                int              yakumanWhenTsumo = 0;
+                int yakumanWhenRon = 0;
+                int yakumanWhenTsumo = 0;
 
-                // 统计役对应的番数
-                for (Yaku yaku : yakuAns.getYaku()) {
-                    int order = yaku.ordinal();
-
-                    if (order < END_OF_1_HAN.ordinal()) {
-                        hanWhenRon   += 1;
-                        hanWhenTsumo += 1;
-                    } else if (yaku == THREE_CONCEALED_TRIPLETS_WHEN_TSUMO) {
-                        hanWhenTsumo += 2;
-                    } else if (order < END_OF_2_HAN.ordinal()) {
-                        hanWhenRon   += 2;
-                        hanWhenTsumo += 2;
-                    } else if (order < END_OF_3_HAN.ordinal()) {
-                        hanWhenRon   += 3;
-                        hanWhenTsumo += 3;
-                    } else if (order < END_OF_6_HAN.ordinal()) {
-                        hanWhenRon   += 6;
-                        hanWhenTsumo += 6;
-                    } else if (yaku == FOUR_CONCEALED_TRIPLETS_WHEN_TSUMO) {
-                        yakumanWhenTsumo += 1;
-                    } else if (order < END_OF_YAKUMAN.ordinal()) {
-                        yakumanWhenRon   += 1;
-                        yakumanWhenTsumo += 1;
-                    } else if (order < END_OF_DOUBLE_YAKUMAN.ordinal()) {
-                        yakumanWhenRon   += 2;
-                        yakumanWhenTsumo += 2;
-                    }
-                }
+                // // 统计役对应的番数
+                // for (Yaku yaku : yakuAns.getYaku()) {
+                // int order = yaku.ordinal();
+                //
+                // if (order < END_OF_1_HAN.ordinal()) {
+                // hanWhenRon += 1;
+                // hanWhenTsumo += 1;
+                // } else if (yaku == THREE_CONCEALED_TRIPLETS_WHEN_TSUMO) {
+                // hanWhenTsumo += 2;
+                // } else if (order < END_OF_2_HAN.ordinal()) {
+                // hanWhenRon += 2;
+                // hanWhenTsumo += 2;
+                // } else if (order < END_OF_3_HAN.ordinal()) {
+                // hanWhenRon += 3;
+                // hanWhenTsumo += 3;
+                // } else if (order < END_OF_6_HAN.ordinal()) {
+                // hanWhenRon += 6;
+                // hanWhenTsumo += 6;
+                // } else if (yaku == FOUR_CONCEALED_TRIPLETS_WHEN_TSUMO) {
+                // yakumanWhenTsumo += 1;
+                // } else if (order < END_OF_YAKUMAN.ordinal()) {
+                // yakumanWhenRon += 1;
+                // yakumanWhenTsumo += 1;
+                // } else if (order < END_OF_DOUBLE_YAKUMAN.ordinal()) {
+                // yakumanWhenRon += 2;
+                // yakumanWhenTsumo += 2;
+                // }
+                // }
 
                 // 减去食下役的减番
                 if (!yakuAns.isMenzenchin()) {
                     if (yakuSet.contains(HALF_OUTSIDE_HAND)) {
-                        hanWhenRon   -= 1;
+                        hanWhenRon -= 1;
                         hanWhenTsumo -= 1;
                     }
                     if (yakuSet.contains(PURE_STRAIGHT)) {
-                        hanWhenRon   -= 1;
+                        hanWhenRon -= 1;
                         hanWhenTsumo -= 1;
                     }
                     if (yakuSet.contains(MIXED_TRIPLE_SEQUENCE)) {
-                        hanWhenRon   -= 1;
+                        hanWhenRon -= 1;
                         hanWhenTsumo -= 1;
                     }
                     if (yakuSet.contains(FULL_OUTSIDE_HAND)) {
-                        hanWhenRon   -= 1;
+                        hanWhenRon -= 1;
                         hanWhenTsumo -= 1;
                     }
                 }
 
                 // 在这里还判断不了番缚的情况，因为除了CountPatternYaku里能够检查的番，还有其他的番的可能
-                TenpaiAnsNode ronAns   = new TenpaiAnsNode(tenpaiTileIndex, tpn, yakumanWhenRon, hanWhenRon,
+                TenpaiAnsNode ronAns = new TenpaiAnsNode(tenpaiTileIndex, tpn, yakumanWhenRon, hanWhenRon,
                     fuAns.getFuWhenRon(), isDealer, false, yakuAns, rule);
 
                 TenpaiAnsNode tsumoAns = new TenpaiAnsNode(tenpaiTileIndex, tpn, yakumanWhenTsumo, hanWhenTsumo,
@@ -168,8 +168,8 @@ public class GetFinalTenpaiTileAndPoint {
         public FinalTenpaiAns(Map<Integer, TenpaiAnsNode> ron, Map<Integer, TenpaiAnsNode> tsumo,
             Map<Integer, List<TilePatternNode>> fullTenpaiAns) {
             super();
-            this.ron           = ron;
-            this.tsumo         = tsumo;
+            this.ron = ron;
+            this.tsumo = tsumo;
             this.fullTenpaiAns = fullTenpaiAns;
         }
 
@@ -209,13 +209,13 @@ public class GetFinalTenpaiTileAndPoint {
         private PointWhenNotDealerWin pointWhenNotDealerWin;
 
         /**
-         * 用于保存牌的役和包牌信息
-         */
+        * 用于保存牌的役和包牌信息
+        */
         private YakuAns yakuAns;
 
         /**
-         * 用于存储非牌型番的算点问题 
-         */
+        * 用于存储非牌型番的算点问题
+        */
         private Set<Yaku> yakuSet;
         private Yaku removeYaku;
 
@@ -226,44 +226,44 @@ public class GetFinalTenpaiTileAndPoint {
             boolean isDealer, boolean isTsumo, YakuAns yakuAns, Rule rule) {
             super();
             this.tenpaiTileIndex = tenpaiTileIndex;
-            this.pattern         = pattern;
-            this.yakuman         = yakuman;
-            this.han             = han;
-            this.fu              = fu;
-            this.isDealer        = isDealer;
-            this.isTsumo         = isTsumo;
-            this.yakuAns         = yakuAns;
+            this.pattern = pattern;
+            this.yakuman = yakuman;
+            this.han = han;
+            this.fu = fu;
+            this.isDealer = isDealer;
+            this.isTsumo = isTsumo;
+            this.yakuAns = yakuAns;
 
-            countPoint           = new CountPatternPoint(rule);
-            this.rule            = rule;
+            countPoint = new CountPatternPoint(rule);
+            this.rule = rule;
 
             countPoint();
         }
 
         /**
-         * 
-         * @Title: updateNotPatternYakuAndDora  
-         *
-         * @Description: 更新非牌型带来的役，包括：
-         *               立直、一发、双立直、门前清自摸和 、抢杠、岭上开花、海底摸月、河底捞鱼、天和、地和
-         *
-         * @param yakuSet
-         * @param removeYaku
-         *
-         * @throws  
-         *
-         */
+        *
+        * @Title: updateNotPatternYakuAndDora
+        *
+        * @Description: 更新非牌型带来的役，包括：
+        * 立直、一发、双立直、门前清自摸和 、抢杠、岭上开花、海底摸月、河底捞鱼、天和、地和
+        *
+        * @param yakuSet
+        * @param removeYaku
+        *
+        * @throws
+        *
+        */
         public void updateNotPatternYaku(Set<Yaku> yakuSet, Yaku removeYaku) {
-            for (Yaku yaku : yakuSet) {
-                int order = yaku.ordinal();
-                if (order < END_OF_1_HAN.ordinal()) {// 立直、一发、门前清自摸和 、抢杠、岭上开花、海底摸月、河底捞鱼
-                    otherHan += 1;
-                } else if (order < END_OF_2_HAN.ordinal()) {// 双立直
-                    otherHan += 2;
-                } else if (order < END_OF_YAKUMAN.ordinal()) {// 天和、地和
-                    otherYakuman += 1;
-                }
-            }
+            // for (Yaku yaku : yakuSet) {
+            // int order = yaku.ordinal();
+            // if (order < END_OF_1_HAN.ordinal()) {// 立直、一发、门前清自摸和 、抢杠、岭上开花、海底摸月、河底捞鱼
+            // otherHan += 1;
+            // } else if (order < END_OF_2_HAN.ordinal()) {// 双立直
+            // otherHan += 2;
+            // } else if (order < END_OF_YAKUMAN.ordinal()) {// 天和、地和
+            // otherYakuman += 1;
+            // }
+            // }
 
             // 天和时一倍满改位二倍满的情况
             // 天和最多复合一种役满，纯正九莲宝灯，国士无双十三面和四暗刻单骑是冲突的
@@ -280,18 +280,18 @@ public class GetFinalTenpaiTileAndPoint {
         }
 
         /**
-         * 
-         * @Title: updatePointWithNotPatternYakuAndDora  
-         *
-         * @Description: 更新最终的打点
-         *
-         * @param dora
-         * @param uraDora
-         *
-         */
+        *
+        * @Title: updatePointWithNotPatternYakuAndDora
+        *
+        * @Description: 更新最终的打点
+        *
+        * @param dora
+        * @param uraDora
+        *
+        */
         public void updatePointWithNotPatternYakuAndDora(int dora, int uraDora) {
 
-            han     += otherHan;
+            han += otherHan;
             yakuman += otherYakuman;
 
             int totalDora = dora + yakuAns.getRedFive() + uraDora;

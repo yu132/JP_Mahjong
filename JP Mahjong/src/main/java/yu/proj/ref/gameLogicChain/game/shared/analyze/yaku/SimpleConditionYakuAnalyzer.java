@@ -31,7 +31,7 @@ public abstract class SimpleConditionYakuAnalyzer implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         if (condition.apply(data.getTilesCountUtil())) {
             yakuManager.both(yaku);
         }

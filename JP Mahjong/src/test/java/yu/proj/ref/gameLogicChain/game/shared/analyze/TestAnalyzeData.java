@@ -14,7 +14,7 @@ import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData.YakuAnalyzeDataBuilder;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeDataForTest;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManagerImpl;
 import yu.proj.ref.ops.tilesRelated.ChiiOperation;
@@ -40,13 +40,13 @@ public class TestAnalyzeData {
     public PlayerTileManager playerTileManager;
     public GameRule gameRule;
     public EnumMap<TileType, Integer> count;
-    public YakuManager yakuManager;
+    public PatternAndYaku yakuManager;
 
     public TestAnalyzeData() {
         this.gameRule = MahjongSoulRule.mahjongSoulDefaultFourPalyerRule;
         this.count = new EnumMap<>(TileType.class);
         this.playerTileManager = new PlayerTileManagerImpl();
-        this.yakuManager = new YakuManager();
+        this.yakuManager = new PatternAndYaku();
     }
 
     public void draw(TileType... tileTypesToDraw) {

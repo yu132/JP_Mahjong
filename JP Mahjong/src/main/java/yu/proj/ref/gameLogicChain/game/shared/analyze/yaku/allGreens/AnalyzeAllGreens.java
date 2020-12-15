@@ -4,7 +4,7 @@ import static yu.proj.ref.tile.TileType.*;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuManager;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.tile.Yaku;
 
@@ -29,14 +29,14 @@ public class AnalyzeAllGreens implements YakuAnalyzer {
     }
 
     @Override
-    public void analyzeYaku(YakuAnalyzeData data, YakuManager yakuManager) {
+    public void analyzeYaku(YakuAnalyzeData data, PatternAndYaku yakuManager) {
         TilesCounterUtilForPatternAnalyze countUtil = data.getTilesCountUtil();
         if (countUtil.allGreens()) {
             analyzeByRule(data, yakuManager, countUtil);
         }
     }
 
-    private void analyzeByRule(YakuAnalyzeData data, YakuManager yakuManager,
+    private void analyzeByRule(YakuAnalyzeData data, PatternAndYaku yakuManager,
         TilesCounterUtilForPatternAnalyze countUtil) {
         switch (data.getRule().allGreenRule) {
             case NEED_GREEN_DRAGON_TO_BE_ALL_GREEN:

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.Tenpaiable;
-import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.PlayerTileManager;
 import yu.proj.ref.gameLogicChain.game.shared.playerTilesManager.TilesCounterUtilForPatternAnalyze;
 import yu.proj.ref.rule.GameRule;
 import yu.proj.ref.tile.TileType;
@@ -29,6 +28,5 @@ public class YakuAnalyzeData {
     private TileType seatWind;
     private Tenpaiable tenpaiable;
     private TileType tileToWin;
-    private PlayerTileManager playerTileManager;
     private TilesCounterUtilForPatternAnalyze tilesCountUtil;
 }

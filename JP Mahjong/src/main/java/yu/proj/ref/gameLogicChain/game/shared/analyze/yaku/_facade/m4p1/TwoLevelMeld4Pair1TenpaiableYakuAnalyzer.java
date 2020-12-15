@@ -57,7 +57,7 @@ import yu.proj.ref.tile.Yaku;
 public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1TenpaiableYakuAnalyzer {
 
     //@formatter:off
-    private final static List<YakuAnalyzer> notYakumanAnalyzer = Arrays.asList(
+    private final static List<YakuAnalyzer> NOT_YAKUMAN_ANALYZERS = Arrays.asList(
         AnalyzeDanyao.getInstance(),
         AnalyzePrevalentWindTriplet.getInstance(),
         AnalyzeSeatWindTriplet.getInstance(),
@@ -83,7 +83,7 @@ public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1Tenpaiab
         AnalyzeFullFlush.getInstance()
     );
     
-    private final static List<YakuAnalyzer> yakumanAnalyzer = Arrays.asList(
+    private final static List<YakuAnalyzer> YAKUMAN_ANALYZERS = Arrays.asList(
         AnalyzeBigThreeDragons.getInstance(),
         AnalyzeFourConcealedTriplets.getInstance(),
         AnalyzeAllHonors.getInstance(),
@@ -113,8 +113,8 @@ public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1Tenpaiab
 
         if (noYakumanYakuWhenRon(patternAndYaku)) {
             analyzeNotYakumanYakuWhenRon(tenpaiable, tileToWin, patternAndYaku, yakuAnalyzeData);
-        } else if (NoYakumanYaku(patternAndYaku)) {
-            analyzeNotYakumanYaku(patternAndYaku, yakuAnalyzeData);
+        } else if (NoAnyYakumanYaku(patternAndYaku)) {
+            analyzeNotYakumanYaku(yakuAnalyzeData, patternAndYaku);
         }
 
         return patternAndYaku;
@@ -125,29 +125,34 @@ public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1Tenpaiab
 
         PatternAndYaku temp = new PatternAndYaku(tenpaiable, tileToWin);// 用于存储非役满的役的临时结构
 
-        analyzeNotYakumanYaku(temp, yakuAnalyzeData);
+        analyzeNotYakumanYaku(yakuAnalyzeData, temp);
 
         for (Yaku yaku : temp.getRonYakus()) {
             patternAndYaku.ron(yaku);// 由于自摸已经有役满，因此不计非役满的役，但是对于荣和就必须计
         }
     }
 
-    private void analyzeNotYakumanYaku(PatternAndYaku patternAndYaku, YakuAnalyzeData yakuAnalyzeData) {
-        for (YakuAnalyzer analyzer : notYakumanAnalyzer) {
-            analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
-        }
-    }
-
-    private boolean NoYakumanYaku(PatternAndYaku patternAndYaku) {
+    // 没有任何役满的役
+    private boolean NoAnyYakumanYaku(PatternAndYaku patternAndYaku) {
         return patternAndYaku.getTsumoYakus().size() == 0;
     }
 
+    // 其实就是有且只有四暗刻单骑一个役满的时候，才可能出现这种情况
     private boolean noYakumanYakuWhenRon(PatternAndYaku patternAndYaku) {
         return patternAndYaku.getRonYakus().size() == 0;
     }
 
+    private void analyzeNotYakumanYaku(YakuAnalyzeData yakuAnalyzeData, PatternAndYaku patternAndYaku) {
+        analyzeYaku(NOT_YAKUMAN_ANALYZERS, patternAndYaku, yakuAnalyzeData);
+    }
+
     private void analyzeYakumanYaku(PatternAndYaku patternAndYaku, YakuAnalyzeData yakuAnalyzeData) {
-        for (YakuAnalyzer analyzer : yakumanAnalyzer) {
+        analyzeYaku(YAKUMAN_ANALYZERS, patternAndYaku, yakuAnalyzeData);
+    }
+
+    private void analyzeYaku(List<YakuAnalyzer> analyzers, PatternAndYaku patternAndYaku,
+        YakuAnalyzeData yakuAnalyzeData) {
+        for (YakuAnalyzer analyzer : analyzers) {
             analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
         }
     }

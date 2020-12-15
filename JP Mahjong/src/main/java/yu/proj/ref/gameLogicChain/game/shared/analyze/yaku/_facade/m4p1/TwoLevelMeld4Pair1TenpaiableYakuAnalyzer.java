@@ -111,27 +111,38 @@ public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1Tenpaiab
 
         analyzeYakumanYaku(patternAndYaku, yakuAnalyzeData);
 
-        if (isFourConcealedTriplets(patternAndYaku)) {
-
-            PatternAndYaku temp = new PatternAndYaku(tenpaiable, tileToWin);
-
-            for (YakuAnalyzer analyzer : notYakumanAnalyzer) {
-                analyzer.analyzeYaku(yakuAnalyzeData, temp);
-            }
-
-            for (Yaku yaku : temp.getRonYakus()) {
-                patternAndYaku.ron(yaku);
-            }
-
-        } else if (patternAndYaku.getTsumoYakus().size() == 0) {
-            for (YakuAnalyzer analyzer : notYakumanAnalyzer) {
-                analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
-            }
+        if (noYakumanYakuWhenRon(patternAndYaku)) {
+            analyzeNotYakumanYakuWhenRon(tenpaiable, tileToWin, patternAndYaku, yakuAnalyzeData);
+        } else if (NoYakumanYaku(patternAndYaku)) {
+            analyzeNotYakumanYaku(patternAndYaku, yakuAnalyzeData);
         }
+
         return patternAndYaku;
     }
 
-    private boolean isFourConcealedTriplets(PatternAndYaku patternAndYaku) {
+    private void analyzeNotYakumanYakuWhenRon(Meld4Pair1Tenpaiable tenpaiable, TileType tileToWin,
+        PatternAndYaku patternAndYaku, YakuAnalyzeData yakuAnalyzeData) {
+
+        PatternAndYaku temp = new PatternAndYaku(tenpaiable, tileToWin);// 用于存储非役满的役的临时结构
+
+        analyzeNotYakumanYaku(temp, yakuAnalyzeData);
+
+        for (Yaku yaku : temp.getRonYakus()) {
+            patternAndYaku.ron(yaku);// 由于自摸已经有役满，因此不计非役满的役，但是对于荣和就必须计
+        }
+    }
+
+    private void analyzeNotYakumanYaku(PatternAndYaku patternAndYaku, YakuAnalyzeData yakuAnalyzeData) {
+        for (YakuAnalyzer analyzer : notYakumanAnalyzer) {
+            analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
+        }
+    }
+
+    private boolean NoYakumanYaku(PatternAndYaku patternAndYaku) {
+        return patternAndYaku.getTsumoYakus().size() == 0;
+    }
+
+    private boolean noYakumanYakuWhenRon(PatternAndYaku patternAndYaku) {
         return patternAndYaku.getRonYakus().size() == 0;
     }
 

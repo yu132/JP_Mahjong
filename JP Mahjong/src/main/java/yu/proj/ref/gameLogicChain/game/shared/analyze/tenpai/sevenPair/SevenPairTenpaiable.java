@@ -45,4 +45,8 @@ public class SevenPairTenpaiable implements Tenpaiable {
     public List<TileType> getTilesToWin() {
         return singleton.getTilesToWin();
     }
+
+    public TileType getTileToWin() {
+        return this.getSingleton().getTile().getTileType();
+    }
 }

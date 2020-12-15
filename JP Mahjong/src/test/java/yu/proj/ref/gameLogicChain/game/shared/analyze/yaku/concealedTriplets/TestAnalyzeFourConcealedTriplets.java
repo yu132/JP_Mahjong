@@ -49,7 +49,6 @@ public class TestAnalyzeFourConcealedTriplets {
         analyzer.analyzeYaku(yaData, taData.yakuManager);
 
         assertTrue(taData.yakuManager.getTsumoYakus().contains(Yaku.FOUR_CONCEALED_TRIPLETS));
-        assertTrue(taData.yakuManager.getRonYakus().contains(Yaku.THREE_CONCEALED_TRIPLETS));
     }
 
 }

@@ -1,9 +1,9 @@
 package yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.concealedTriplets;
 
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair2;
+import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzeData;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.YakuAnalyzer;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.yaku.PatternAndYaku;
 import yu.proj.ref.tile.Yaku;
 
 /**  
@@ -35,6 +35,8 @@ public class AnalyzeThreeConcealedTriplets implements YakuAnalyzer {
             } else {
                 yakuManager.both(Yaku.THREE_CONCEALED_TRIPLETS);
             }
+        } else if (data.getTilesCountUtil().concealedTripletNum() == 4 && data.getTenpaiable() instanceof Meld3Pair2) {
+            yakuManager.ron(Yaku.THREE_CONCEALED_TRIPLETS);// 普通四暗刻的牌型，但是荣和只能算三暗刻
         }
     }
 

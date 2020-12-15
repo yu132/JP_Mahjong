@@ -15,7 +15,6 @@ import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pai
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair1WaitMiddle1;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld3Pair2;
 import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld4Pair1Tenpaiable;
-import yu.proj.ref.gameLogicChain.game.shared.analyze.tenpai.meld4pair1.Meld4Singleton1;
 import yu.proj.ref.tile.TileType;
 import yu.proj.ref.tilePatternElement.Meld;
 import yu.proj.ref.tilePatternElement.Sequence;
@@ -87,7 +86,7 @@ public class TilesCounterUtilForPatternAnalyze {
 
     private void analyzePairType() {
         if (tenpaiable instanceof Meld4Pair1Tenpaiable) {
-            pairType = ((Meld4Singleton1)tenpaiable).pairType(tileToWin);
+            pairType = ((Meld4Pair1Tenpaiable)tenpaiable).pairType(tileToWin);
         }
     }
 

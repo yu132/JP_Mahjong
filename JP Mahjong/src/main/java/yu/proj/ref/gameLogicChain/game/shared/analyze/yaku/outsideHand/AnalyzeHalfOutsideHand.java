@@ -23,8 +23,9 @@ public class AnalyzeHalfOutsideHand extends SimpleConditionYakuAnalyzer {
     }
 
     private AnalyzeHalfOutsideHand() {
-        // 混老头一定是混全带，因此不重复计算
-        super((util) -> (util.allOutSideHandAndHonors() && !util.allTerminalsAndHonors()), Yaku.HALF_OUTSIDE_HAND);
+        // 混老头一定是混全带，因此不重复计算，纯全带也不再重复计混全带
+        super((util) -> (util.allOutSideHandAndHonors() && !util.allTerminalsAndHonors() && !util.allOutSideHand()),
+            Yaku.HALF_OUTSIDE_HAND);
     }
 
 }

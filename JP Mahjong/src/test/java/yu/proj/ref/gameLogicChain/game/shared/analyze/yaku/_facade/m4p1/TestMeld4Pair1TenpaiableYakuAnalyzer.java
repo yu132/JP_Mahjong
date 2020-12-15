@@ -87,7 +87,7 @@ public class TestMeld4Pair1TenpaiableYakuAnalyzer {
     public void test4() {
         taData.draw(MAN_1, MAN_2, MAN_3);
 
-        taData.chii(MAN_1, MAN_2, MAN_3);
+        taData.chii(MAN_2, MAN_3, MAN_4);
 
         taData.draw(MAN_4, MAN_5, MAN_6);
 

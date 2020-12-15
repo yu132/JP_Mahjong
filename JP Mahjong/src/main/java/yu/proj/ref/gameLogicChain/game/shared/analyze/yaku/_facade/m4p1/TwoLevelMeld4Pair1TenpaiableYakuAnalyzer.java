@@ -56,11 +56,6 @@ import yu.proj.ref.tile.Yaku;
  */
 public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1TenpaiableYakuAnalyzer {
 
-    TwoLevelMeld4Pair1TenpaiableYakuAnalyzer(GameRule rule, TileType prevalentWind, TileType seatWind,
-        PlayerTileManager playerTileManager) {
-        super(rule, prevalentWind, seatWind, playerTileManager);
-    }
-
     //@formatter:off
     private final static List<YakuAnalyzer> notYakumanAnalyzer = Arrays.asList(
         AnalyzeDanyao.getInstance(),
@@ -103,21 +98,46 @@ public class TwoLevelMeld4Pair1TenpaiableYakuAnalyzer extends Meld4Pair1Tenpaiab
     );
     //@formatter:on
 
+    public TwoLevelMeld4Pair1TenpaiableYakuAnalyzer(GameRule rule, TileType prevalentWind, TileType seatWind,
+        PlayerTileManager playerTileManager) {
+        super(rule, prevalentWind, seatWind, playerTileManager);
+    }
 
     @Override
     public PatternAndYaku analyze(Meld4Pair1Tenpaiable tenpaiable, TileType tileToWin) {
         PatternAndYaku patternAndYaku = new PatternAndYaku(tenpaiable, tileToWin);
         YakuAnalyzeData yakuAnalyzeData = new YakuAnalyzeData(rule, prevalentWind, seatWind, tenpaiable, tileToWin,
             new TilesCounterUtilForPatternAnalyze(playerTileManager, tenpaiable, tileToWin));
-        for (YakuAnalyzer analyzer : yakumanAnalyzer) {
-            analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
-        }
-        if ((patternAndYaku.getRonYakus().contains(Yaku.THREE_CONCEALED_TRIPLETS)
-            && patternAndYaku.getRonYakus().size() == 1) || patternAndYaku.getRonYakus().size() == 0) {
+
+        analyzeYakumanYaku(patternAndYaku, yakuAnalyzeData);
+
+        if (isFourConcealedTriplets(patternAndYaku)) {
+
+            PatternAndYaku temp = new PatternAndYaku(tenpaiable, tileToWin);
+
+            for (YakuAnalyzer analyzer : notYakumanAnalyzer) {
+                analyzer.analyzeYaku(yakuAnalyzeData, temp);
+            }
+
+            for (Yaku yaku : temp.getRonYakus()) {
+                patternAndYaku.ron(yaku);
+            }
+
+        } else if (patternAndYaku.getTsumoYakus().size() == 0) {
             for (YakuAnalyzer analyzer : notYakumanAnalyzer) {
                 analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
             }
         }
         return patternAndYaku;
+    }
+
+    private boolean isFourConcealedTriplets(PatternAndYaku patternAndYaku) {
+        return patternAndYaku.getRonYakus().size() == 0;
+    }
+
+    private void analyzeYakumanYaku(PatternAndYaku patternAndYaku, YakuAnalyzeData yakuAnalyzeData) {
+        for (YakuAnalyzer analyzer : yakumanAnalyzer) {
+            analyzer.analyzeYaku(yakuAnalyzeData, patternAndYaku);
+        }
     }
 }

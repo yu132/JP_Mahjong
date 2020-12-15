@@ -152,7 +152,8 @@ public class TestMeld4Pair1TenpaiableYakuAnalyzer {
         PatternAndYaku patternAndYaku =
             analyzer.analyze((Meld4Pair1Tenpaiable)taData.getFirstTenpai(SOU_1, Meld4Pair1Tenpaiable.class), SOU_1);
 
-        assertEquals(Sets.newHashSet(ALL_TERMINALS_AND_HONORS), patternAndYaku.getRonYakus());
+        assertEquals(Sets.newHashSet(ALL_TERMINALS_AND_HONORS, ALL_TRIPLETS, TRIPLE_TRIPLETS),
+            patternAndYaku.getRonYakus());
     }
 
     @Test

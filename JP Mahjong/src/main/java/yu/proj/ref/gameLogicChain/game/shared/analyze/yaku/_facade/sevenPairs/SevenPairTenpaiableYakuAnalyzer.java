@@ -27,7 +27,7 @@ import yu.proj.ref.tile.Yaku;
  * @date 2020年12月15日  
  *  
  */
-public class SevenPairTenpaiableAnalyzer {
+public class SevenPairTenpaiableYakuAnalyzer {
 
     private final static YakuAnalyzer ALL_HONORS_ANALYZER = AnalyzeAllHonors.getInstance();
 
@@ -43,7 +43,7 @@ public class SevenPairTenpaiableAnalyzer {
     private GameRule rule;
     private PlayerTileManager playerTileManager;
 
-    SevenPairTenpaiableAnalyzer(GameRule rule, PlayerTileManager playerTileManager) {
+    SevenPairTenpaiableYakuAnalyzer(GameRule rule, PlayerTileManager playerTileManager) {
         super();
         this.rule = rule;
         this.playerTileManager = playerTileManager;

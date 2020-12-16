@@ -26,8 +26,8 @@ public class TestSevenPairTenpaiableAnalyzer {
 
     private TestAnalyzeData taData = new TestAnalyzeData();
 
-    private SevenPairTenpaiableAnalyzer analyzer =
-        new SevenPairTenpaiableAnalyzer(taData.gameRule, taData.playerTileManager);
+    private SevenPairTenpaiableYakuAnalyzer analyzer =
+        new SevenPairTenpaiableYakuAnalyzer(taData.gameRule, taData.playerTileManager);
 
     @Test
     public void test() {

@@ -43,7 +43,7 @@ public class SevenPairTenpaiableYakuAnalyzer {
     private GameRule rule;
     private PlayerTileManager playerTileManager;
 
-    SevenPairTenpaiableYakuAnalyzer(GameRule rule, PlayerTileManager playerTileManager) {
+    public SevenPairTenpaiableYakuAnalyzer(GameRule rule, PlayerTileManager playerTileManager) {
         super();
         this.rule = rule;
         this.playerTileManager = playerTileManager;
